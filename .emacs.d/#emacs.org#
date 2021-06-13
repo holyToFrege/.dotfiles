@@ -159,10 +159,10 @@ do-list는 python의 for 변수 in 배열 구문으로 보면된다.
 
      (defun holy/set-font-faces ()		
        (message "Setting faces!")
-       (set-face-attribute 'default nil :font "Fira Code Retina" :height holy/default-font-size)
+       (set-face-attribute 'default nil :font "FiraCode-Retina" :height holy/default-font-size)
 
            ;; Set the fixed pitch face
-       (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height holy/default-font-size)
+       (set-face-attribute 'fixed-pitch nil :font "Fira-Code Retina" :height holy/default-font-size)
 
            ;; Set the variable pitch face
        (set-face-attribute 'variable-pitch nil :font "Cantarell" :height holy/default-font-size :weight 'regular)

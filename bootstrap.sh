@@ -45,4 +45,4 @@ ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.gnupg  ~/.gnupg
 ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.ssh  ~/.ssh
 
 # 8. /.certs: imap을 통해 mail server로부터 받는 인증서 보관함.
-ln -sf ~/.dotfiles/.cert ~/.cert/
+ln -sf ~/.dotfiles/.cert ~/.cert

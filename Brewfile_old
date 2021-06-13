@@ -4,7 +4,6 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
-tap "railwaycat/emacsmacport"
 
 brew "cask"
 brew 'mas'				#cask는 webpage에서 설치,mas는 app store에서 설치
@@ -13,22 +12,30 @@ cask "iterm2"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
-brew "svn"                            # for some font needed svn.
 
 # fonts #################################################################################
 cask "font-righteous" 
 cask 'font-lato'
 cask 'font-open-sans'
 cask 'font-roboto'
+cask "font-roboto-mono-nerd"
 
 cask 'font-source-code-pro-for-powerline'
 cask 'font-source-code-pro'
 cask 'font-source-sans-pro'
 cask 'font-source-serif-pro'
+cask "font-sourcecodepro-nerd-font"
+cask "font-sourcecodepro-nerd-font-mono"
 
 cask "font-fira-code"
 cask "font-fira-code-nerd-font"
-cask "font-droid-sans-mono-nerd-font"
+cask "font-fira-mono-nerd-font"
+cask "font-firacode-nerd-font"
+cask "font-firacode-nerd-font-mono"
+cask "font-firamono-nerd-font"
+cask "font-firamono-nerd-font-mono"
+cask "font-droidsansmono-nerd-font"
+
 cask "font-hack-nerd-font"
 
 cask "font-d2coding"
@@ -59,7 +66,7 @@ brew 'mackup'
 brew 'cmake'
 brew 'libtool'
 brew 'tree'
-brew 'zlib'
+brew 'zlip'
 brew "neofetch"				#neofetch는 terminal대문 애플로고
 brew "curl"
 
@@ -68,11 +75,13 @@ brew "asciinema"	                # Terminal Record
 
 # Development
 
-brew "mysql"
-brew "nginx"
-brew "node"
-brew "redis"
-brew "yarn"
+brew 'mysql'
+brew 'nginx'
+brew 'node'
+brew 'redis'
+brew 'yarn
+
+brew "python@3.9"
 
 brew "djvulibre"
 brew "fontforge"
@@ -81,7 +90,6 @@ brew "mu"
 
 brew "node"
 brew "sbcl"
-brew "pyenv"
 
 brew "swi-prolog"
 brew "wget"
@@ -94,7 +102,6 @@ cask "icloud-control"
 
 # Apps
 
-cask "emacs-mac"
 cask "karabiner-elements"
 cask "skype"
 cask "google-chrome"
@@ -105,8 +112,9 @@ cask "caffeine"
 cask "discord"
 cask "docker"
 cask "github"
+cask "font-hack-nerd-font"
 cask "mpv"
-cask "gpg-suite"
+cask "gpgsuite"
 cask "skitch"
 cask "screenflow"
 cask "zoom"
@@ -120,9 +128,9 @@ cask "app-cleaner"
 # Multimedia ###########################################################
 cask "vox"                                            # 오디오 플레이어
 cask "iina"
-
+sdfasdfsdafasdf
 # mas apps (app store)
-# mas "Xcode", id: 497799835
-mas "KakaoTalk", id: 869223134
-mas "Hangul Office",id:416746898
-mas "Easy Res", id: 688211836
+#mas "Xcode", id: 497799835
+#mas "KakaoTalk", id: 869223134
+#mas "Hangul Office",id:416746898
+
