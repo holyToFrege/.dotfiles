@@ -1,0 +1,49 @@
+# ------------------------------------------------------------------------------
+#+TITLE:     dotfiles
+#+SUBTITLE:  Holy Frege -12. June 2021
+#+AUTHOR:    Holy Frege
+#+EMAIL:     holy_frege@fastmail.com
+#+STARTUP:   content showstars indent inlineimages hideblocks
+#+OPTIONS:   toc:2 html-scripts:nil num:nil html-postamble:nil html-style:nil ^:nil
+# ------------------------------------------------------------------------------
+
+* dotfile init과정
+- my design
+  dotfile을 만드는 과정은 여러방법이 있는데, 난 간단하게 하기로 했다. shell script로 된 설정파일(emacs에서 사용되는 폴더, security관련 파일 포함)과 application을 위한 brewfiles다. 그리고 security관련 파일인 .gpgnu와 .ssh는 dropbox에 저장한다.
+  
+  - bootstrap.sh: shell script와 폴더를 symbolic link하는 shell script. 목록을 유지한다. (여기에는 dropbox에 저장된 key들도 같이 적용된다.)
+  - brewfiles: brew로 설치되는 application을 가지고 있다.
+    
+- dotfiles 만드는 과정
+  1) git에 dotfiles project를 만든다.
+  2) clone한다.
+  3) clone한 dotfiles폴더안에 설정파일을 다 집어넣고, bootstrap.sh를 만든다.
+  4) brew bundle dump를 사용하면 현재 system에서  brew로 설치하는 application package가 list로 출력된다. 이것을 dotfiles로 넣는다.
+  5) dotfiles을 git에 push한다.
+  6) .gnupg와 .ssh는 보안을 위해서 dropbox에 저장한다.
+
+* dotfiles 복원하는 과정(새로운 system에 적용하는 경우, 순서중요)
+** Preperation
+- brew를 설치한다. [[https://brew.sh][참조]]
+- brew로 git을 설치한다. (brew install git)
+- brew로 dropbox를 설치한다. (brew install --cask dropbox)
+- github에 있는 .dotfiles라는 project를 clone한다.
+
+** restore brewfiles
+- dotfiles폴더에서 brew bundle [--file=<path>] 을 실행한다.
+  
+** restore shell settings
+- /.dotfiles/bootstrap.sh를 실행한다.
+
+* dotfiles 백업 과정 (새로운 설정이 생겼을 때, 기존 설정의 변경이 생겼을 때)
+** Preperations
+- dotfiles폴더가 있어야 한다. 그 안에 bootstrap.sh와 brewfiles가 있는 것을 확인한다.
+  
+** put shell scripts into dotfiles
+- 새로운 shell 설정이 있다면  home
+- boostrap.sh를 update한다.
+  
+** put brewfiles into dotfiles
+- 새로운 app을 brew로 설치했다면, brew bundle dump 로 brewfiles를 뽑아서 dotfiles에 넣는다.
+  
+
