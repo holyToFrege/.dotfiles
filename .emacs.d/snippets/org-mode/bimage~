@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: bimage
+# key: bimage
+# --
+#+CAPTION: $1
+#+NAME: $2
+[[./img/a.jpg]]

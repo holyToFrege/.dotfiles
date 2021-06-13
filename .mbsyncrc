@@ -1,0 +1,50 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User holy.frege@gmail.com
+PassCmd "cat ~/.oh-no-insecure-password"
+SSLType IMAPS
+AuthMechs PLAIN 
+CertificateFile ~/.cert/imap.gmail.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Subfolders Verbatim
+Path ~/Mail/Gmail/
+Inbox ~/Mail/Gmail/Inbox
+
+Channel gmail
+far :gmail-remote:
+near :gmail-local:
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Drafts" "[Gmail]/All Mail" "[Gmail]/Trash"
+Create Both
+SyncState *
+
+IMAPAccount fastmail
+Host imap.fastmail.com
+Port 993
+User holy_frege@fastmail.com
+PassCmd "cat ~/.oh-no-another-insecure-password"
+SSLType IMAPS
+SSLVersions TLSv1.2
+CertificateFile ~/.cert/imap.fastmail.crt
+
+IMAPStore fastmail-remote
+Account fastmail
+
+MaildirStore fastmail-local
+Path ~/Mail/Fastmail/
+Inbox ~/Mail/Fastmail/Inbox
+# Trash ~/Mail/Fastmail/Trash/
+SubFolders Verbatim
+
+Channel fastmail
+far :fastmail-remote:
+near :fastmail-local:
+Patterns *
+Expunge None
+CopyArrivalDate yes
+Sync All
+Create Both
+SyncState *
