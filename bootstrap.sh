@@ -24,7 +24,7 @@ ln -sf ~/.dotfiles/.zshrc ~/.zshrc
 ln -sf ~/.dotfiles/.gitconfig ~/.gitconfig
 
 # 1. /.emacs.d : emacs설정파일
-ln -sf ~/.dotfiles/.emacs.d ~/.emacs.d
+ln -sf ~/.dotfiles/.emacs.d ~
 
 # 2. .mbsyncrc :emacs imap설정파일
 ln -sf ~/.dotfiles/.mbsyncrc ~/.mbsyncrc 
