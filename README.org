@@ -9,9 +9,9 @@
 
 * dotfile init과정
 - my design
-  dotfile을 만드는 과정은 여러방법이 있는데, 난 간단하게 하기로 했다. shell script로 된 설정파일(emacs에서 사용되는 폴더, security관련 파일 포함)과 application을 위한 brewfiles다. 그리고 security관련 파일인 .gpgnu와 .ssh는 dropbox에 저장한다. ~~2개로 관리하기로 했다. application관련은 brewfiles로 만들어 github에 저장하고, shell script관련 설정은 dropbox에서 관리하기로 했다. github에 다 관리하지 않는 이유는 security관련 파일들이 있기 때문이다. gpg로 암호화해서 올린다고 해도, gpg private key는 내가 가지고 있어야 하기 때문이다.~~
+  dotfile을 만드는 과정은 여러방법이 있는데, 난 간단하게 하기로 했다. shell script로 된 설정파일(emacs에서 사용되는 폴더, security관련 파일 포함)과 application을 위한 brewfiles다. 그리고 security관련 파일인 .gpgnu와 .ssh는 dropbox에 저장한다. + application관련은 brewfiles로 만들어 github에 저장하고, shell script관련 설정은 dropbox에서 관리하기로 했다. github에 다 관리하지 않는 이유는 security관련 파일들이 있기 때문이다. gpg로 암호화해서 올린다고 해도, gpg private key는 내가 가지고 있어야 하기 때문이다.+
 
- ~~취소선 test~~
++ 취소선 test+
   - bootstrap.sh: shell script와 폴더를 symbolic link하는 명령어를 갖는  shell script. 목록도 유지한다. (security관련 파일은 dropbox에 저장)
   - brewfiles: brew로 설치되는 application을 가지고 있다. (github에 저장)
     
