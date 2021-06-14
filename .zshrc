@@ -99,6 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+eval "$(starship init zsh)"
 alias ec="emacsclient -nc --socket-name=/tmp/emacs1000/server"
 alias es="emacs --fg-daemon"
 alias ek="rm /tmp/emacs1000/server"
@@ -107,3 +109,4 @@ alias firefox="open -a 'Firefox Developer Edition'"
 neofetch
 export PATH="/usr/local/opt/curl/bin:$PATH"
 alias mukill="pkill -u $UID mu"  #mu4e가 실행 안될때,  xipan db가 문제일때 죽인다.
+

@@ -15,6 +15,8 @@
 # 7. /.ssh : 암호화된 원격접속에 사용하는 private key 보관함.
 # 8. /.certs: imap을 통해 mail server로부터 받는 인증서 보관함.
 # => 6번과 7번은 dropbox에 별도 저장
+# 9. .config/fish : fishshell
+# 10. com.googlecode.iterm2.plist : iterm2 설정
 # **********************************************************************
 
 # 1. .zshrc
@@ -24,7 +26,7 @@ ln -sf ~/.dotfiles/.zshrc ~/.zshrc
 ln -sf ~/.dotfiles/.gitconfig ~/.gitconfig
 
 # 1. /.emacs.d : emacs설정파일
-ln -sf ~/.dotfiles/.emacs.d ~
+ln -sf ~/.dotfiles/.emacs.d/ ~/.emacs.d
 
 # 2. .mbsyncrc :emacs imap설정파일
 ln -sf ~/.dotfiles/.mbsyncrc ~/.mbsyncrc 
@@ -46,3 +48,5 @@ ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.ssh  ~/.ssh
 
 # 8. /.certs: imap을 통해 mail server로부터 받는 인증서 보관함.
 ln -sf ~/.dotfiles/.cert ~/.cert
+# 9. .config/fish : fishshell
+ln -sf ~/.dotfiles/fish/ ~/.config/fish

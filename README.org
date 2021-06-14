@@ -51,3 +51,31 @@
 - 새로운 app을 brew로 설치했다면, brew bundle dump 로 brewfiles를 뽑아서 .dotfiles에 넣는다.
    
 
+
+*  about iterm2 and fishshell.
+
+** terminal이 하는일
+     - Input output을 shell과 연결
+     - UI 화면을 제공(font,color,prompt,shell출력결과에 대한 꾸미기)
+     - my terminal settings
+        . terminal : iterm2
+        -  font: fira code nerd font mono 14
+        - color scheme: monokai pro
+        - prompt: starship
+        - shell: fish shell
+** shell이 하는일
+     - 사용자의 입력을 terminal이 받아서 shell에게 전달하면 shell에서 해석,실행.
+     - shell마다 사용하는 script가 다르고, 제공하는 명령어가 다르다.
+     - my shell settings : fish shell
+** terminal과 shell 
+    - terminal에 shell에 plugin처럼 꼽았다, 뺏다하는 구조임.
+    - iterm2에도 shell을 선택하는 preference가 있는데, 제대로 동작하지 않음.
+    - /etc/shells에 fish shell을 추가하고, chsh -s /usr/local/bin/fish로 fish shell을 default로 했음.
+** fish shell
+    - fish shell은 해석기, 그리고,omf(oh-my-fish)라고 utility, plugin 관리자가 있다.
+* dotfiles about iterm2 and fishshell
+** iterm2의 설정
+iterm2의 설정은 com.googlecode.iterm2.plist 파일이다. 새 시스템을 설정할때, 이 설정을 load하면 된다.
+daily 변경되는 설정은 preference->general->preference에서 automatically로 설정하면 된다.
+** fishshell의 설정
+fishshell은 .config/fish에 위치해 있다. 이것도 bootstrap.sh에서 관리한다.
