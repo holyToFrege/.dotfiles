@@ -322,10 +322,18 @@ modeline에 mode를 감춘다. load되는 mode가 너무 많아지면 지저분�
 
 ** Multiple Window
 #+begin_src emacs-lisp
-  (use-package ace-window)
-  (use-package winum
-     :config
-     (winum-mode))
+  (use-package ace-window
+  :ensure t
+  :init
+  (progn
+  (global-set-key [remap other-window] 'ace-window)
+  (custom-set-faces
+  '(aw-leading-char-face
+  ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+  ))
+    ;; (use-package winum
+    ;;    :config
+    ;;    (winum-mode))
 #+end_src
 
 * Org Mode
@@ -619,12 +627,12 @@ src_block에 한다. 그런 다음 org-babel-tangle이라는 명령을 사용해
   (defun holy/org-babel-tangle-config ()
     (when (string-equal (buffer-file-name)
                         (expand-file-name "~/.emacs.d/emacs.org"))
-      ;; Dynamic scoping to the rescue
       (let ((org-confirm-babel-evaluate nil))
         (org-babel-tangle))))
 
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'holy/org-babel-tangle-config)))
-#+end_src
+
+  #+end_src
 ** Org-gtd
 #+BEGIN_SRC emacs-lisp 
   (use-package org-gtd
