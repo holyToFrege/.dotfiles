@@ -35,7 +35,6 @@ ln -sf ~/.dotfiles/.zshrc ~/
 # 1. .gitconfig
 ln -sf ~/.dotfiles/.gitconfig ~/
 
-
 # 2. .mbsyncrc :emacs imap설정파일
 ln -sf ~/.dotfiles/.mbsyncrc ~/ 
 
@@ -43,19 +42,19 @@ ln -sf ~/.dotfiles/.mbsyncrc ~/
 # ln -sf ~/.dotfiles/Mail ~/Mail
 
 # 4. .oh-no-insecure-password :gmail login id/pw
-ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Kyes/.oh-no-insecure-password ~/
+cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Kyes/.oh-no-insecure-password ~/
 
 # 5. .oh-no-another-insecure-password :fastmail login id/pw
-ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.oh-no-another-insecure-password ~/
+cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.oh-no-another-insecure-password ~/
 
 # 6. /.gnugp : my private key보관함,  4,5의 id,pw는 암호화되어있다.
-ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.gnupg  ~/
+cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.gnupg  ~/
 
 # 7. /.ssh : 암호화된 원격접속에 사용하는 private key 보관함.
-ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.ssh  ~/
+cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.ssh  ~/
 
 # 8. /.certs: imap을 통해 mail server로부터 받는 인증서 보관함.
-ln -sf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.cert ~/
+cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.cert ~/
 
 # 9. .config/fish : fishshell
 dir="../.config"
