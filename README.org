@@ -79,3 +79,8 @@ iterm2의 설정은 com.googlecode.iterm2.plist 파일이다. 새 시스템을 �
 daily 변경되는 설정은 preference->general->preference에서 automatically로 설정하면 된다.
 ** fishshell의 설정
 fishshell은 .config/fish에 위치해 있다. 이것도 bootstrap.sh에서 관리한다.
+
+
+* EMACS install
+1) https://emacsformacosx.com download and install.
+2) emacs_install.sh execute

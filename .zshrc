@@ -101,9 +101,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 eval "$(starship init zsh)"
-alias ec="emacsclient -nc --socket-name=/tmp/emacs1000/server"
-alias es="emacs --fg-daemon"
-alias ek="rm /tmp/emacs1000/server"
+#alias ec="emacsclient -nc --socket-name=/tmp/emacs1000/server"
+#alias es="emacs --fg-daemon"
+#alias ek="rm /tmp/emacs1000/server"
 alias chrome="open -a 'Google Chrome'"
 alias firefox="open -a 'Firefox Developer Edition'"
 neofetch

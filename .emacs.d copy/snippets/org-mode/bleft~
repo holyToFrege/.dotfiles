@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name:bleft
+# key: 
+# --
+ #+begin_left
+ $1
+ #+end_left

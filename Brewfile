@@ -4,7 +4,6 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
-tap "railwaycat/emacsmacport"
 
 brew "cask"
 brew 'mas'				#cask는 webpage에서 설치,mas는 app store에서 설치
@@ -14,6 +13,8 @@ brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 brew "svn"                            # for some font needed svn.
+brew "fish"
+brew "starship"
 
 # fonts #################################################################################
 cask "font-righteous" 
@@ -69,13 +70,11 @@ brew "asciinema"	                # Terminal Record
 # Development
 
 brew "mysql"
-brew "nginx"
-brew "node"
 brew "redis"
 brew "yarn"
 
 brew "djvulibre"
-brew "fontforge"
+#brew "fontforge"
 brew "isync"
 brew "mu"
 
@@ -91,10 +90,9 @@ brew "wget"
 
 cask "google-drive"
 cask "icloud-control"
+cask "dropbox"
 
-# Apps
-
-cask "emacs-mac"
+# epps
 cask "karabiner-elements"
 cask "skype"
 cask "google-chrome"
