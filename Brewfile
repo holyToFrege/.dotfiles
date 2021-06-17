@@ -73,6 +73,7 @@ brew "mysql"
 brew "redis"
 brew "yarn"
 
+#cask "emacs"
 brew "djvulibre"
 #brew "fontforge"
 brew "isync"
@@ -121,6 +122,6 @@ cask "iina"
 
 # mas apps (app store)
 # mas "Xcode", id: 497799835
-mas "KakaoTalk", id: 869223134
-mas "Hangul Office",id:416746898
-mas "Easy Res", id: 688211836
+#mas "KakaoTalk", id: 869223134
+#mas "Hangul Office",id:416746898
+#mas "Easy Res", id: 688211836
