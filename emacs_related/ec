@@ -1,0 +1,11 @@
+#!/bin/sh
+socket_file=$(~/usr/local/bin/emacs_socket)
+emacs=/Applications/Emacs.app/Contents/MacOS/Emacs
+emacsclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+
+if [[ $socket_file == "" ]]; then
+echo "starting Emacs Daemon..." 
+$emacs --chdir $PWD --execute "(server-start)" $@ &
+else
+$emacsclient -n $@ --socket-name $socket_file
+fi

@@ -1,13 +1,10 @@
 # ------------------------------------------------------------------------------
 #+TITLE: Emacs From Scratch Configuration    
-#+SUBTITLE:  Holy Frege - June 2021
 #+AUTHOR:    Holy Frege
 #+EMAIL:     holy_frege@fastmail.com
-#+LANGUAGE:  en
 #+STARTUP:   content showstars indent inlineimages hideblocks
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="GTD.css" />
 #+OPTIONS:   toc:2 html-scripts:nil num:nil html-postamble:nil html-style:nil ^:nil
-#+PROPERTY: header-args:emacs-lisp :tangle ./init.el :mkdirp yes
+#+PROPERTY: header-args :emacs-lisp :tangle ./init.el :mkdirp yes
 # ------------------------------------------------------------------------------
 
 * Start!
@@ -52,7 +49,7 @@ minibuffer에서 해석한다.  현재의 mode에서 실행할 수 있는 장점
   (setq make-backup-files nil)
   (setq server-socket-dir "/tmp/emacs1000")
   (defvar holy/default-font-size 200)
-  (defvar holy/default-variable-font-size 200)
+  (defvar holy/default-variable-font-size 200)/usr/local/bin/etags
 #+end_src
 
 * Package System Setup
@@ -151,31 +148,39 @@ do-list는 python의 for 변수 in 배열 구문으로 보면된다.
   #+END_SRC
 ** Font Configuration
 :AboutSetting:
-- system에 설치되어야 하는 font는 2가지다. fixed-pitch-font(fira code; for coding), variable-pitch-font(문서작성용) 아래에서 다운받는다.
+- system에 설치되어야 하는 font는 2가지다. fixed-pitch-font(fira code;
+  for coding), variable-pitch-font(문서작성용) 아래에서 다운받는다.
 [[https://github.com/tonsky/FiraCode][Fira Code]] ,[[https://fonts.google.com/specimen/Cantarell][Cantarell]] 
-- 아래 설정에 3개의 이름의 face가 설정되어 있다. default,fixed-pitch,variable-pitch 이런 이름으로 선언만 한것이다. mode에 진입하면, mode의 구성요소별로 해당 face를 선택할 수 있다. face가 없는것은 default란 이름의 face가 적용되기 때문에 대부분의 mode에서는 fira code retina 폰트로 설정될 것이다. variable-pitch-mode에서는 variable-pitch를 face로 사용하기 때문에 Cantarell로 보일 것이다.
+- 아래 설정에 3개의 이름의 face가 설정되어
+  있다. default,fixed-pitch,variable-pitch 이런 이름으로 선언만
+  한것이다. mode에 진입하면, mode의 구성요소별로 해당 face를 선택할 수
+  있다. face가 없는것은 default란 이름의 face가 적용되기 때문에
+  대부분의 mode에서는 fira code retina 폰트로 설정될
+  것이다. variable-pitch-mode에서는 variable-pitch를 face로 사용하기
+  때문에 Cantarell로 보일 것이다.
+  - modeline과 dired모드에서 한자가 나오고 icon이 깨지는 것은 M-x all-the-icons-install-fonts를 안해줘서 그렇다.
 :End:
 #+begin_src emacs-lisp
 
-     (defun holy/set-font-faces ()		
-       (message "Setting faces!")
-       (set-face-attribute 'default nil :font "FiraCode-Retina" :height holy/default-font-size)
+   (defun holy/set-font-faces ()		
+     (message "Setting faces!")
+     ;; (set-face-attribute 'default nil :font "Fira Code Retina" :height holy/default-font-size)
+     (set-face-attribute 'default nil :font "Fira Code" :height holy/default-font-size)
 
-           ;; Set the fixed pitch face
-       (set-face-attribute 'fixed-pitch nil :font "Fira-Code Retina" :height holy/default-font-size)
+         ;; Set the fixed pitch face
+     (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height holy/default-font-size) 
 
-           ;; Set the variable pitch face
-       (set-face-attribute 'variable-pitch nil :font "Cantarell" :height holy/default-font-size :weight 'regular)
+         ;; Set the variable pitch face
+     (set-face-attribute 'variable-pitch nil :font "Cantarell" :height holy/default-font-size :weight 'regular)
   )
 
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-           (lambda (frame)
-                   (setq doom-modeline-icon t)
-		     (message "Deamon faces!")
-               (with-selected-frame frame
-                    (holy/set-font-faces))))
-        (holy/set-font-faces))
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+         (lambda (frame)
+                 (setq doom-modeline-icon t)
+             (with-selected-frame frame
+                  (holy/set-font-faces))))
+      (holy/set-font-faces))
 
 #+end_src
 
@@ -317,10 +322,18 @@ modeline에 mode를 감춘다. load되는 mode가 너무 많아지면 지저분�
 
 ** Multiple Window
 #+begin_src emacs-lisp
-  (use-package ace-window)
-  (use-package winum
-     :config
-     (winum-mode))
+  (use-package ace-window
+  :ensure t
+  :init
+  (progn
+  (global-set-key [remap other-window] 'ace-window)
+  (custom-set-faces
+  '(aw-leading-char-face
+  ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+  ))
+    ;; (use-package winum
+    ;;    :config
+    ;;    (winum-mode))
 #+end_src
 
 * Org Mode
@@ -614,13 +627,12 @@ src_block에 한다. 그런 다음 org-babel-tangle이라는 명령을 사용해
   (defun holy/org-babel-tangle-config ()
     (when (string-equal (buffer-file-name)
                         (expand-file-name "~/.emacs.d/emacs.org"))
-      ;; Dynamic scoping to the rescue
       (let ((org-confirm-babel-evaluate nil))
         (org-babel-tangle))))
 
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'holy/org-babel-tangle-config)))
-#+end_src
 
+  #+end_src
 ** Org-gtd
 #+BEGIN_SRC emacs-lisp 
   (use-package org-gtd
@@ -745,22 +757,21 @@ src_block에 한다. 그런 다음 org-babel-tangle이라는 명령을 사용해
   을 server와 통신을 통해서 구현한다는 것이다.
 :END:
 *** Language Servers
-
 #+begin_src emacs-lisp
   ;; (defun holy/lsp-mode-setup ()
   ;;   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   ;;   (lsp-headerline-breadscrumb-mode t))
 
-  (use-package lsp-mode
-    ;; :commands (lsp lsp-deferred)
-    ;; :hook (lsp-mode . holy/lsp-mode-setup)
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :custom
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadscrumb-mode t)
-    :config
-    (lsp-enable-which-key-integration t))
+  ;; (use-package lsp-mode
+  ;;   ;; :commands (lsp lsp-deferred)
+  ;;   ;; :hook (lsp-mode . holy/lsp-mode-setup)
+  ;;   :init
+  ;;   (setq lsp-keymap-prefix "C-c l")
+  ;;   :custom
+  ;;   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  ;;   (lsp-headerline-breadscrumb-mode t)
+  ;;   :config
+  ;;   (lsp-enable-which-key-integration t))
 #+end_src
 
 *** TypeScript
@@ -775,6 +786,7 @@ src_block에 한다. 그런 다음 org-babel-tangle이라는 명령을 사용해
 
 ** Common Lisp [Programming Language]
 :설치:
+- 현재는 disable.  사용할때 설치하자.
 1. system에 interpreter를 설치한다.(brew install SBCL).
 2. slime을 설치한다. emacs에서는 slime을 제공한다. slime을 설치한다. slime mode가 제공하는건, system에 깔려있는 interpreter를 사용해서 code evaluation도 하지만, editor의 기능도 처리한다. definition finding, auto complete라던지 reference를 찾는 것도 지원한다.
 3.quicklisp을 설치한다. quick lisp은 common lisp의 package manager다. Library Manager로 부른다.
@@ -787,12 +799,13 @@ quicklisp이란 폴더가 만들어지는데, 이 폴더를 emacs에서 참조�
 sbcl=> (ql:quickload "quicklisp-slime-helper") 이렇게 하면
 slime-helper.el이 만들어지고 이를 emacs에서 추가한다.
 - emacs에서 slime실행(M-x slime)
+  
 :end:
 #+begin_src emacs-lisp
-    (use-package slime
-    :init
-    (load (expand-file-name "~/quicklisp/slime-helper.el"))
-    (setq inferior-lisp-program "sbcl"))
+  ;; (use-package slime
+  ;; :init
+  ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  ;; (setq inferior-lisp-program "sbcl"))
 #+end_src
 ** Prolog [Programming Language]
 :설정:
@@ -841,13 +854,14 @@ vterm을 추천한다.
 
 #+end_src
 *** Vterm
+- vterm을 설치하면 mgit이라던지 package manager와 꼬이는 문제가 있어보인다.
 - vterm은 emacs native terminal이라서 빠르다.
 - vterm을 사용하기 위해선, system에 cmake가 설치되어 있어야 한다. (brew install cmake libtool)
 #+begin_src emacs-lisp
-(use-package vterm
-  :commands vterm
-  :config
-  (setq vterm-max-scrollback 10000))
+  ;; (use-package vterm
+  ;;   :commands vterm
+  ;;   :config
+  ;;   (setq vterm-max-scrollback 10000))
 #+end_src
 ** Shell
 eshell을 추천한다.

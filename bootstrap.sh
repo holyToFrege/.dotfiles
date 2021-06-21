@@ -25,9 +25,9 @@
 # **********************************************************************
 
 # 1. /.emacs.d : emacs설정파일
-emacs_dir="../.emacs.d"
-[ -d "$dir" ] || rm -rf $dir
-ln -sf ~/.dotfiles/.emacs.d/ ~/
+#emacs_dir="../.emacs.d"
+#[ -d "$dir" ] || rm -rf $dir
+#ln -sf ~/.dotfiles/.emacs.d/ ~/
 
 # 1. .zshrc
 ln -sf ~/.dotfiles/.zshrc ~/
@@ -48,13 +48,13 @@ cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Kyes/.oh-no-insecure-passwor
 cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.oh-no-another-insecure-password ~/
 
 # 6. /.gnugp : my private key보관함,  4,5의 id,pw는 암호화되어있다.
-cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.gnupg  ~/
+cp -rf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.gnupg  ~/
 
 # 7. /.ssh : 암호화된 원격접속에 사용하는 private key 보관함.
-cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.ssh  ~/
+cp -rf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.ssh  ~/
 
 # 8. /.certs: imap을 통해 mail server로부터 받는 인증서 보관함.
-cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.cert ~/
+cp -rf ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.cert ~/
 
 # 9. .config/fish : fishshell
 dir="../.config"
@@ -68,5 +68,6 @@ curl -L https://iterm2.com/shell_integration/fish \
 -o ~/.iterm2_shell_integration.fish
 
 # 11 change fish shell
-echo /usr/local/bin/fish >> /etc/shells
-chsh -s /usr/local/bin/fish
+#sudo echo /usr/local/bin/fish >> /etc/shells
+#chsh -s /usr/local/bin/fish
+
