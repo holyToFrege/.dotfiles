@@ -107,3 +107,6 @@ neofetch
 export PATH="/usr/local/opt/curl/bin:$PATH"
 alias mukill="pkill -u $UID mu"  #mu4e가 실행 안될때,  xipan db가 문제일때 죽인다.
 
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

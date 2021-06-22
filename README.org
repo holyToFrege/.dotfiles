@@ -100,13 +100,35 @@ fishshell은 .config/fish에 위치해 있다. 이것도 bootstrap.sh에서 관�
 - etc/shells 에 /usr/local/bin/fish추가
 - chsh -s /usr/local/bin/fish
 
-* Emacs 설치및 설정
+* Mac OS에서 Emacs
 - mac에서 설치본: emacs-mac, aqua emacs, emacs for osx
+  (emacs for osx와 brew cask install emacs는 동일한 emacs다.)
 - brew --cask install emacs는 emacs for osx를 다운받아서 설치한다.
 - emacs server와 emacsclient
-나는 emacs daemon이 아닌 emacs server/client로 사용할 것이다. emacs 설정이 많아지면 수행속도가 느려진다.
-emacs init에 (server-start)를 기입해준다. emacs를 terminal에서 실행하거나, emacs icon을 클릭하면 무조건 server로 동작하게 했다. 그다음 부터는 emacsclient를 실행한다. emacsclient는 init.el을 읽지 않고 frame만 만들고 server와 접속해서 사용된다. 그래서 속도가 빠르다. emacs for osx 페이지에 보면 emacsclient를 osascript를 사용해서 server가 없으면 server를 실행하고 client로 연결하게 했다. 이것을 실행하면 server가 없으면 server를 실행하기 때문에 두개의 emacs가 띄어질 것이다. 이게 좀 불편할 순 있다. 근데 이 방법이 내가 찾은 유일하게 편한 방식이다. server는 죽이지 않고 client만 죽이고, 실행하고 이런식으로 한다.
+나는 emacs daemon이 아닌 emacs server/client로 사용할 것이다.
+        - emacs server를 사용하는 이유
+          emacs 설정이 많아지면 수행속도가 느려진다.
+          emacs init에 (server-start)를 기입해준다. emacs를 terminal에서
+         실행하거나, emacs icon을 클릭하면 무조건 server로 동작하게
+         했다. 그다음 부터는 emacsclient를 실행한다. emacsclient는 init.el을
+         읽지 않고 frame만 만들고 server와 접속해서 사용된다. 그래서 속도가
+         빠르다. emacs for osx 페이지에 보면 emacsclient를 osascript를 사용해서
+         server가 없으면 server를 실행하고 client로 연결하게 했다. 이것을
+         실행하면 server가 없으면 server를 실행하기 때문에 두개의 emacs가
+         띄어질 것이다. 이게 좀 불편할 순 있다. 근데 이 방법이 내가 찾은
+         유일하게 편한 방식이다. server는 죽이지 않고 client만 죽이고, 실행하고
+         이런식으로 한다.
 
+** emacs 설치와 설정
+- karabiner에서 caps lock을 left control로 바꾸는 것을 잊지말자.(한글을 위해서 osx preference에서 한글 input source의 short cut을 right-command+space로 하는것도 잊지말자)
+- emacs를 emacsformacos에서 down받아서 설치한다.
+- [[https://emacsformacosx.com/tips][여기]]에 나온대로 emacs를 만들고 emacsclient link를 만들고  ec를 만든다. alias는 할 필요 없다. chmod 755로 실행가능하게 만든다.(바로 ec를 실행해도 server가 안된다. 그전에 해야 할께 있다. )
+- .dotfiles의 cantarell 폰트를 설치한다.
+- .dotfiles의 .emacs.d를 home에 복사한다.
+- ec를 실행해보자. ( emacs window가 보이나 바닐라 형태다.)
+- emacs에서 home에 있는 .emacs.d/emacs.org를 열고 org-babel-tangle을 실행한다.
+- M-x all-the-icons-install을 실행한다.
+- emacs를 종료 하고 다시 ec로 실행해 보자.
 
 
 
