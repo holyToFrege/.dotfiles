@@ -1,0 +1,3 @@
+1. brewfile을 실행(brew bundle)
+2. bootstrap.sh를 실행.
+3. emacs 설치 및 설정
