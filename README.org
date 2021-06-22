@@ -133,5 +133,10 @@ fishshell은 .config/fish에 위치해 있다. 이것도 bootstrap.sh에서 관�
 - server로 뜨는 emacs와 emacsclient가 뜨게 된다.(물론  init.el에는 (server-start)가 있어야 한다.)
 
 
+** emacs daemon 사용법
+- emacs --fg-daemon을 terminal에서 실행한다.
+- ec를 실행한다. (2개의 emacs가 실행될것이다. server로 사용될 emacs는 warning을 낼것이다. 왜냐 이미 daemon이 떠 있기 때문이다.) server로 사용될뻔한 emacs를 close하고 사용하면 된다.
+- ec를 종료하고 다시 ec를 실행하면 하나의 emacs만 실행될 것이다.
+
 
 
