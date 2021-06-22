@@ -43,11 +43,11 @@ minibuffer에서 해석한다.  현재의 mode에서 실행할 수 있는 장점
 :end:
 
 #+begin_src emacs-lisp
-
+  (server-start)
   (setq ns-command-modifier 'meta)
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq make-backup-files nil)
-  (setq server-socket-dir "/tmp/emacs1000")
+  ;; (setq server-socket-dir "/tmp/emacs1000")
   (defvar holy/default-font-size 200)
   (defvar holy/default-variable-font-size 200)
 #+end_src

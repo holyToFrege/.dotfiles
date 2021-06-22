@@ -100,6 +100,7 @@ fishshell은 .config/fish에 위치해 있다. 이것도 bootstrap.sh에서 관�
 - etc/shells 에 /usr/local/bin/fish추가
 - chsh -s /usr/local/bin/fish
 
+  
 * Mac OS에서 Emacs
 - mac에서 설치본: emacs-mac, aqua emacs, emacs for osx
   (emacs for osx와 brew cask install emacs는 동일한 emacs다.)
@@ -129,6 +130,7 @@ fishshell은 .config/fish에 위치해 있다. 이것도 bootstrap.sh에서 관�
 - emacs에서 home에 있는 .emacs.d/emacs.org를 열고 org-babel-tangle을 실행한다.
 - M-x all-the-icons-install을 실행한다.
 - emacs를 종료 하고 다시 ec로 실행해 보자.
+- server로 뜨는 emacs와 emacsclient가 뜨게 된다.(물론  init.el에는 (server-start)가 있어야 한다.)
 
 
 
