@@ -16,6 +16,7 @@
 # 7. /.ssh : 암호화된 원격접속에 사용하는 private key 보관함.
 # 8. /.certs: imap을 통해 mail server로부터 받는 인증서 보관함.
 # => 6번과 7번은 dropbox에 별도 저장
+# 12. ./authinfo: smtp로 메일을 보낼때 필요한 id/password
 #
 # [Fish Shell관련]
 # 9. .config/fish : fishshell
@@ -71,3 +72,5 @@ ln -sf ~/.dotfiles/fish/ ~/.config/
 #sudo echo /usr/local/bin/fish >> /etc/shells
 #chsh -s /usr/local/bin/fish
 
+# 12 .authinfo
+ln -sf ~/.dotfiles/.authinfo ~/
