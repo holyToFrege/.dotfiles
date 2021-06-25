@@ -132,11 +132,18 @@ fishshell은 .config/fish에 위치해 있다. 이것도 bootstrap.sh에서 관�
 - emacs를 종료 하고 다시 ec로 실행해 보자.
 - server로 뜨는 emacs와 emacsclient가 뜨게 된다.(물론  init.el에는 (server-start)가 있어야 한다.)
 
-
 ** emacs daemon 사용법
 - emacs --fg-daemon을 terminal에서 실행한다.
 - ec를 실행한다. (2개의 emacs가 실행될것이다. server로 사용될 emacs는 warning을 낼것이다. 왜냐 이미 daemon이 떠 있기 때문이다.) server로 사용될뻔한 emacs를 close하고 사용하면 된다.
 - ec를 종료하고 다시 ec를 실행하면 하나의 emacs만 실행될 것이다.
 
-
+* emacs에서 mail설정
+** imap설정
+- home에 Mail폴더를 만든다. Mail 폴더 안에 Fastmail과 Gmail이란 sub-folder를 만든다.
+- terminal에서 mbsync -a 로 동기화 한다. 동기화가 되었다면 Fastmail과 Gmail sub-folder에 들어가서 새로운 folder들이 만들어졌는지 확인한다.
+- mu init --maildir=~/Mail --my-address=holy.frege@gmail.com --my-address=holy_frege@fastmail.com 을 terminal에서 입력한다. 이걸 하는것은 indexing을 해서 검색을 빠르게 하기 위함이라고 한다.
+- emacs에서 M-x mu4e로 메일을 확인한다.
+** smtp설정
+- home폴더에서 .authinfo와 .gnupg폴더가 있는지 확인한다.
+- .authinfo는 smtp로 메일을 보내기 위해선 mail server에 접속할 id/pw가 필요하기 때문이다. 
 
