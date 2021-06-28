@@ -43,7 +43,7 @@ ln -sf ~/.dotfiles/.mbsyncrc ~/
 # ln -sf ~/.dotfiles/Mail ~/Mail
 
 # 4. .oh-no-insecure-password :gmail login id/pw
-cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Kyes/.oh-no-insecure-password ~/
+cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.oh-no-insecure-password ~/
 
 # 5. .oh-no-another-insecure-password :fastmail login id/pw
 cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.oh-no-another-insecure-password ~/
