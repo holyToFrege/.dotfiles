@@ -40,7 +40,7 @@ ln -sf ~/.dotfiles/.gitconfig ~/
 ln -sf ~/.dotfiles/.mbsyncrc ~/ 
 
 # 3. /MAIL :mbsync가 저장하는 mail폴더
-# ln -sf ~/.dotfiles/Mail ~/Mail
+mkdir ~/Mail
 
 # 4. .oh-no-insecure-password :gmail login id/pw
 cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.oh-no-insecure-password ~/

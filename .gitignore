@@ -6,3 +6,10 @@
 /.emacs.d/transient/
 
 /Brewfile.lock.json
+fix_*
+fix_
+.DS_Store
+fix_*.png
+fix_borken*
+com.*
+fish/*
