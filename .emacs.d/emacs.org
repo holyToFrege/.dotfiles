@@ -48,8 +48,8 @@ minibuffer에서 해석한다.  현재의 mode에서 실행할 수 있는 장점
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq make-backup-files nil)
   ;; (setq server-socket-dir "/tmp/emacs1000")
-  (defvar holy/default-font-size 200)
-  (defvar holy/default-variable-font-size 200)
+  (defvar holy/default-font-size 180)
+  (defvar holy/default-variable-font-size 180)
 #+end_src
 
 * Package System Setup
@@ -171,7 +171,7 @@ do-list는 python의 for 변수 in 배열 구문으로 보면된다.
      (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height holy/default-font-size) 
 
          ;; Set the variable pitch face
-     (set-face-attribute 'variable-pitch nil :font "Cantarell" :height holy/default-font-size :weight 'regular)
+     (set-face-attribute 'variable-pitch nil :font "Source Sans Pro" :height holy/default-font-size :weight 'regular)
   )
 
   (if (daemonp)
@@ -1095,7 +1095,7 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
     path: /usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e
     
 - [X] mu init(예전 mu index) 실행한다. 저장된 mail에 indexing을 한다고 보면 된다. index tree를 만들어 검색을 빠르게 하는 것이다.
-  (mu init --maildir=~/Mail --my-address=holy.frege@gmail.com --mail-address=holy_frege@fastmail.com)    
+  (mu init --maildir=~/Mail --my-address=holy.frege@gmail.com --my-address=holy_frege@fastmail.com)    
 
 - [X] emacs에서 mu4e를 설정한다. 아래 코드 부분이다. mu를 설치할때 mu4e elisp들이 설치되는데 그경로(load-path)를 기술한다.
   - 설치할 때 mu4e-meta.el이 newer than oldfile이라고 나오면 해당 load-path로가서 mu4e-meta.elc를 지우고 다시 byte compile한다.
@@ -1161,129 +1161,132 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
 
 :end: 
 #+begin_src emacs-lisp
-    (use-package mu4e			
-      :ensure nil
-      ;; :defer 20
-      ;; :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/"
-      ;; brew를 사용한 경우 아래에 있다.
-      :load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e/"
-      ;; :defer 20 ; Wait until 20 seconds after startup
-      :config
-      (require 'mu4e-org)
+      (use-package mu4e			
+        :ensure nil
+        ;; :defer 20
+        ;; :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/"
+        ;; brew를 사용한 경우 아래에 있다.
+        :load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e/"
+        ;; :defer 20 ; Wait until 20 seconds after startup
+        :config
+        (require 'mu4e-org)
 
 
-      (setq mail-user-agent 'mu4e-user-agent)
-      ;; This is set to 't' to avoid mail syncing issues when using mbsync
-      (setq mu4e-change-filenames-when-moving t)
-      ;; Refresh mail using isync every 10 minutes
-      (setq mu4e-update-interval (* 10 60))
-      (setq mu4e-get-mail-command "mbsync -a")
-      (setq mu4e-maildir "~/Mail")
+        (setq mail-user-agent 'mu4e-user-agent)
+        ;; This is set to 't' to avoid mail syncing issues when using mbsync
+        (setq mu4e-change-filenames-when-moving t)
+        ;; Refresh mail using isync every 10 minutes
+        (setq mu4e-update-interval (* 10 60))
+        (setq mu4e-get-mail-command "mbsync -a")
+        (setq mu4e-maildir "~/Mail")
+        ;; Make sure plain text mails flow correctly for recipients
+        (setq mu4e-compose-format-flowed t)
 
-      (setq message-send-mail-function 'smtpmail-send-it)
-      (setf epa-pinentry-mode 'loopback)
-      ;; mu4e sending message settings(smtp)
-      (setq mu4e-contexts
-         (list
-         ;; Work account(gmail-holy.frege)
-         (make-mu4e-context
-          :name "public_mail(gmail)"
-          :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/Gmail" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address . "holy.frege@gmail.com")
-                  (user-full-name    . "Holy Frege work_mail")
-                  (smtpmail-smtp-server  . "smtp.gmail.com")
-                  (smtpmail-smtp-service . 465)
-                  (smtpmail-stream-type  . ssl)
-                  (mu4e-compose-signature .
-                  (concat 
-                       "Holy Frege \n\n"
-                       "seize the time\n"
-                       "test signature\n"))
-                  (mu4e-drafts-folder  . "/Gmail/[Gmail]/Drafts")
-                  (mu4e-sent-folder  . "/Gmail/[Gmail]/Sent Mail")
-                  (mu4e-refile-folder  . "/Gmail/[Gmail]/All Mail")
-                  (mu4e-trash-folder  . "/Gmail/[Gmail]/Trash")))
+        (setq message-send-mail-function 'smtpmail-send-it)
+        (setf epa-pinentry-mode 'loopback)
+        ;; mu4e sending message settings(smtp)
+        (setq mu4e-contexts
+           (list
+           ;; Work account(gmail-holy.frege)
+           (make-mu4e-context
+            :name "public_mail(gmail)"
+            :match-func
+              (lambda (msg)
+                (when msg
+                  (string-prefix-p "/Gmail" (mu4e-message-field msg :maildir))))
+            :vars '((user-mail-address . "holy.frege@gmail.com")
+                    (user-full-name    . "Holy Frege work_mail")
+                    (smtpmail-smtp-server  . "smtp.gmail.com")
+                    (smtpmail-smtp-service . 465)
+                    (smtpmail-stream-type  . ssl)
+                    (mu4e-compose-signature .
+                    (concat 
+                         "This is my public email\n"
+                         "When there's a will to fail, obstacles can be found.\n"
+                         "- John McCarthy\n"))
+                    (mu4e-drafts-folder  . "/Gmail/[Gmail]/Drafts")
+                    (mu4e-sent-folder  . "/Gmail/[Gmail]/Sent Mail")
+                    (mu4e-refile-folder  . "/Gmail/[Gmail]/All Mail")
+                    (mu4e-trash-folder  . "/Gmail/[Gmail]/Trash")))
 
-         ;; Personal account(fastmail)
-         (make-mu4e-context
-          :name "Private_mail(fastmail)"
-          :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/Fastmail" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address . "holy_frege@fastmail.com")
-                  (user-full-name    . "Holy Frege Personal_mail")
-                  (smtpmail-smtp-server  . "smtp.fastmail.com")
-                  (smtpmail-smtp-service . 465)
-                  (smtpmail-stream-type  . ssl)
-                  (mu4e-compose-signature .
-                  (concat 
-                       "Holy Frege \n\n"
-                       "grap the time\n"
-                       "test2 signature\n"))
-                  (mu4e-drafts-folder  . "/Fastmail/Drafts")
-                  (mu4e-sent-folder  . "/Fastmail/Sent")
-                  (mu4e-spam-folder  . "/Fastmail/Spam")
-                  (mu4e-refile-folder  . "/Fastmail/Archive")
-                  (mu4e-trash-folder  . "/Fastmail/Trash")))))
-      ;; %a: 메일의 title이다.
-      ;; %i: mail의 특정 text영역을 block한후 paste한다. 
-     ;; (setq org-capture-templates
-     ;;   `(("m" "Email Workflow")
-     ;;     ("mf" "Follow Up" entry (file+olp "~/org/Mail.org" "Follow Up")
-     ;;           "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\n\n %i" :immediate-finish t)
-     ;;     ("mr" "Read Later" entry (file+olp "~/org/Mail.org" "Read Later")
-     ;;           "* TODO Read %:subject\nSCHEDULED:%t\n%a\n\n %i" :immediate-finish t)
-     ;;   ))
-  ;; quick action
-     (defun holy/capture-mail-follow-up (msg)
-        (interactive)
-        (call-interactively 'org-store-link)
-        (org-capture nil "mf"))
+           ;; Personal account(fastmail)
+           (make-mu4e-context
+            :name "Private_mail(fastmail)"
+            :match-func
+              (lambda (msg)
+                (when msg
+                  (string-prefix-p "/Fastmail" (mu4e-message-field msg :maildir))))
+            :vars '((user-mail-address . "holy_frege@fastmail.com")
+                    (user-full-name    . "Holy Frege Personal_mail")
+                    (smtpmail-smtp-server  . "smtp.fastmail.com")
+                    (smtpmail-smtp-service . 465)
+                    (smtpmail-stream-type  . ssl)
+                    (mu4e-compose-signature .
+                    (concat 
+                         "This is my private email\n"
+                         "When no idea seems right, the right one must seem wrong\n"
+                         "-Marvin Minsky\n"))
+                    (mu4e-drafts-folder  . "/Fastmail/Drafts")
+                    (mu4e-sent-folder  . "/Fastmail/Sent")
+                    (mu4e-spam-folder  . "/Fastmail/Spam")
+                    (mu4e-refile-folder  . "/Fastmail/Archive")
+                    (mu4e-trash-folder  . "/Fastmail/Trash")))))
+        ;; %a: 메일의 title이다.
+        ;; %i: mail의 특정 text영역을 block한후 paste한다. 
+       (setq org-capture-templates
+         `(("m" "Email Workflow")
+           ("mf" "Follow Up" entry (file+olp "~/org/2021/Mail.org" "Follow Up")
+                 "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\n\n %i" :immediate-finish t)
+           ("mr" "Read Later" entry (file+olp "~/org/2021/Mail.org" "Read Later")
+                 "* TODO Read %:subject\nSCHEDULED:%t\n%a\n\n %i" :immediate-finish t)
+         ))
+    ;; quick action
+       (defun holy/capture-mail-follow-up (msg)
+          (interactive)
+          (call-interactively 'org-store-link)
+          (org-capture nil "mf"))
 
-     (defun holy/capture-mail-read-later (msg)
-        (interactive)
-        (call-interactively 'org-store-link)
-        (org-capture nil "mr"))
-        ;; Add custom actions for our capture templates
-     (add-to-list 'mu4e-headers-actions
-         '("follow up" . holy/capture-mail-follow-up) t)
-     (add-to-list 'mu4e-view-actions
-         '("follow up" . holy/capture-mail-follow-up) t)
-     (add-to-list 'mu4e-headers-actions
-         '("read later" . holy/capture-mail-read-later) t)
-     (add-to-list 'mu4e-view-actions
-         '("read later" . holy/capture-mail-read-later) t)
+       (defun holy/capture-mail-read-later (msg)
+          (interactive)
+          (call-interactively 'org-store-link)
+          (org-capture nil "mr"))
+          ;; Add custom actions for our capture templates
+       (add-to-list 'mu4e-headers-actions
+           '("follow up" . holy/capture-mail-follow-up) t)
+       (add-to-list 'mu4e-view-actions
+           '("follow up" . holy/capture-mail-follow-up) t)
+       (add-to-list 'mu4e-headers-actions
+           '("read later" . holy/capture-mail-read-later) t)
+       (add-to-list 'mu4e-view-actions
+           '("read later" . holy/capture-mail-read-later) t)
 
-     (setq mu4e-maildir-shortcuts
-      '((:maildir "/Gmail/Inbox"    :key ?i)
-        (:maildir "/Gmail/[Gmail]/Sent Mail" :key ?s)
-        (:maildir "/Gmail/[Gmail]/Trash"     :key ?t)
-        (:maildir "/Gmail/[Gmail]/Drafts"    :key ?d)
-        (:maildir "/Gmail/[Gmail]/All Mail"  :key ?a))))
-        ;; run mu4e in the background to sync mail periodically
-      ;; (mu4e t)  
-      ;; (setq user-mail-address "holy.frege@gmail.com")
-      ;; (setq smtpmail-default-smtp-server "smtp.gmail.com")
-      ;; (setq smtpmail-smtp-server "smtp.gmail.com")
-      ;; (setq smtpmail-smtp-service 587))
+       (setq mu4e-maildir-shortcuts
+        '((:maildir "/Gmail/Inbox"    :key ?i)
+          (:maildir "/Gmail/[Gmail]/Sent Mail" :key ?s)
+          (:maildir "/Gmail/[Gmail]/Trash"     :key ?t)
+          (:maildir "/Gmail/[Gmail]/Drafts"    :key ?d)
+          (:maildir "/Gmail/[Gmail]/All Mail"  :key ?a))))
+          ;; run mu4e in the background to sync mail periodically
+        ;; (mu4e t)  
+        ;; (setq user-mail-address "holy.frege@gmail.com")
+        ;; (setq smtpmail-default-smtp-server "smtp.gmail.com")
+        ;; (setq smtpmail-smtp-server "smtp.gmail.com")
+        ;; (setq smtpmail-smtp-service 587))
 
-
+  ;; Use a specific key for signing by referencing its thumbprint(모든 메일에 gpg encrypt)
+  ;; (setq mml-secure-openpgp-signers '("96136C86DAF5B7DCD7349E85FDF667618AC4B222"))
+  ;; (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
 #+end_src
 
 #+begin_src emacs-lisp
     (use-package org-mime
-      :ensure t
+    :ensure t
       :config
       (setq org-mime-export-options '(:section-numbers nil
                                       :with-author nil
                                       :with-toc nil))
+      (add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
       ;; (add-hook 'message-send-hook 'org-mime-htmlize)
-      ;; (add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
-      (add-hook 'message-send-hook 'org-mime-htmlize)
       (add-hook 'org-mime-html-hook
          (lambda ()
             (org-mime-change-element-style
@@ -1441,9 +1444,9 @@ mu4e에서 mail을 읽고 이것을 해야할일(todo)라고 판단하면 org-ca
 ** lorem ipsum
 - lorem ipsum은 의미없는 문자열을 만들어낸다.
 #+begin_src emacs-lisp
-  ;; (use-package lorem-ipsum
-  ;; :config
-  ;; (lorem-ipsum-use-default-bindings))
+  (use-package lorem-ipsum
+  :config
+  (lorem-ipsum-use-default-bindings))
 #+end_src
 ** yasnippet
 - yasnippet은 특정 단어를  template과 replace할 수 있다. 특정 단어를 tab을 누르면 이미 저장된 template으로 대치된다.

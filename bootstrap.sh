@@ -73,4 +73,4 @@ ln -sf ~/.dotfiles/fish/ ~/.config/
 #chsh -s /usr/local/bin/fish
 
 # 12 .authinfo
-ln -sf ~/.dotfiles/.authinfo ~/
+cp ~/Dropbox/MySelf/My_Identity/Identities/Security_Keys/.authinfo.gpg ~/ln
