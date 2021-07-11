@@ -1,3 +1,5 @@
+
+
 # ------------------------------------------------------------------------------
 #+TITLE: Emacs From Scratch Configuration    
 #+AUTHOR:    Holy Frege
@@ -44,12 +46,14 @@ minibuffer에서 해석한다.  현재의 mode에서 실행할 수 있는 장점
 
 #+begin_src emacs-lisp
   (server-start)
+  (require 'org-protocol)
+
   (setq ns-command-modifier 'meta)
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq make-backup-files nil)
   ;; (setq server-socket-dir "/tmp/emacs1000")
-  (defvar holy/default-font-size 180)
-  (defvar holy/default-variable-font-size 180)
+  (defvar holy/default-font-size 220)
+  (defvar holy/default-variable-font-size 220)
 #+end_src
 
 * Package System Setup
@@ -164,14 +168,16 @@ do-list는 python의 for 변수 in 배열 구문으로 보면된다.
 
    (defun holy/set-font-faces ()		
      (message "Setting faces!")
-     ;; (set-face-attribute 'default nil :font "Fira Code Retina" :height holy/default-font-size)
-     (set-face-attribute 'default nil :font "Fira Code" :height holy/default-font-size)
+     ;; (set-face-attribute 'default nil :font "Fira Code" :height holy/default-font-size)
+        (set-face-attribute 'default nil :font "Fira Code"  :height 180)
+     ;; (set-face-attribute 'default nil :font "Fira Code Retina-14" :height holy/default-font-size)
 
          ;; Set the fixed pitch face
-     (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height holy/default-font-size) 
-
+     ;; (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height holy/default-font-size) 
+     (set-face-attribute 'fixed-pitch nil :font "Fira Code"  :height 180)
          ;; Set the variable pitch face
-     (set-face-attribute 'variable-pitch nil :font "Source Sans Pro" :height holy/default-font-size :weight 'regular)
+     ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height holy/default-font-size :weight 'regular)
+        (set-face-attribute 'variable-pitch nil :font "Cantarell"  :height 180)
   )
 
   (if (daemonp)
@@ -400,135 +406,139 @@ org-modules중에 org-habit이 enable되어야 한다.
 :end:
 #+begin_src emacs-lisp
 
-  (add-hook 'org-mode-hook 'org-indent-mode)
+    (add-hook 'org-mode-hook 'org-indent-mode)
 
-  (defun holy/org-mode-setup ()
-    (org-indent-mode)
-    (variable-pitch-mode 1)
-    (visual-line-mode 1))
+    (defun holy/org-mode-setup ()
+      (org-indent-mode)
+      (variable-pitch-mode 1)
+      (visual-line-mode 1))
 
-  (use-package org
-    :hook (org-mode . holy/org-mode-setup)
-    :config
-    (setq org-ellipsis " ▾"))
+    (use-package org
+      :hook (org-mode . holy/org-mode-setup)
+      :config
+      (setq org-ellipsis " ▾"))
 
-  ;;   (setq org-agenda-start-with-log-mode t)
-  ;;   (setq org-log-done 'time)
-  ;;   (setq org-log-into-drawer t)
+;; org todo state
+  (setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✔ DONE(d)")
+                            (sequence "⚑ WAITING(w)" "|")
+                            (sequence "|" "✘ CANCELED(c)")))
+    ;;   (setq org-agenda-start-with-log-mode t)
+    ;;   (setq org-log-done 'time)
+    ;;   (setq org-log-into-drawer t)
 
-  ;;   (setq org-agenda-files
-  ;;         '("~/org/tasks.org"
-  ;;           "~/org/habits.org"
-  ;;           "~/org/mail.org"
-  ;;        "~/org/birthdays.org"))
+      (setq org-agenda-files
+            '("~/org/tasks.org"
+              "~/org/habits.org"
+              "~/org/mail.org"
+           "~/org/birthdays.org"))
 
-  ;;   (require 'org-habit)
-  ;;   (add-to-list 'org-modules 'org-habit)
-  ;;   (setq org-habit-graph-column 60)
+    ;;   (require 'org-habit)
+    ;;   (add-to-list 'org-modules 'org-habit)
+    ;;   (setq org-habit-graph-column 60)
 
-  ;;   (setq org-todo-keywords
-  ;;     '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-  ;;       (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+    ;;   (setq org-todo-keywords
+    ;;     '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+    ;;       (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
 
-  ;;   (setq org-refile-targets
-  ;;     '(("Archive.org" :maxlevel . 1)
-  ;;       ("Tasks.org" :maxlevel . 1)))
+    ;;   (setq org-refile-targets
+    ;;     '(("Archive.org" :maxlevel . 1)
+    ;;       ("Tasks.org" :maxlevel . 1)))
 
-  ;;   ;; Save Org buffers after refiling!
-  ;;   (advice-add 'org-refile :after 'org-save-all-org-buffers)
+    ;;   ;; Save Org buffers after refiling!
+    ;;   (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
-  ;;   (setq org-tag-alist
-  ;;     '((:startgroup)
-  ;;        ; Put mutually exclusive tags here
-  ;;        (:endgroup)
-  ;;        ("@errand" . ?E)
-  ;;        ("@home" . ?H)
-  ;;        ("@work" . ?W)
-  ;;        ("agenda" . ?a)
-  ;;        ("planning" . ?p)
-  ;;        ("publish" . ?P)
-  ;;        ("batch" . ?b)
-  ;;        ("note" . ?n)
-  ;;        ("idea" . ?i)))
+    ;;   (setq org-tag-alist
+    ;;     '((:startgroup)
+    ;;        ; Put mutually exclusive tags here
+    ;;        (:endgroup)
+    ;;        ("@errand" . ?E)
+    ;;        ("@home" . ?H)
+    ;;        ("@work" . ?W)
+    ;;        ("agenda" . ?a)
+    ;;        ("planning" . ?p)
+    ;;        ("publish" . ?P)
+    ;;        ("batch" . ?b)
+    ;;        ("note" . ?n)
+    ;;        ("idea" . ?i)))
 
-  ;;   ;; Configure custom agenda views
-  ;;   (setq org-agenda-custom-commands
-  ;;    '(("d" "Dashboard"
-  ;;      ((agenda "" ((org-deadline-warning-days 7)))
-  ;;       (todo "NEXT"
-  ;;         ((org-agenda-overriding-header "Next Tasks")))
-  ;;       (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+    ;;   ;; Configure custom agenda views
+    ;;   (setq org-agenda-custom-commands
+    ;;    '(("d" "Dashboard"
+    ;;      ((agenda "" ((org-deadline-warning-days 7)))
+    ;;       (todo "NEXT"
+    ;;         ((org-agenda-overriding-header "Next Tasks")))
+    ;;       (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
 
-  ;;     ("n" "Next Tasks"
-  ;;      ((todo "NEXT"
-  ;;         ((org-agenda-overriding-header "Next Tasks")))))
+    ;;     ("n" "Next Tasks"
+    ;;      ((todo "NEXT"
+    ;;         ((org-agenda-overriding-header "Next Tasks")))))
 
-  ;;     ("W" "Work Tasks" tags-todo "+work-email")
+    ;;     ("W" "Work Tasks" tags-todo "+work-email")
 
-  ;;     ;; Low-effort next actions
-  ;;     ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-  ;;      ((org-agenda-overriding-header "Low Effort Tasks")
-  ;;       (org-agenda-max-todos 20)
-  ;;       (org-agenda-files org-agenda-files)))
+    ;;     ;; Low-effort next actions
+    ;;     ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+    ;;      ((org-agenda-overriding-header "Low Effort Tasks")
+    ;;       (org-agenda-max-todos 20)
+    ;;       (org-agenda-files org-agenda-files)))
 
-  ;;     ("w" "Workflow Status"
-  ;;      ((todo "WAIT"
-  ;;             ((org-agenda-overriding-header "Waiting on External")
-  ;;              (org-agenda-files org-agenda-files)))
-  ;;       (todo "REVIEW"
-  ;;             ((org-agenda-overriding-header "In Review")
-  ;;              (org-agenda-files org-agenda-files)))
-  ;;       (todo "PLAN"
-  ;;             ((org-agenda-overriding-header "In Planning")
-  ;;              (org-agenda-todo-list-sublevels nil)
-  ;;              (org-agenda-files org-agenda-files)))
-  ;;       (todo "BACKLOG"
-  ;;             ((org-agenda-overriding-header "Project Backlog")
-  ;;              (org-agenda-todo-list-sublevels nil)
-  ;;              (org-agenda-files org-agenda-files)))
-  ;;       (todo "READY"
-  ;;             ((org-agenda-overriding-header "Ready for Work")
-  ;;              (org-agenda-files org-agenda-files)))
-  ;;       (todo "ACTIVE"
-  ;;             ((org-agenda-overriding-header "Active Projects")
-  ;;              (org-agenda-files org-agenda-files)))
-  ;;       (todo "COMPLETED"
-  ;;             ((org-agenda-overriding-header "Completed Projects")
-  ;;              (org-agenda-files org-agenda-files)))
-  ;;       (todo "CANC"
-  ;;             ((org-agenda-overriding-header "Cancelled Projects")
-  ;;              (org-agenda-files org-agenda-files)))))))
+    ;;     ("w" "Workflow Status"
+    ;;      ((todo "WAIT"
+    ;;             ((org-agenda-overriding-header "Waiting on External")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "REVIEW"
+    ;;             ((org-agenda-overriding-header "In Review")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "PLAN"
+    ;;             ((org-agenda-overriding-header "In Planning")
+    ;;              (org-agenda-todo-list-sublevels nil)
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "BACKLOG"
+    ;;             ((org-agenda-overriding-header "Project Backlog")
+    ;;              (org-agenda-todo-list-sublevels nil)
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "READY"
+    ;;             ((org-agenda-overriding-header "Ready for Work")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "ACTIVE"
+    ;;             ((org-agenda-overriding-header "Active Projects")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "COMPLETED"
+    ;;             ((org-agenda-overriding-header "Completed Projects")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "CANC"
+    ;;             ((org-agenda-overriding-header "Cancelled Projects")
+    ;;              (org-agenda-files org-agenda-files)))))))
 
-  ;;   (setq org-capture-templates
-  ;;     `(("t" "Tasks / Projects")
-  ;;       ("tt" "Task" entry (file+olp "~/MyWorld/Projects/OrgFiles/Tasks.org" "Inbox")
-  ;;            "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+    ;;   (setq org-capture-templates
+    ;;     `(("t" "Tasks / Projects")
+    ;;       ("tt" "Task" entry (file+olp "~/MyWorld/Projects/OrgFiles/Tasks.org" "Inbox")
+    ;;            "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
-  ;;       ("j" "Journal Entries")
-  ;;       ("jj" "Journal" entry
-  ;;            (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
-  ;;            "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-  ;;            ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-  ;;            :clock-in :clock-resume
-  ;;            :empty-lines 1)
-  ;;       ("jm" "Meeting" entry
-  ;;            (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
-  ;;            "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-  ;;            :clock-in :clock-resume
-  ;;            :empty-lines 1)
+    ;;       ("j" "Journal Entries")
+    ;;       ("jj" "Journal" entry
+    ;;            (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
+    ;;            "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+    ;;            ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+    ;;            :clock-in :clock-resume
+    ;;            :empty-lines 1)
+    ;;       ("jm" "Meeting" entry
+    ;;            (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
+    ;;            "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+    ;;            :clock-in :clock-resume
+    ;;            :empty-lines 1)
 
-  ;;       ("w" "Workflows")
-  ;;       ("we" "Checking Email" entry (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
-  ;;            "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+    ;;       ("w" "Workflows")
+    ;;       ("we" "Checking Email" entry (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
+    ;;            "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
-  ;;       ("m" "Metrics Capture")
-  ;;       ("mw" "Weight" table-line (file+headline "~/MyWorld/Projects/OrgFiles/Metrics.org" "Weight")
-  ;;        "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+    ;;       ("m" "Metrics Capture")
+    ;;       ("mw" "Weight" table-line (file+headline "~/MyWorld/Projects/OrgFiles/Metrics.org" "Weight")
+    ;;        "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
 
-  ;;   (define-key global-map (kbd "C-c j")
-  ;;     (lambda () (interactive) (org-capture nil "jj")))
+    ;;   (define-key global-map (kbd "C-c j")
+    ;;     (lambda () (interactive) (org-capture nil "jj")))
 
-  ;;   (holy/org-font-setup))
+    ;;   (holy/org-font-setup))
 
 #+end_src
 
@@ -542,10 +552,10 @@ org-modules중에 org-habit이 enable되어야 한다.
     :after org
     :hook (org-mode . org-bullets-mode)
     :custom
-    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-(font-lock-add-keywords 'org-mode
-                            '(("^ +\\([-*]\\) "
-                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+    (org-bullets-bullet-list '("◉" "○" "▶" "●" "○" "●")))
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 #+end_src
 
 *** wrap region(org-emphasis)
@@ -672,29 +682,34 @@ src_block에 한다. 그런 다음 org-babel-tangle이라는 명령을 사용해
     ;; a useful view to see what can be accomplished today
     (org-agenda-custom-commands '(("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT"))))))
 
-  (use-package org-capture
-    :ensure nil
-    ;; note that org-gtd has to be loaded before this
-    :after org-gtd
-    :config
-    ;; use as-is if you don't have an existing set of org-capture templates
-    ;; otherwise add to existing setup
-    ;; you can of course change the letters, too
-    (setq org-capture-templates `(("i" "Inbox"
-                                   entry (file ,(org-gtd--path org-gtd-inbox-file-basename))
-                                   "* %?\n%U\n\n  %i"
-                                   :kill-buffer t)
-                                  ("l" "Todo with link"
-                                   entry (file ,(org-gtd--path org-gtd-inbox-file-basename))
-                                   "* %?\n%U\n\n  %i\n  %a"
-                                   :kill-buffer t))))
+
 #+END_SRC
 
-** Org-protocol
+** Org-capture
 #+BEGIN_SRC emacs-lisp
-  ; https://cestlaz.github.io/posts/using-emacs-24-capture-2/
-  ; Bind Key to: emacsclient -ne "(make-capture-frame)"
-
+  (define-key global-map "\C-cc" 'org-capture)
+  ;; (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-capture-templates
+        (quote (("t" "today Todo" entry (file "~/org/2021/collection.org")
+                 "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                ("m" "Mail Related Todo Work" entry (file "~/org/2021/collection.org")
+                 "* TODO %?\n%T\n")
+                ("w" "Web Related Work" entry (file+headline "~/org/2021/collection.org" "Web Captured")
+                 "* %? url is  %:link \n title is %:description \nCaptured On: %U\n body is %i")
+                ("a" "Appointment" entry (file+headline 
+                                          "~/org/2021/collection.org" "Calendar") 
+                 "* APPT %^{Description} %^g  %?  Added: %U") 
+                ("n" "Notes" entry (file+datetree 
+                                     "~/org/2021/collection.org")
+                  "* %^{Description} %^g %? Added: %U")
+                ("k" "Todo" entry (file+headline "~/org/2021/test.org" "Tasks")
+                  "* TODO %?\n  %i\n  %a")
+                 ("b" "Buy" item (file+olp "~/org/2021/test.org" "Stuff to Buy" "House")
+                  "")
+                ("i" "sudden rising Idea" entry (file+datetree "~/org/2021/collection.org")
+                 "* %?\n%T\n" :clock-in t :clock-resume t)
+                ("h" "Habits(always daily do)" entry (file+datetree "~/org/2021/habits.org")
+                 "* %?\n%T\n" :clock-in t :clock-resume t))))
 
 #+END_SRC
 
@@ -814,6 +829,8 @@ slime-helper.el이 만들어지고 이를 emacs에서 추가한다.
 #+begin_src emacs-lisp
 
 #+end_src
+** Python [Programming Language]
+
 ** Projectile
 
 - 참조
@@ -936,6 +953,7 @@ show-paren-mode는 parenthesis를 쌍으로 check한다.
 
   (show-paren-mode 1)
 #+end_src
+
 
 * File Management
 - ^, dired-jump(C-x j)
@@ -1233,13 +1251,7 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
                     (mu4e-trash-folder  . "/Fastmail/Trash")))))
         ;; %a: 메일의 title이다.
         ;; %i: mail의 특정 text영역을 block한후 paste한다. 
-       (setq org-capture-templates
-         `(("m" "Email Workflow")
-           ("mf" "Follow Up" entry (file+olp "~/org/2021/Mail.org" "Follow Up")
-                 "* TODO Follow up with %:fromname on %a\nSCHEDULED:%t\n\n %i" :immediate-finish t)
-           ("mr" "Read Later" entry (file+olp "~/org/2021/Mail.org" "Read Later")
-                 "* TODO Read %:subject\nSCHEDULED:%t\n%a\n\n %i" :immediate-finish t)
-         ))
+
     ;; quick action
        (defun holy/capture-mail-follow-up (msg)
           (interactive)
