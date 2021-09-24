@@ -1,5 +1,3 @@
-
-
 # ------------------------------------------------------------------------------
 #+TITLE: Emacs From Scratch Configuration    
 #+AUTHOR:    Holy Frege
@@ -8,7 +6,6 @@
 #+OPTIONS:   toc:2 html-scripts:nil num:nil html-postamble:nil html-style:nil ^:nil
 #+PROPERTY: header-args :emacs-lisp :tangle ./init.el :mkdirp yes
 # ------------------------------------------------------------------------------
-
 * Start!
 :About_Setting:
 기본적인 것을 설정한다. emacs.org는 .emac.d폴더에 넣어 둔다. 그리고 수정할때 마다, 추가할 때 마다 tangle에 의해서 자동으로 init.el이 만들어진다.
@@ -46,6 +43,7 @@ minibuffer에서 해석한다.  현재의 mode에서 실행할 수 있는 장점
 
 #+begin_src emacs-lisp
   (server-start)
+  (require 'cl-lib)
   (require 'org-protocol)
 
   (setq ns-command-modifier 'meta)
@@ -342,6 +340,31 @@ modeline에 mode를 감춘다. load되는 mode가 너무 많아지면 지저분�
     ;;    (winum-mode))
 #+end_src
 
+** highlight indented mode
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-indentation
+    :ensure t
+    :config
+    (add-hook 'enh-ruby-mode-hook
+              (lambda () (highlight-indentation-current-column-mode)))
+      (add-hook 'coffee-mode-hook
+            (lambda () (highlight-indentation-current-column-mode)))
+    )
+#+END_SRC
+
+** ecb
+#+BEGIN_SRC emacs-lisp
+  ;;; activate ecb
+  ;; (require 'ecb)
+  ;; (require 'ecb-autoloads)
+#+END_SRC
+
+** neotree
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+  :ensure t)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+#+END_SRC
 * Org Mode
 [[https://orgmode.org/][Org Mode]] 
 ** Better Font Faces
@@ -602,12 +625,13 @@ org-modules중에 org-habit이 enable되어야 한다.
 
 #+begin_src emacs-lisp
 
-  (org-babel-do-load-languages
-    'org-babel-load-languages
-    '((emacs-lisp . t)
-      (python . t)))
+    (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+        (ruby . t)
+        (python . t)))
 
-  ;; (push '("conf-unix" . conf-unix) org-src-lang-modes)
+    ;; (push '("conf-unix" . conf-unix) org-src-lang-modes)
 
 #+end_src
 ** Structure Templates
@@ -743,6 +767,35 @@ src_block에 한다. 그런 다음 org-babel-tangle이라는 명령을 사용해
 
 #+END_SRC
 
+** xetex
+#+BEGIN_SRC emacs-lisp
+    ;; (setq-default TeX-engine 'xelatex)
+    ;; (setq-default TeX-PDF-mode t)
+    ;; (setq latex-run-command "xelatex")
+  ;; (setq org-latex-to-pdf-process 
+  ;;   '("xelatex -interaction nonstopmode %f"
+  ;;      "xelatex -interaction nonstopmode %f")) ;; for multiple passes
+#+END_SRC
+
+** oblivoir 설정
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'ox-latex
+     (add-to-list 'org-latex-classes
+                  '("report"
+                    "\\documentclass{report}"
+                    ("\\chapter{%s}" . "\\chapter*{%s}")
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+    ;; (add-to-list 'org-latex-classes
+    ;;           '("oblivoir"
+    ;;                                       "\\documentclass{oblivoir}"
+    ;;                                       ("\\section{%s}" . "\\section*{%s}")
+    ;;                                       ("\\subsection{%s}" . "\\subsection*{%s}")
+    ;;                                       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+    ;;                                       ("\\paragraph{%s}" . "\\paragraph*{%s}")
+    ;;                                       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+END_SRC
 * Development
 ** company mode
 :설명:
@@ -830,7 +883,9 @@ slime-helper.el이 만들어지고 이를 emacs에서 추가한다.
 
 #+end_src
 ** Python [Programming Language]
+#+BEGIN_SRC emacs-lisp
 
+#+END_SRC
 ** Projectile
 
 - 참조
@@ -858,7 +913,7 @@ slime-helper.el이 만들어지고 이를 emacs에서 추가한다.
 
 #+end_src
 ** Terminal 
-***   terminal
+***  terminal
 vterm을 추천한다.
 #+begin_src emacs-lisp
 (use-package term
@@ -897,27 +952,30 @@ osx system terminal에서 open -a 'Google Chrome'하면  terminal에서 chrome b
 path는 적용되나 alias는 적용되지 않는다. 그래서 open -a 'Google Chrome'과 같이 입력해야 한다. 이게 약간 불편하다. 
 :end:
 #+begin_src emacs-lisp
-    (defun holy/configure-eshell ()
-      (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-      (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+   (defun holy/configure-eshell ()
+     (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+     (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
 
-      (setq eshell-history-size                    10000
-             eshell-buffer-maximum-lines 10000
-             eshell-hist-ignoredups t
-             eshell-scroll-to-bottom-on-input t))
+     (setq eshell-history-size                    10000
+            eshell-buffer-maximum-lines 10000
+            eshell-hist-ignoredups t
+            eshell-scroll-to-bottom-on-input t))
 
-    (use-package eshell-git-prompt)
+   (use-package eshell-git-prompt)
 
-    (use-package eshell
-      :hook (eshell-first-time-mode . holy/configure-eshell)
-      :config
-      (with-eval-after-load 'esh-opt
-         (setq eshell-destroy-buffer-when-process-dies t)
-         (setq eshell-visual-commands '("htop" "zsh" "vim" "less" "more")))
-      (eshell-git-prompt-use-theme 'powerline))
+   (use-package eshell
+     :hook (eshell-first-time-mode . holy/configure-eshell)
+     :config
+     (with-eval-after-load 'esh-opt
+        (setq eshell-destroy-buffer-when-process-dies t)
+        (setq eshell-visual-commands '("htop" "zsh" "vim" "less" "more")))
+     (eshell-git-prompt-use-theme 'powerline))
 
-     (use-package exec-path-from-shell)
-
+    (use-package exec-path-from-shell)
+    (add-hook
+     'eshell-mode-hook
+     (lambda ()
+       (setq pcomplete-cycle-completions nil)))
 #+end_src
 ** Magit
 - 참조
@@ -954,7 +1012,144 @@ show-paren-mode는 parenthesis를 쌍으로 check한다.
   (show-paren-mode 1)
 #+end_src
 
+** Tramp
+#+BEGIN_SRC emacs-lisp
+;TRAMP
+(require 'tramp)
+(setq tramp-default-method "ssh")
+#+END_SRC
+** Ruby
+setting은 [[https://worace.works/2016/06/07/getting-started-with-emacs-for-ruby/][다음]]을 참조했다.
+*** ruby electric mode
+#+BEGIN_SRC emacs-lisp
+  (use-package ruby-electric
+   :ensure t)
+  (add-hook 'ruby-mode-hook 'ruby-electric-mode)
+#+END_SRC
+*** rbenv
+#+BEGIN_SRC emacs-lisp
+  (use-package rbenv
+   :ensure t
+   :config
+   (setq rbenv-installation-dir "/opt/homebrew/rbenv")
+   (global-rbenv-mode)
+   (rbenv-use-global))
+#+END_SRC
+*** seeing is believing
+#+BEGIN_SRC emacs-lisp
+  ;; (setq seeing-is-believing-prefix "C-.")
+  ;; (add-hook 'ruby-mode-hook 'seeing-is-believing)
+  ;; (require 'seeing-is-believing)
+#+END_SRC
+*** inf-ruby
+#+BEGIN_SRC emacs-lisp
+  (use-package inf-ruby
+    :ensure t)
+  (autoload 'inf-ruby-minor-mode "inf-ruby" "Run an inferior Ruby process" t)
+  (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
 
+#+END_SRC
+*** ruby extension settings
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist
+             '("\\.\\(?:cap\\|gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist
+             '("\\(?:Brewfile\\|Capfile\\|Gemfile\\(?:\\.[a-zA-Z0-9._-]+\\)?\\|[rR]akefile\\)\\'" . ruby-mode))
+#+END_SRC
+*** ruby bundler settings
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/vendor/bundler.el")
+(require 'bundler)
+#+END_SRC
+*** projectile rails
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile-rails
+    :ensure t
+    :config
+    (projectile-rails-global-mode)
+    (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map)
+    )
+#+END_SRC
+*** rinari
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+*** robe
+#+BEGIN_SRC emacs-lisp
+  (use-package robe
+  :ensure t
+  :config
+  (global-robe-mode)
+  (eval-after-load 'company
+  '(push 'company-robe company-backends))
+)
+#+END_SRC
+** flyspell
+osx에서는 brew install ispell을 해줘야 한다.
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :ensure t
+    :config
+    (setq flyspell-issue-message-flg nil)
+    (add-hook 'enh-ruby-mode-hook
+              (lambda () (flyspell-prog-mode)))
+    (add-hook 'web-mode-hook
+            (lambda () (flyspell-prog-mode)))
+    ;; (ac-flyspell-workaround)
+  )
+  ;; flyspell mode breaks auto-complete mode without this.
+
+#+END_SRC
+** web development
+
+*** webmode
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+    )
+  (defun my-web-mode-hook ()
+    "Hooks for Web mode."
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-code-indent-offset 2)
+    (setq web-mode-css-indent-offset 2)
+    )
+  (add-hook 'web-mode-hook  'my-web-mode-hook)    
+  (setq tab-width 2)
+
+  ;; highlight of columns settings
+  (setq web-mode-enable-current-column-highlight t)
+  (setq web-mode-enable-current-element-highlight t)
+
+  ;; (defun my-web-mode-hook ()
+  ;;   (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files))
+  ;;   )
+#+END_SRC
+*** emmet mode
+#+BEGIN_SRC emacs-lisp
+        (use-package emmet-mode
+          :ensure t)
+  (add-hook 'web-mode-hook  'emmet-mode)
+  ;; (add-hook 'web-mode-before-auto-complete-hooks
+  ;;             '(lambda ()
+  ;;                (let ((web-mode-cur-language
+  ;;                       (web-mode-language-at-pos)))
+  ;;                  (if (string= web-mode-cur-language "php")
+  ;;                      (yas-activate-extra-mode 'php-mode)
+  ;;                    (yas-deactivate-extra-mode 'php-mode))
+  ;;                  (if (string= web-mode-cur-language "css")
+  ;;                      (setq emmet-use-css-transform t)
+  ;;                    (setq emmet-use-css-transform nil)))))
+#+END_SRC
+*** js2 mode
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
 * File Management
 - ^, dired-jump(C-x j)
 상위폴더로 이동, dired-jump는 현재 buffer에서 dired mode로 전환한다.
@@ -1085,40 +1280,72 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
 :END:
 :IMAP설정:
    - [X] isync 설치
-             local에서 gmail과 sync를 할 프로그램을 설치한다. brew install isync
+             local에서 gmail과 sync를 할 프로그램을 설치한다. brew install isync, 이렇게 설치하면 ~/.mbsyncrc를 설정할 수 있다.
              
-   - [X] ~/.mbsyncrc를 설정한다. 여길 [[file:~/.mbsyncrc][참조]]
-           - Mail폴더를 만든다. subFolder에 Gmail과 Fastmail을 만든다. 이것은 imap에서 가져올 메일을 저장하는 곳이다. PATH와 INBOX설정에 기술한다.
-          - 여기서 passCmd와 certificateFile은 설명이 필요하다.
-          - [passCmd]: mail server에 login하기 위해선 id,pw가 필요하다. id는 위 항목중 user를 의미하고, pw는 pass를 사용했다.하지만, 지금은 pass는 보안문제로 사용되지 않는다. pass는 password를 직접 mbsyncrc파일에 기술하는 것이다. 반면  직접기록하는 대신에 특정파일에 적어놓고 이를 cat과 같은 명령어로 읽어들이거나 gpg를 사용한다. 나는 cat을 사용했고 해당 password는 gmail은 직접 파일에 기술했고, fast mail은 아래 설정에서 app password를 받아서 사용했다.
-            ex) "cat ~/.oh-no-insecure-password"
-            ex) gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.passwords/gmail.gpg
-          - 인증서는 logbook에 적었는데, openssl을 통해서 gmail에 접속하면 gmail의 public key가 담긴 인증서를 얻을 수 있다. 얻은 인증서를 저장한 후 적용하면
+   - [X] 아래는 ~/.mbsyncrc를 설정내용이다. 여길 [[file:~/.mbsyncrc][참조]]
+     - (1)  *Mail폴더를 만든다.* home 아래, subFolder로 Gmail과 Fastmail을 만든다.  imap에서 가져올 메일이 여기에 저장된다. PATH와 INBOX설정에 기술한다. 그리고 mail server에서 imap을 설정해야 한다.
+       #+CAPTION: mail server settings
+       #+NAME: 
+       #+attr_html: :width 800px
+       #+attr_latex: :width 100px
+       [[./img/mailserver1.png]]
 
- - [X] imap server를 설정한다. 
-         google gmail과 fastmail을 web에서 접속한다. 접속후 설정화면으로 간다.
-        - [gmail]: [[https://support.google.com/mail/answer/7126229?hl=en][설정법]], two-pass인증을 사용한다면, app password를 받아야 한다.아니면 less secure app으로 접속가능하게 해야 한다. [[https://myaccount.google.com/lesssecureapps?pli=1&rapt=AEjHL4NfiM5-El5bbUyLjtgLtJR3Q8iaaB1U3ZOSHERUwRyureo_rGEIPZbph5C8sgVJIyt4Ag3uL8ujJdkfLEfc9Tc93oKGlw][참조]]
-        - [fastmail]: settings->password->app password
+     - (2) *id&password처리*
+       id는 user항목에 기술되어 있고 password는 2가지 방식이 있다. 아래 mail별 처리방식을 썼다.
+       - Gmail
+         - [IMAPAccount]-> [passCmd]: mail server에 login하기 위해선 id,pw가 필요하다. id는 위 항목중 [User]를 의미하고, pw는 [passCmd]를 사용했다. 지금은 pass는 보안문제로 사용되지 않는다. pass는 password를 직접 mbsyncrc파일에 기술하는 것이다. 그래서 나는  직접 기록하는 방법 대신에 특정파일에 적어놓고 이를 cat과 같은 명령어로 읽어들이는 방식을 사용했다. 그래서 [passCmd]를 사용했다.  gpg를 사용하는 방식도 있다. 여튼, 나는 cat을 사용했다. 이미 password는 ~/.oh-no-insecure-password에  적어놨다. 이 방식은 less insecure acess방식이라서 mail server설정이 필요하다. 이것은 아래에 기술했다.
+       - Fastmail
+         - fast mail은  app password를 받아서 사용했다. app password를 사용하는 방식은 아래에 기술했다.
+       - 인증서
+         인증서를 얻기 위해선, 아래와 같이 한다.
+          #+begin_important
+          $ mkdir ~/.cert
+          $ openssl s_client -connect some.imap.server:port -showcerts 2>&1 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sed -ne '1,/-END CERTIFICATE-/p' > ~/.cert/some.imap.server.pem
 
-- [X] 설정이 끝났으면 동기화 테스트를 한다.(mbsync -a)
-          - two pass인증 에러는 Application-specific password required란 에러나 나온다.
-          - ~/Mails/폴더에 가서 [Gmail]Sent Mail, [Gmail]Drafts...와 같은 폴더가 있는지 확인해 본다.
-          - Error: SASL(-7): invalid parameter supplied: Parameter Error in /BuildRoot/Library/Caches/com.apple.xbs/Sources/passwordserver_saslplugins/passwordserver_saslplugins-192.30.1/plain_clienttoken.c near line 195 가 나서 AuthMechs PLAIN을 설정에 추가했다.
-          - Error: channel fastmail: far side box Inbox cannot be opened.
-          - Maildir warning: ignoring INBOX in /Users/holy/Mail/Fastmail/
-           => Inbox관련 warning과 error는 mbsyncrc의 Inbox ~/Mail/Fastmail/Inbox/ 에서  ~/Mail/Fastmail/Inbox 로 바꿔줬더니 정상동작한다.
+          $ openssl s_client -crlf -connect imap.gmail.com:993 -showcerts 2>&1 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sed -ne '1,/-END CERTIFICATE-/p' > ~/.cert/imap.gmail.crt
+          #+end_important
+          이렇게 인증서를 얻고, CertificateFile에 기술한다. (.mbsyncrc를 참조)
 
-- [X] mu를 설치한다. (brew install mu)
-  - mu를 system에 설치하면, mu4e도 설치가 된다. emacs에서 mu4e를 load할때는 아래 path를 사용해서 load한다.
-    path: /usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e
+   - [X] imap server 설정(less secure acess, app password) 
+           google gmail과 fastmail을 web에서 접속한다. 접속후 설정화면으로 간다.
+     - [gmail]: [[https://support.google.com/mail/answer/7126229?hl=en][설정법]], two-pass인증을 사용한다면, app password를 받아야 한다.아니면 less secure app으로 접속가능하게 해야 한다. [[https://myaccount.google.com/lesssecureapps?pli=1&rapt=AEjHL4NfiM5-El5bbUyLjtgLtJR3Q8iaaB1U3ZOSHERUwRyureo_rGEIPZbph5C8sgVJIyt4Ag3uL8ujJdkfLEfc9Tc93oKGlw][참조]]
+       #+CAPTION: less secure
+       #+NAME: less secure
+       #+attr_html: :width 800px
+       #+attr_latex: :width 100px
+       [[./img/less.png]]
+     - [fastmail]: settings->password->app password
+
+   - [X] 설정이 끝났으면 동기화 테스트를 한다.(mbsync -a)
+     - [error] two pass인증 에러는 Application-specific password required란 에러나 나온다.
+     - ~/Mails/폴더에 가서 [Gmail]Sent Mail, [Gmail]Drafts...와 같은 폴더가 있는지 확인해 본다.
+     - [Error]: SASL(-7): invalid parameter supplied: Parameter Error in /BuildRoot/Library/Caches/com.apple.xbs/Sources/passwordserver_saslplugins/passwordserver_saslplugins-192.30.1/plain_clienttoken.c near line 195 가 나서 AuthMechs PLAIN을 설정에 추가했다.
+     - [Error]: channel fastmail: far side box Inbox cannot be opened.
+     - Maildir warning: ignoring INBOX in /Users/holy/Mail/Fastmail/
+      => Inbox관련 warning과 error는 mbsyncrc의 Inbox ~/Mail/Fastmail/Inbox/ 에서  ~/Mail/Fastmail/Inbox 로 바꿔줬더니 정상동작한다.
+      - [error] credentials관련 error는 less secure access가 제대로 설정되지 않은 문제다.
+
+:END:
+:Mu설정:
+   - [X] *mu를 설치한다. (brew install mu)*
+     - mu를 system에 설치하면, mu4e도 설치가 된다. emacs에서 mu4e를 load할때는 아래 path를 사용해서 load한다. 그래서 emacs에서 설정해야 한다.
+       #+begin_note
+       (use-package mu4e)에서 load-path를 기술해야 한다.
+       아래에 보면, load-path라는 항목이 있다. 설치 위치에 해당 패스를 기술한다.
+       :load-path "/opt/homebrew/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e"
+       - 설치할 때 mu4e-meta.el이 newer than oldfile이라고 나오면 해당 load-path로가서 mu4e-meta.elc를 지우고 다시 byte compile한다.
+       - 10분마다 자동 sync하기로 했다.
+       - mu4e [[https://www.djcbsoftware.nl/code/mu/mu4e/index.html][공식문서]]
+       #+end_note
     
-- [X] mu init(예전 mu index) 실행한다. 저장된 mail에 indexing을 한다고 보면 된다. index tree를 만들어 검색을 빠르게 하는 것이다.
-  (mu init --maildir=~/Mail --my-address=holy.frege@gmail.com --my-address=holy_frege@fastmail.com)    
-
-- [X] emacs에서 mu4e를 설정한다. 아래 코드 부분이다. mu를 설치할때 mu4e elisp들이 설치되는데 그경로(load-path)를 기술한다.
-  - 설치할 때 mu4e-meta.el이 newer than oldfile이라고 나오면 해당 load-path로가서 mu4e-meta.elc를 지우고 다시 byte compile한다.
-  - 10분마다 자동 sync하기로 했다.
-  - mu4e [[https://www.djcbsoftware.nl/code/mu/mu4e/index.html][공식문서]]
+   - [X] *mu init(예전 mu index)을  shell에서 실행한다.*
+     저장된 mail에 indexing을 한다고 보면 된다. index tree를 만들어 검색을 빠르게 하는 것이다.
+      (mu init --maildir=~/Mail --my-address=holy.frege@gmail.com --my-address=holy_frege@fastmail.com)
+      #+CAPTION: mu3
+      #+NAME: 
+      #+attr_html: :width 800px
+      #+attr_latex: :width 100px
+      [[./img/mu3.png]]
     
 - [X] mu4e 실행 (M-x mu4e)
   - j o 를 누르고 maildir에서 [Gmail]/Sent Mail, [Gmail]Drafts, [Gmail]Trash,[Grmail]/All mails 이외의 것이 있나 확인한다. 왜냐면 우리는 imap에서 이 4개의 폴더로 email을 관리하고 이 폴더들이 gmail과 동기화해서 web에서 gmail을 볼때 보여야 하기 때문이다.
@@ -1128,9 +1355,8 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
 
 :END:
 :SMTP설정:
-- 설정에 대한 story
-  - [X] SMTP server 설정
-    - mu4e에서 mail계정은 context로 불리기도 한다. 각각의 계정마다 아래 smtp server 설정을 해준다. gmail과 fastmail에서 snmp정보를 찾을 수 있다. googling해서 찾아서 기입하면 된다.
+- [X] SMTP server 설정
+    - mu4e에서 mail계정은 context로 불리기도 한다. 각각의 계정마다 아래 smtp server 설정을 해준다. gmail과 fastmail에서 snmp정보를 찾을 수 있다. googling해서 찾아서 .emacs설정에 기입하면 된다.
     - smtpmail-smtp-server - The host where we connect to send mail
     - smtpmail-smtp-service - The port number of the SMTP service (defaults to 25)
     - smtpmail-stream-type - Determines whether SSL or TLS should be used when connecting
@@ -1142,54 +1368,173 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
   - C-c C-k : discard the message
   - C-c C-d : save message in Draft folder.
 
-- [X] mail 보내기 password문제.
+- [X] mail 보내기 password문제. *.authinfo에 id,pw작성*
   - mail을 보내기 위해 C-c C-c를 누르면 id와 pw를 물어본다. 이것을 물어보지 않고 자동화 할 수 있는 방법이 있다.
   - ~/.authinfo라는 파일을 만들고 pw를 저장한다음 (setq message-send-mail-function 'stmpmail-send-it)을 설정하면, smtpmail-send-it이 호출될때, auth-source라는 library를 사용한다. 이  library는 .authinfo라는 파일에서 정보를 읽어서 접속한 server에 입력한다. auth-sources는 authinfo외에도  ~/.authinfo.gpg, ~/.netrc라는 파일이 있으면 자동으로 읽는다.
     => (setq message-send-mail-function 'stmpmail-send-it)을 설정하고 .authinfo에 id와 pw만 작성하면 mail을 작성해서 보낼때 id와 pw를 입력하지 않아도 되지만, 보안에 문제가 있기 때문에 .authinfo.gpg라는 파일에 id와 pw를 작성하면 자동으로 gpg encrypt와 decrypt가 실행된다.
 
     즉 정리하면 (setq message...)와 authinfo.gpg에 id와 pw를 작성하면, mail을 작성하고 C-c  C-c를 눌러서 전송하면, 내부적으로 gpg라이브러리가 .authinfo.gpg를 decrypt한후 id와 pw을 읽어서 해당 smtp에 login하고 메시지를 전송하게 된다. 이 과정을 다시 설명해 보겠다.
 
-           *GPG 사용법*
-           . [1] authinfo에 다음을 기술한다.
-           machine smtp.fastmail.com login holy.frege@gmail.com password mypassword port 465
-           machine smtp.fastmail.com login holy_frege@fastmail.com password mypassword port 465
-           => fastmail은 app password를 기입하고, gmail은 2pass인증을 하지 않기 때문에 직접 pw를 입력했다.
+    *[참고] GPG 사용법*
+    . [1] authinfo에 다음을 기술한다.
+    machine smtp.fastmail.com login holy.frege@gmail.com password mypassword port 465
+    machine smtp.fastmail.com login holy_frege@fastmail.com password mypassword port 465
+    => fastmail은 app password를 기입하고, gmail은 2pass인증을 하지 않기 때문에 직접 pw를 입력했다.
        
-           . [2] authinfo를 encrypt 하기위해서 key를 만든다. key를 만들때 아래 질문을 참고한다.
-              gpg --full-generate-key 
+    . [2] authinfo를 encrypt 하기위해서 key를 만든다. key를 만들때 아래 질문을 참고한다.
+    gpg --full-generate-key 
 
-             - What kind of key do you want? (1) RSA and RSA (default)
-             - What keysize do you want? 4096
-             - How long should the key be valid? 0 (Key does not expire)
-             - Enter your name
-             - Enter your e-mail address
-             - Enter a comment for the key (not necessary, but can be used to identify it)
-             - If everything looks good, press O for “Okay”
-             - You will now be prompted for a passphrase. This is like a password for your encryption key, it should be secure and memorable!
-             - After entering the password, it will generate the new key. Move the mouse around or press keyboard keys to help generate entropy.
+    - What kind of key do you want? (1) RSA and RSA (default)
+    - What keysize do you want? 4096
+    - How long should the key be valid? 0 (Key does not expire)
+    - Enter your name
+    - Enter your e-mail address
+    - Enter a comment for the key (not necessary, but can be used to identify it)
+    - If everything looks good, press O for “Okay”
+    - You will now be prompted for a passphrase. This is like a password for your encryption key, it should be secure and memorable!
+    - After entering the password, it will generate the new key. Move the mouse around or press keyboard keys to help generate entropy.
 
-              gpg --list-keys로 key를 확인한다.
-        
-           - [3] gpg encrypt에 관해
-              .authinfo.gpg라는 파일을 만들고 .authinfo의 내용을 복사한다. 그리고 저장 하려고 하면 자연스럽게 encrypt menu가 뜨면서 gpg로 encrypt되어 저장된다. 이렇게 되는 이유는 gpg확장자를 갖는 파일은 무조건 gpg로 encrypt하기때문이다. 따라서 별도의 작업이 필요치는 않다. 그냥 저장하면 menu가 뜨고 menu에서 원하는 key를 선택하고 ok버튼을 누르면 encrypt되기 때문이다.
+      gpg --list-keys로 key를 확인한다.
 
-            - [4] 메일 보내기
-              여기까지 하고 mu4e로 들어가서 메일을 작성한 후에 C-c C-c로 메일을 보낸다.
-              error: no secret key가 없다면서 timeout이 걸릴 수 있다.  [[https://emacs.stackexchange.com/questions/27841/unable-to-decrypt-gpg-file-using-emacs-but-command-line-gpg-works][참조]]에 나와 있듯이 (setf epa-pinentry-mode 'loopback)을 .emacs.org에 추가시킨다. 이러면 timeout이 안걸리고 .authinfo.gpg를 decrypt해서 id,pw를 꺼내올 수 있다.
+      - [3] gpg encrypt에 관해
+        .authinfo.gpg라는 파일을 만들고 .authinfo의 내용을 복사한다. 그리고 저장 하려고 하면 자연스럽게 encrypt menu가 뜨면서 gpg로 encrypt되어 저장된다. 이렇게 되는 이유는 gpg확장자를 갖는 파일은 무조건 gpg로 encrypt하기때문이다. 따라서 별도의 작업이 필요치는 않다. 그냥 저장하면 menu가 뜨고 menu에서 원하는 key를 선택하고 ok버튼을 누르면 encrypt되기 때문이다.
+
+        - [4] 메일 보내기
+          여기까지 하고 mu4e로 들어가서 메일을 작성한 후에 C-c C-c로 메일을 보낸다.
+          error: no secret key가 없다면서 timeout이 걸릴 수 있다.  [[https://emacs.stackexchange.com/questions/27841/unable-to-decrypt-gpg-file-using-emacs-but-command-line-gpg-works][참조]]에 나와 있듯이 (setf epa-pinentry-mode 'loopback)을 .emacs.org에 추가시킨다. 이러면 timeout이 안걸리고 .authinfo.gpg를 decrypt해서 id,pw를 꺼내올 수 있다.
 
 :end: 
+:org에서메일보내는방법:
+(1) org로 편지 쓰고, 파일 첨부하기
+- org모드에서 글을 쓴다.
+- 첨부할 파일을 선택한다. (M-x mml-attach-file) 
+- C-c M-o (org-mime-org-buffer-htmlize)를 눌러서 보낸다.
+
+(2) org subtree 메일 보내기
+- org의 subtree에 커서를 위치한다.
+- C-c M-s (org-mime-org-subtree-htmlize)로 보낸다.
+:end:
+:orgmail관련설정:
+  - [X] org mode로 편지 쓰기 org mode로 편지를 쓰거나, image를
+    첨부하거나, 이미 있는 org file을 메일로 보낸다거나 할때
+    org-mime이라는 package를 사용한다. [[https://github.com/org-mime/org-mime][참조 ]]email의 body는 plain
+    text이다. 이것을 html포맷으로 바꿀 수 있다. org모드로 작성하고
+    html포맷으로 바꾸는 것이다. 이렇게 되면 link를 사용할 수 있고,
+    image,code block, formatted text를 사용할 수 있다는 장점이 있다.
+    - Formatted text (bold, italic, etc)
+  - Headings and subheadings
+    - Links
+    - Code blocks
+    - Images (that get attached correctly)
+    … anything that org-mode can convert to HTML
+
+- mu4e에서 org 문서 작성후 htmlize해서 보내기
+  - mu4e Compose mail에서 org로 글 작성 -> org-mime-htmlize해서 보낸다.
+  - mu4e Compose mail에서 editer buffer
+    (org-mime-edit-mail-in-org-mode) 를 실행하면 org buffer가
+    생긴다. 더많은 org 기능을 사용할 수 있다. 다 작성후에 C-c C-c를
+    누르고 org-mime-htmlize해서 보낸다. 단축키를 C-c M-e로
+    설정했다. 작성한 후 org-mime-htmlize(C-c C-h)를 실행후 보낸다.
+
+- org문서를 mail로 보내기
+  - org 문서에서 M-x org-mime org-buffer-htmlize(C-c M-o) 하면
+    compose창이 뜨고 바로 email로 전송할 수 있게 된다.
+
+- org문서의 특정 헤더를 mail로 보내기 
+  - org mode의 heading은 그 자체가 하나의 subtree다. org buffer에서
+    하나의 heading에 cursor를 두고 M-x
+    org-mime-org-subtree-htmlize(C-c M-s)를 하면 Mu4e의 Compose가
+    뜨고 해당 헤더를 title로 하는 메일을 보낼 수 있다.
+
+- org문서를 html로 바꿀때 css적용
+  - org-mime-change-element-style을 통해서 css속성을 적용할 수
+    있다. code는 pre 태그로 변환되는데, 이때 pre의 속성을 변경하면
+    된다.
+   
+- org문서나, mu4e에서 org로 작성해서 보낼때, 이상한점.
+  - section이 보인다.
+  - toc이 보인다.
+  - author가 보인다.
+=> 만일 안보이게 하렴녀 org-mime-export-option을 추가한다.
+
+6) 매번 mu4e에서 org-mime-htmlize를 해줘야하는 문제점.
+mu4e에서 작성하는 text는 plain text다. org로 작성해도 plain
+text다. 다양한 기능을 사용하는 html로 바꾸기 위해서는 매번 mail을
+작성하고 org-mime-htmlize를 해줘야한다. 이것을 자동으로 할수도
+있다. 하지만, 가끔은 plain text를 필요로 하는 경우가 있기 때문에
+경고창만 보내고 수동으로 org-mime-htmlize를 하는 방식을 추천한다.
+(add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
+자동으로 무조건 적용하려면 (add-hook 'message-send-hook
+'org-mime-htmlize)를 해주면 된다.
+
+:end:
+:org-capture_mail일정관리:
+[[https://github.com/daviwil/emacs-from-scratch/blob/master/show-notes/Emacs-Mail-05.org][참조]] mu4e를 사용하는 주된 이유 중 하나는 mail을 org일정관리에 사용할
+수 있다는 점이다. web에서 mail을 보는 대신 emacs라는 편집기에서 mail을
+볼수 있고, org파일을 손쉽게 mail로 보낼수 있는것도 mu4e를 사용하는
+주된 이유이긴 하나, 내 생각에 메일중에 중요한것은 org파일로 이동
+시켜서 일정관리에 사용될수 있다는 점 같다. 그것이 org-capture다.
+
+- 수행 시나리오 Mu4e를 실행한다. 메일 목록이 나와 있는 header view로
+  간다. cursor를 원하는 메일에 올려놓는다. M-x org-capture를
+  한다. menu에서 m을 선택하면, read later, Follow up을 선택한다.org
+  Edit buffer view가 보인다. 글을 작성하고 C-c C-c를 하면 헤당
+  header아래에 저장된다. 저장될때, mail의 link도 포함되어 있다. link를
+  open하면 mu4e가 다시 실행된다.  immediate-finish를 설정해서 더
+  빠르게 작업할 수 있다. 즉 mail의 header view에서 cursor를 특정메일에
+  놓고 org-capture를 하면 menu에서 m을 선택하고 어떤 항목에 넣을지를
+  선택만 하면 된다. org edit buffer를 띄어서 특정 내용을 적을 필요가
+  없다. 왜냐면 어차피 처리해야할 메일을 todo리스트로 정해서 올려만
+  두고 실제일은 나중에 할것이기 때문이다.
+
+  그런데 이것보다 더 빠르게 일을 처리할 수 있다. quick action을
+  사용하는 것이다.  quick action은 mail의 제목에 커서를 두고 M-x
+  org-capture를 입력하고 거기서 또 m을 누르고 r이나 f를 다시 누를
+  필요가 없다. mail 제목에 커서만 둔채로 a(action)을 누른다. 거기서
+  f,r을 눌러서 follow up, read later항목에 메일을 이동 시킬 수 있다.
+  
+- 설정
+1) mail이 저장될 org파일 설정: Org/Mail.org에 저장하기로
+   함. Org파일에는 2개의 header를 둔다. Read Later와 Follow
+   up이다. org-capture-template설정에 해당 header아래에 capture한
+   todo를 둘 것이다. 이제 mail을 보고, 나중에 읽고 해야 할것에는 Read
+   Later헤더아래에, Follow up해야 할것은 Follow 헤더 아래에 저장될
+   것이다.
+
+ 2) 나머지 설정 참고
+
+- org capture %i
+org-capture에서 %i를 넣으면 mu4e 헤더뷰에서 메일을 읽고 특정 문장을 block으로 지정한후 org-capture를 하면 해당 block이 todo list에 들어간다.
+
+- 여러가지 option
+%:subject
+%:from
+%:fromname
+%:to,%:toname
+%:date 
+
+- schedule과 deadline
+schedule은 to do time, deadline은 to be done time이다. 스케쥴은 시작일이라고 보면 된다. project가 6월3에 스케쥴되었다는건 그때 시작한다는 뜻이다. 생일축하 파티가 6월 9일이면 그 때 시작한다는 것이다. 반드시 deadline이 있는 건 아니다. project나 task에 따라 어떤 것들은 schedule만 있고, 어떤 것은 deadline만 있고, 또 다른 어떤 것은 schedule과 deadline이 같이 있다.
+1) schedule: %t
+2) deadline: org-read-date란 함수를 사용해서 자동으로 +2일에 끝나게 설정할 수 있다.
+
+- agenda file에 추가
+org/mail.org를 agenda file에 추가해야만 agenda로 관리 할 수 있다.
+
+- quick action
+mu4e에서 mail을 읽고 이것을 해야할일(todo)라고 판단하면 org-capture를 실행해서 org/mails.org의 todo list로 넘기는 작업을 했었는데, header view(mail list)에서 간단히 제목만 보고 to do list로 넘길수 있다. 메일을 읽지않고도 메일 제목만 보고 해야 할일로 넘길 수 있다는 것이다. 그런데 보통의 처리과정은 다음과 같다. 오늘 메일을 다 읽는다. 그리고 header view에서 처리한다. 이렇게 header view에서 처리하기 위해서는 immedietly finish를 세팅해야 한다.
+ :end:
 #+begin_src emacs-lisp
       (use-package mu4e			
         :ensure nil
         ;; :defer 20
         ;; :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/"
         ;; brew를 사용한 경우 아래에 있다.
-        :load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e/"
+        ;; :load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e/"
+        :load-path "/opt/homebrew/Cellar/mu/1.6.6/share/emacs/site-lisp/mu/mu4e"
         ;; :defer 20 ; Wait until 20 seconds after startup
         :config
         (require 'mu4e-org)
-
-
         (setq mail-user-agent 'mu4e-user-agent)
         ;; This is set to 't' to avoid mail syncing issues when using mbsync
         (setq mu4e-change-filenames-when-moving t)
@@ -1280,16 +1625,15 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
           (:maildir "/Gmail/[Gmail]/All Mail"  :key ?a))))
           ;; run mu4e in the background to sync mail periodically
         ;; (mu4e t)  
-        ;; (setq user-mail-address "holy.frege@gmail.com")
-        ;; (setq smtpmail-default-smtp-server "smtp.gmail.com")
-        ;; (setq smtpmail-smtp-server "smtp.gmail.com")
-        ;; (setq smtpmail-smtp-service 587))
+        (setq user-mail-address "holy.frege@gmail.com")
+        (setq smtpmail-default-smtp-server "smtp.gmail.com")
+        (setq smtpmail-smtp-server "smtp.gmail.com")
+        (setq smtpmail-smtp-service 587)
 
   ;; Use a specific key for signing by referencing its thumbprint(모든 메일에 gpg encrypt)
   ;; (setq mml-secure-openpgp-signers '("96136C86DAF5B7DCD7349E85FDF667618AC4B222"))
   ;; (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
 #+end_src
-
 #+begin_src emacs-lisp
     (use-package org-mime
     :ensure t
@@ -1322,116 +1666,7 @@ sub menu가 보이고 조건에  맞는 파일을 mark한다.
             (lambda ()
               (local-set-key "\C-c\M-s" 'org-mime-org-subtree-htmlize)))
 #+end_src
-:org_with_email:
-   - [X] org mode로 편지 쓰기 org mode로 편지를 쓰거나, image를
-     첨부하거나, 이미 있는 org file을 메일로 보낸다거나 할때
-     org-mime이라는 package를 사용한다. [[https://github.com/org-mime/org-mime][참조 ]]email의 body는 plain
-     text이다. 이것을 html포맷으로 바꿀 수 있다. org모드로 작성하고
-     html포맷으로 바꾸는 것이다. 이렇게 되면 link를 사용할 수 있고,
-     image,code block, formatted text를 사용할 수 있다는 장점이 있다.
-     - Formatted text (bold, italic, etc)
-   - Headings and subheadings
-     - Links
-     - Code blocks
-     - Images (that get attached correctly)
-     … anything that org-mode can convert to HTML
 
-1) mu4e에서 org 문서 작성후 htmlize해서 보내기
-   - mu4e Compose mail에서 org로 글 작성 -> org-mime-htmlize해서 보낸다.
-   - mu4e Compose mail에서 editer buffer
-     (org-mime-edit-mail-in-org-mode) 를 실행하면 org buffer가
-     생긴다. 더많은 org 기능을 사용할 수 있다. 다 작성후에 C-c C-c를
-     누르고 org-mime-htmlize해서 보낸다. 단축키를 C-c M-e로
-     설정했다. 작성한 후 org-mime-htmlize(C-c C-h)를 실행후 보낸다.
-
-2) org문서를 mail로 보내기
-   - org 문서에서 M-x org-mime org-buffer-htmlize(C-c M-o) 하면
-     compose창이 뜨고 바로 email로 전송할 수 있게 된다.
-
-3) org문서의 특정 헤더를 mail로 보내기 
-   - org mode의 heading은 그 자체가 하나의 subtree다. org buffer에서
-     하나의 heading에 cursor를 두고 M-x
-     org-mime-org-subtree-htmlize(C-c M-s)를 하면 Mu4e의 Compose가
-     뜨고 해당 헤더를 title로 하는 메일을 보낼 수 있다.
-
-4) org문서를 html로 바꿀때 css적용
-   - org-mime-change-element-style을 통해서 css속성을 적용할 수
-     있다. code는 pre 태그로 변환되는데, 이때 pre의 속성을 변경하면
-     된다.
-   
-5) org문서나, mu4e에서 org로 작성해서 보낼때, 이상한점.
-   - section이 보인다.
-   - toc이 보인다.
-   - author가 보인다.
-=> 만일 안보이게 하렴녀 org-mime-export-option을 추가한다.
-
-6) 매번 mu4e에서 org-mime-htmlize를 해줘야하는 문제점.
-mu4e에서 작성하는 text는 plain text다. org로 작성해도 plain
-text다. 다양한 기능을 사용하는 html로 바꾸기 위해서는 매번 mail을
-작성하고 org-mime-htmlize를 해줘야한다. 이것을 자동으로 할수도
-있다. 하지만, 가끔은 plain text를 필요로 하는 경우가 있기 때문에
-경고창만 보내고 수동으로 org-mime-htmlize를 하는 방식을 추천한다.
-(add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
-자동으로 무조건 적용하려면 (add-hook 'message-send-hook
-'org-mime-htmlize)를 해주면 된다.
-
-:end:
-:org-capture_mail일정관리:
-[[https://github.com/daviwil/emacs-from-scratch/blob/master/show-notes/Emacs-Mail-05.org][참조]] mu4e를 사용하는 주된 이유 중 하나는 mail을 org일정관리에 사용할
-수 있다는 점이다. web에서 mail을 보는 대신 emacs라는 편집기에서 mail을
-볼수 있고, org파일을 손쉽게 mail로 보낼수 있는것도 mu4e를 사용하는
-주된 이유이긴 하나, 내 생각에 메일중에 중요한것은 org파일로 이동
-시켜서 일정관리에 사용될수 있다는 점 같다. 그것이 org-capture다.
-
-- 수행 시나리오 Mu4e를 실행한다. 메일 목록이 나와 있는 header view로
-  간다. cursor를 원하는 메일에 올려놓는다. M-x org-capture를
-  한다. menu에서 m을 선택하면, read later, Follow up을 선택한다.org
-  Edit buffer view가 보인다. 글을 작성하고 C-c C-c를 하면 헤당
-  header아래에 저장된다. 저장될때, mail의 link도 포함되어 있다. link를
-  open하면 mu4e가 다시 실행된다.  immediate-finish를 설정해서 더
-  빠르게 작업할 수 있다. 즉 mail의 header view에서 cursor를 특정메일에
-  놓고 org-capture를 하면 menu에서 m을 선택하고 어떤 항목에 넣을지를
-  선택만 하면 된다. org edit buffer를 띄어서 특정 내용을 적을 필요가
-  없다. 왜냐면 어차피 처리해야할 메일을 todo리스트로 정해서 올려만
-  두고 실제일은 나중에 할것이기 때문이다.
-
-  그런데 이것보다 더 빠르게 일을 처리할 수 있다. quick action을
-  사용하는 것이다.  quick action은 mail의 제목에 커서를 두고 M-x
-  org-capture를 입력하고 거기서 또 m을 누르고 r이나 f를 다시 누를
-  필요가 없다. mail 제목에 커서만 둔채로 a(action)을 누른다. 거기서
-  f,r을 눌러서 follow up, read later항목에 메일을 이동 시킬 수 있다.
-  
-- 설정
-1) mail이 저장될 org파일 설정: Org/Mail.org에 저장하기로
-   함. Org파일에는 2개의 header를 둔다. Read Later와 Follow
-   up이다. org-capture-template설정에 해당 header아래에 capture한
-   todo를 둘 것이다. 이제 mail을 보고, 나중에 읽고 해야 할것에는 Read
-   Later헤더아래에, Follow up해야 할것은 Follow 헤더 아래에 저장될
-   것이다.
-
- 2) 나머지 설정 참고
-
-- org capture %i
-org-capture에서 %i를 넣으면 mu4e 헤더뷰에서 메일을 읽고 특정 문장을 block으로 지정한후 org-capture를 하면 해당 block이 todo list에 들어간다.
-
-- 여러가지 option
-%:subject
-%:from
-%:fromname
-%:to,%:toname
-%:date 
-
-- schedule과 deadline
-schedule은 to do time, deadline은 to be done time이다. 스케쥴은 시작일이라고 보면 된다. project가 6월3에 스케쥴되었다는건 그때 시작한다는 뜻이다. 생일축하 파티가 6월 9일이면 그 때 시작한다는 것이다. 반드시 deadline이 있는 건 아니다. project나 task에 따라 어떤 것들은 schedule만 있고, 어떤 것은 deadline만 있고, 또 다른 어떤 것은 schedule과 deadline이 같이 있다.
-1) schedule: %t
-2) deadline: org-read-date란 함수를 사용해서 자동으로 +2일에 끝나게 설정할 수 있다.
-
-- agenda file에 추가
-org/mail.org를 agenda file에 추가해야만 agenda로 관리 할 수 있다.
-
-- quick action
-mu4e에서 mail을 읽고 이것을 해야할일(todo)라고 판단하면 org-capture를 실행해서 org/mails.org의 todo list로 넘기는 작업을 했었는데, header view(mail list)에서 간단히 제목만 보고 to do list로 넘길수 있다. 메일을 읽지않고도 메일 제목만 보고 해야 할일로 넘길 수 있다는 것이다. 그런데 보통의 처리과정은 다음과 같다. 오늘 메일을 다 읽는다. 그리고 header view에서 처리한다. 이렇게 header view에서 처리하기 위해서는 immedietly finish를 세팅해야 한다.
- :end:
 ** org-alert
 #+begin_src emacs-lisp
   ;; (use-package alert
@@ -1483,5 +1718,10 @@ mu4e에서 mail을 읽고 이것을 해야할일(todo)라고 판단하면 org-ca
 (setq org-mobile-inbox-for-pull "~/org/flagged.org")
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+#+END_SRC
+** epresent
+#+BEGIN_SRC emacs-lisp
+  (use-package epresent
+  :ensure t)
 #+END_SRC
 

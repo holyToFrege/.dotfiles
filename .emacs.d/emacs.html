@@ -1,0 +1,2418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-09-15 Wed 06:45 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs From Scratch Configuration</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Holy Frege" />
+</head>
+<body>
+<div id="content">
+<h1 class="title">Emacs From Scratch Configuration</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd9d58e6">Start!</a></li>
+<li><a href="#org57aecb7">Package System Setup</a>
+<ul>
+<li><a href="#org62790e9">default package settings</a></li>
+<li><a href="#orgea85e38">automatically update packages</a></li>
+</ul>
+</li>
+<li><a href="#org995c381">Basic UI Configuration</a>
+<ul>
+<li><a href="#org920d53a">mark 영역 color설정</a></li>
+<li><a href="#org7a71cff">Font Configuration</a></li>
+</ul>
+</li>
+<li><a href="#orge9b4aa8">UI Configuration</a>
+<ul>
+<li><a href="#orgc61cd4f">Command Log Mode</a></li>
+<li><a href="#org401fe41">Color Theme</a></li>
+<li><a href="#orgd9340cc">Better Modeline</a></li>
+<li><a href="#org3d2e3ee">Which Key</a></li>
+<li><a href="#org10c3f35">Ivy and Counsel</a></li>
+<li><a href="#org7cd597f">Helpful Help Commands</a></li>
+<li><a href="#org14772b8">Text Scaling</a></li>
+<li><a href="#org6fbef19">Multiple Window</a></li>
+<li><a href="#orge589110">highlight indented mode</a></li>
+<li><a href="#org4efd3e6">ecb</a></li>
+<li><a href="#orgc23d3eb">neotree</a></li>
+</ul>
+</li>
+<li><a href="#org27ebb18">Org Mode</a>
+<ul>
+<li><a href="#orgd4dc3c3">Better Font Faces</a></li>
+<li><a href="#org3a513d0">Basic Config</a></li>
+<li><a href="#org78aab9d">Configure Babel Languages</a></li>
+<li><a href="#orgac79a39">Structure Templates</a></li>
+<li><a href="#org514cf28">Auto-tangle Configuration Files</a></li>
+<li><a href="#org3021d48">Org-gtd</a></li>
+<li><a href="#org8acdf0c">Org-capture</a></li>
+<li><a href="#org212fa31">org-download</a></li>
+<li><a href="#org3471eab">xetex</a></li>
+<li><a href="#orgbb4c8f7">oblivoir 설정</a></li>
+</ul>
+</li>
+<li><a href="#org06fc7bb">Development</a>
+<ul>
+<li><a href="#orgcdade97">company mode</a></li>
+<li><a href="#org49505e2">Languages Servrer Protocol</a></li>
+<li><a href="#org1afac14">Common Lisp [Programming Language]</a></li>
+<li><a href="#org932ece2">Prolog [Programming Language]</a></li>
+<li><a href="#org08e6172">Python [Programming Language]</a></li>
+<li><a href="#org0984faa">Projectile</a></li>
+<li><a href="#org07f8cb5">Terminal</a></li>
+<li><a href="#org724529f">Shell</a></li>
+<li><a href="#org42c38a1">Magit</a></li>
+<li><a href="#org9a496b5">Rainbow Delimiters</a></li>
+<li><a href="#org9edba13">Tramp</a></li>
+<li><a href="#org398adf0">Ruby</a></li>
+<li><a href="#org1560ba5">flyspell</a></li>
+<li><a href="#orgbd0915a">web development</a></li>
+</ul>
+</li>
+<li><a href="#orgc00c97c">File Management</a>
+<ul>
+<li><a href="#orgef54369">Dired</a></li>
+</ul>
+</li>
+<li><a href="#org031b57e">Applications</a>
+<ul>
+<li><a href="#orge445aea">docker</a></li>
+<li><a href="#org9c4df45">email(Mu4e)</a></li>
+<li><a href="#org4374dc8">org-alert</a></li>
+<li><a href="#org24aeb41">org presentation</a></li>
+<li><a href="#orgcd0ed5e">readtheorg</a></li>
+<li><a href="#org395f20a">reveal.js</a></li>
+<li><a href="#orgfea2d5c">lorem ipsum</a></li>
+<li><a href="#org4f270e3">yasnippet</a></li>
+<li><a href="#org3d0d631">mobileorg</a></li>
+<li><a href="#orgb72f876">epresent</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd9d58e6" class="outline-2">
+<h2 id="orgd9d58e6">Start!</h2>
+<div class="outline-text-2" id="text-orgd9d58e6">
+<p>
+기본적인 것을 설정한다. emacs.org는 .emac.d폴더에 넣어 둔다. 그리고 수정할때 마다, 추가할 때 마다 tangle에 의해서 자동으로 init.el이 만들어진다.
+</p>
+<ul class="org-ul">
+<li><code>[ evaluation ]</code></li>
+<li>eval-buffer</li>
+</ul>
+<p>
+buffer 전체를 해석한다.
+</p>
+<ul class="org-ul">
+<li>C-x e</li>
+</ul>
+<p>
+한문장을 해석한다.
+</p>
+<ul class="org-ul">
+<li>M-:</li>
+</ul>
+<p>
+minibuffer에서 해석한다.  현재의 mode에서 실행할 수 있는 장점이 있다.
+</p>
+<ul class="org-ul">
+<li>ns-command-modifier: command키를 meta로 한다.</li>
+<li>make-backup-files:  backup file을 만들지 않는다.
+<ul class="org-ul">
+<li>server socket directory: emacs &#x2013;daemon=a라고 하면 a라는  server socket file이 해당 폴더에 저장된다.</li>
+</ul></li>
+</ul>
+<ul class="org-ul">
+<li>(server-start)
+emacs를 실행시키면 server가 된다. frame을 닫으면 server도 stop된다. 즉 emacs화면을 유지한 상태에서 emacsclient의 접속을 받아 server의 기능을 유지한다. 우리는 화면(frame)을 닫아도 background에서 도는 daemon을 원하기 때문에 이 방법은 쓸 수 없다.</li>
+<li>emacs &#x2013;daemon
+emacs의 configuration을 실행한 후 daemon이 된다. background에서 계속 돈다.
+<ul class="org-ul">
+<li>emacs &#x2013;daemon=one_daemon
+emacs daemon에 이름을 줘서 여러개의 daemon을 만들 수 있다.</li>
+</ul></li>
+
+<li>[문제]
+emacs &#x2013;daemon으로 실행할 때 init.el을 실행한다. 그리고 daemon으로 동작한다. 이때 emacsclient -c로 새로운 frame을 만들고 접속할때, 이상한 frame이 만들어진다. font나 modeline이 이상하게 보여진다. 이것은 처음 만들어진 frame에서만 발생되는 현상이다. 그 이후에 frame을 만들면 정상적으로 보인다. 이것은 emacsclient -c가 first frame을 만들때 font나 modeline의 설정을 init.el에 있는것이 아닌 default값을 쓰기 때문이다. 즉 emacs daemon이 실행하면서 설정한 값들이 emacsclient -c로  실행될 때 init.el에 기술된 설정을 적용하지 않는것이다.</li>
+<li>[해결법]
+daemon이 init.el을 적용할때 hook을 걸어두는 것이다. frame이 만들어진 이후에 font나 modeline을 설정하게 만드는 함수를 만들고 hook을 걸어둔다. deamon이 hook을 실행하고,모든 설정을 수행한 후에 deamon을 돌고 emacsclient -c로 연결을 하면, frame이 만들어지는데 이때 hook이 실행되는 원리다. 약간 설명이 미흡한데 자세한 동작원리를 모르기 때문이다.</li>
+
+<li>initial-frame-alist, default-frame-alist
+frame 설정에 관련된 값들이 key,value쌍으로 저장된다. 최초의 frame관련 설정은 initial-frame-alist에 있고, default는 그 이후 만들어지는 frame에 대한 설정을 가지고 있다.</li>
+
+<li>[emacs server 사용법]
+emacs &#x2013;fd-daemon은 emacs daemon을 동작시킨다. daemon은 socket file을 가지고 있는데, 그 위치를 emacs.org설정파일에 /tmp/emacs1000/server라는 이름으로 기술되어 있다. emacsclient는 daemon에 접속하기 위해서 emacsclient -c &#x2013;server-socket-name=/tmp/emacs1000/server를 기술해야만 접속이 가능하다.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(server-start)
+(require 'cl-lib)
+(require 'org-protocol)
+
+(setq ns-command-modifier 'meta)
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq make-backup-files nil)
+;; (setq server-socket-dir "/tmp/emacs1000")
+(defvar holy/default-font-size 220)
+(defvar holy/default-variable-font-size 220)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org57aecb7" class="outline-2">
+<h2 id="org57aecb7">Package System Setup</h2>
+<div class="outline-text-2" id="text-org57aecb7">
+</div>
+<div id="outline-container-org62790e9" class="outline-3">
+<h3 id="org62790e9">default package settings</h3>
+<div class="outline-text-3" id="text-org62790e9">
+<p>
+emacs의 package관리 시스템은 old-school인 package가 있고, modern한 use-package가 있다. use-package로 package를 관리한다. 
+</p>
+<ul class="org-ul">
+<li>package-archive
+package repo를 지정한다.</li>
+<li>package-archive-contents</li>
+</ul>
+<p>
+package repo마다 가지고 있는 package 목록과 설치여부를 표시한 list
+</p>
+<ul class="org-ul">
+<li>package-initialize</li>
+</ul>
+<p>
+package-archive-contents에 installed로 표시된 package를 설치하고 load(autoload지시자가 있는 function을 실행)한다.
+</p>
+<ul class="org-ul">
+<li>package-refresh-contents</li>
+</ul>
+<p>
+package-archive-content를 update한다.
+</p>
+<ul class="org-ul">
+<li>use-package-always-ensure</li>
+</ul>
+<p>
+use-package는 package를 install, load, config할 수 있는데, install을 할때 ensure:t를 해주면 package가 system에 없을 경우 down받아서 install해준다. use-package를 사용하는 모든 경우에 system설치 여부를 확인하고 없으면 install하겠다는 function이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			 ("org" . "https://orgmode.org/elpa/")
+			 ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+
+  ;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgea85e38" class="outline-3">
+<h3 id="orgea85e38">automatically update packages</h3>
+<div class="outline-text-3" id="text-orgea85e38">
+<ul class="org-ul">
+<li>upgrade, update</li>
+</ul>
+<p>
+설치된 package를 update하려면, M-x list-package를 통해 repo에서 새로운 package content list를 다운받아서 비교를 통해서 update항목을 알려준다. U를 눌러 update를 하고 x를 눌러 실행한다. 매번 list-package로 update 유무를 판단하는것은 힘들다. 자동으로 하는 설정이다.
+7일, 오전 9시에 update를 하고 하기전에 prompt로 물어보게 했다.
+<code>NOTE</code>
+package update는 잘못된 package를 update를 할경우 설정이 꼬일 수 있다. 그래서 안사용해도 된다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(use-package auto-package-update
+   :custom
+   (auto-package-update-interval 7)
+   (auto-package-update-prompt-before-update t)
+   (auto-package-update-hide-results t)
+   :config
+   (auto-package-update-maybe)
+   (auto-package-update-at-time "09:00"))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org995c381" class="outline-2">
+<h2 id="org995c381">Basic UI Configuration</h2>
+<div class="outline-text-2" id="text-org995c381">
+<ul class="org-ul">
+<li>fringe-mode
+보여지는 화면의 좌우 여백(padding)을 준다고 생각하면 된다.</li>
+<li>do-list</li>
+</ul>
+<p>
+do-list는 python의 for 변수 in 배열 구문으로 보면된다.
+4가지 mode에는 line number를 disable하겠다는 뜻이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(setq inhibit-startup-message t)
+
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode 10)        ; Give some breathing room
+
+(menu-bar-mode -1)            ; Disable the menu bar
+
+;; Set up the visible bell
+(setq visible-bell t)
+
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+;; Disable line numbers for some modes
+(dolist (mode '(org-mode-hook
+		term-mode-hook
+		shell-mode-hook
+		eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org920d53a" class="outline-3">
+<h3 id="org920d53a">mark 영역 color설정</h3>
+<div class="outline-text-3" id="text-org920d53a">
+<ul class="org-ul">
+<li><p>
+mark 영역의 색을 변경한다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(set-face-attribute 'region nil :background "#834")
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7a71cff" class="outline-3">
+<h3 id="org7a71cff">Font Configuration</h3>
+<div class="outline-text-3" id="text-org7a71cff">
+<ul class="org-ul">
+<li>system에 설치되어야 하는 font는 2가지다. fixed-pitch-font(fira code;
+for coding), variable-pitch-font(문서작성용) 아래에서 다운받는다.</li>
+</ul>
+<p>
+<a href="https://github.com/tonsky/FiraCode">Fira Code</a> ,<a href="https://fonts.google.com/specimen/Cantarell">Cantarell</a> 
+</p>
+<ul class="org-ul">
+<li>아래 설정에 3개의 이름의 face가 설정되어
+있다. default,fixed-pitch,variable-pitch 이런 이름으로 선언만
+한것이다. mode에 진입하면, mode의 구성요소별로 해당 face를 선택할 수
+있다. face가 없는것은 default란 이름의 face가 적용되기 때문에
+대부분의 mode에서는 fira code retina 폰트로 설정될
+것이다. variable-pitch-mode에서는 variable-pitch를 face로 사용하기
+때문에 Cantarell로 보일 것이다.
+<ul class="org-ul">
+<li>modeline과 dired모드에서 한자가 나오고 icon이 깨지는 것은 M-x all-the-icons-install-fonts를 안해줘서 그렇다.</li>
+</ul></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+ (defun holy/set-font-faces ()		
+   (message "Setting faces!")
+   ;; (set-face-attribute 'default nil :font "Fira Code" :height holy/default-font-size)
+      (set-face-attribute 'default nil :font "Fira Code"  :height 180)
+   ;; (set-face-attribute 'default nil :font "Fira Code Retina-14" :height holy/default-font-size)
+
+       ;; Set the fixed pitch face
+   ;; (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height holy/default-font-size) 
+   (set-face-attribute 'fixed-pitch nil :font "Fira Code"  :height 180)
+       ;; Set the variable pitch face
+   ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height holy/default-font-size :weight 'regular)
+      (set-face-attribute 'variable-pitch nil :font "Cantarell"  :height 180)
+)
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+       (lambda (frame)
+	       (setq doom-modeline-icon t)
+	   (with-selected-frame frame
+		(holy/set-font-faces))))
+    (holy/set-font-faces))
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge9b4aa8" class="outline-2">
+<h2 id="orge9b4aa8">UI Configuration</h2>
+<div class="outline-text-2" id="text-orge9b4aa8">
+</div>
+<div id="outline-container-orgc61cd4f" class="outline-3">
+<h3 id="orgc61cd4f">Command Log Mode</h3>
+<div class="outline-text-3" id="text-orgc61cd4f">
+<p>
+command-log-mode]] 는 눌려지는 key를 화면에 표시해준다. 방송을 할때 주로 많이 쓰인다.
+clm/open-command-log-buffer를 실행하면 오른쪽에 buffer가 만들어지며 keybinding을 확인할 수 있다.
+<a href="https://github.com/lewang/command-log-mode">참조</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package command-log-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org401fe41" class="outline-3">
+<h3 id="org401fe41">Color Theme</h3>
+<div class="outline-text-3" id="text-org401fe41">
+<p>
+theme는 여러 종류가 있는데, doom theme가 가장 modern하다.
+<a href="https://github.com/hlissner/emacs-doom-themes">doom-themes</a> , <a href="https://github.com/hlissner/emacs-doom-themes/tree/screenshots">screenshots</a> 
+</p>
+<ul class="org-ul">
+<li>counsel-load-themes로 theme 둘러보기가 가능하다.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package doom-themes
+  :init (load-theme 'doom-monokai-spectrum t))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd9340cc" class="outline-3">
+<h3 id="orgd9340cc">Better Modeline</h3>
+<div class="outline-text-3" id="text-orgd9340cc">
+<p>
+doom-modeline]] , <a href="https://github.com/seagle0128/doom-modeline#customize">configuration options</a> 
+</p>
+
+<p>
+<b>NOTE:</b> doom modeline은 icon이 보여지는데, 이 아이콘은 다음과 같이 설치해야 보여진다. 
+`M-x all-the-icons-install-fonts` 
+</p>
+
+<ul class="org-ul">
+<li>doom-modeline-buffer-file-name-style</li>
+</ul>
+<p>
+buffer에 파일 경로도 보여준다.
+<a href="https://github.com/seagle0128/doom-modeline">모드라인</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(use-package all-the-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :config (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  :custom ((doom-modeline-height 18)))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3d2e3ee" class="outline-3">
+<h3 id="org3d2e3ee">Which Key</h3>
+<div class="outline-text-3" id="text-org3d2e3ee">
+<p>
+<a href="https://github.com/justbur/emacs-which-key">which-key</a> 
+Emacs에서 keybinding을 사용해서 명령어를 실행하는데, 명령어 candidates를 minibuffer에 보여준다. 예를 들어, C-x를 누르면 명령어에 대한 candidates가 보여진다.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org10c3f35" class="outline-3">
+<h3 id="org10c3f35">Ivy and Counsel</h3>
+<div class="outline-text-3" id="text-org10c3f35">
+<p>
+<a href="https://oremacs.com/swiper/">Ivy</a> 
+</p>
+<ul class="org-ul">
+<li>completion engine, minibuffer의 candidates를 보여주는 engine이다. 위에 봤던 which-key도 ivy의 completion의 engine을 사용한다.</li>
+<li><code>problem</code></li>
+</ul>
+<p>
+ivy completion의 문제가 있다. 예를 들어보자. C-x f(find-file)를 실행한다. test~.org라는 파일이 있다. 나는 새로운 file인 test.org를 새로 만들려고 한다. 그래서 mini buffer에 test.org를 친 후 엔터를 입력한다. test.org가 만들어지지 않고 test~.org가 열린다. 이것을 해결할려면 test다음에  C-M-j를 누르고 .org를 입력해야 한다.
+<a href="https://github.com/Yevgnen/ivy-rich">ivy-rich</a> 
+</p>
+<ul class="org-ul">
+<li>M-x를 치면 mini buffer에 candidates가 나오는게 ivy engine을 쓰기 때문이다.</li>
+
+<li>use-package(:diminish)</li>
+</ul>
+<p>
+modeline에 mode를 감춘다. load되는 mode가 너무 많아지면 지저분해지기 때문이다.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+	 :map ivy-minibuffer-map
+	 ("TAB" . ivy-alt-done)
+	 :map ivy-switch-buffer-map
+	 ("C-d" . ivy-switch-buffer-kill)
+	 :map ivy-reverse-i-search-map
+	 ("C-k" . ivy-previous-line)
+	 ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+(use-package counsel
+  :bind (("C-M-j" . 'counsel-switch-buffer)
+	 :map minibuffer-local-map
+	 ("C-r" . 'counsel-minibuffer-history))
+  :config
+  (counsel-mode 1))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7cd597f" class="outline-3">
+<h3 id="org7cd597f">Helpful Help Commands</h3>
+<div class="outline-text-3" id="text-org7cd597f">
+<p>
+<a href="https://github.com/Wilfred/helpful">Helpful</a> 
+</p>
+<ul class="org-ul">
+<li>describe-function, describe-variable과 같은 document는 built-in package나 counsel을 통해서 보는 것은 source와 간략한 설명뿐이다. helpful package는 좀 더 자세한 help document를 제공한다.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org14772b8" class="outline-3">
+<h3 id="org14772b8">Text Scaling</h3>
+<div class="outline-text-3" id="text-org14772b8">
+<p>
+<a href="https://github.com/abo-abo/hydra">Hydra</a> 
+</p>
+<ul class="org-ul">
+<li>hydra는 keybinding을 편리하게 해주는 package다. &lt;f2&gt; i key 가 increase character로 define되어 있을때 글자 크기를 키우기 위해서 &lt;f2&gt; i ,&lt;f2&gt; i , &lt;f2&gt; i&#x2026;를 계속 눌러서 키워야 한다. 이것을 간단히 하기 위해서 hydra를 사용한다.  hydra를 사용하면 &lt;f2&gt; i,i,i,i&#x2026;로 계속 키울수 있다. 아래에선 hydra-text-scale이란 function을 사용하고(M-x hydra..) 메뉴형식으로 보여지게 된다.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+  (use-package hydra)
+
+  (defhydra hydra-text-scale (:timeout 4)
+    "scale text"
+    ("j" text-scale-increase "in")
+    ("k" text-scale-decrease "out")
+    ("f" nil "finished" :exit t))
+
+;  (rune/leader-keys
+;    "ts" '(hydra-text-scale/body :which-key "scale text"))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6fbef19" class="outline-3">
+<h3 id="org6fbef19">Multiple Window</h3>
+<div class="outline-text-3" id="text-org6fbef19">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package ace-window
+:ensure t
+:init
+(progn
+(global-set-key [remap other-window] 'ace-window)
+(custom-set-faces
+'(aw-leading-char-face
+((t (:inherit ace-jump-face-foreground :height 3.0)))))
+))
+  ;; (use-package winum
+  ;;    :config
+  ;;    (winum-mode))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge589110" class="outline-3">
+<h3 id="orge589110">highlight indented mode</h3>
+<div class="outline-text-3" id="text-orge589110">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package highlight-indentation
+  :ensure t
+  :config
+  (add-hook 'enh-ruby-mode-hook
+	    (lambda () (highlight-indentation-current-column-mode)))
+    (add-hook 'coffee-mode-hook
+	  (lambda () (highlight-indentation-current-column-mode)))
+  )
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4efd3e6" class="outline-3">
+<h3 id="org4efd3e6">ecb</h3>
+<div class="outline-text-3" id="text-org4efd3e6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;;; activate ecb
+;; (require 'ecb)
+;; (require 'ecb-autoloads)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc23d3eb" class="outline-3">
+<h3 id="orgc23d3eb">neotree</h3>
+<div class="outline-text-3" id="text-orgc23d3eb">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (use-package neotree
+  :ensure t)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org27ebb18" class="outline-2">
+<h2 id="org27ebb18">Org Mode</h2>
+<div class="outline-text-2" id="text-org27ebb18">
+<p>
+<a href="https://orgmode.org/">Org Mode</a> 
+</p>
+</div>
+<div id="outline-container-orgd4dc3c3" class="outline-3">
+<h3 id="orgd4dc3c3">Better Font Faces</h3>
+<div class="outline-text-3" id="text-orgd4dc3c3">
+<ul class="org-ul">
+<li>-&lt;tab&gt;을 써서 dot으로 바꾸는 것은 regular expression을 사용한다.</li>
+<li>org mode에서 header는 org-level-1,2,3,&#x2026;으로 나타낸다. 각각의 header의 size를 설정하고 Cantarell이라는 가변폰트를 사용해서 face를 정의한다.</li>
+<li>code나 table의 경우는 고정폰트로 face를 정의한다.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(defun holy/org-font-setup ()
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+			  '(("^ *\\([-]\\) "
+			     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  ;; Set faces for heading levels
+  (dolist (face '((org-level-1 . 1.2)
+		  (org-level-2 . 1.1)
+		  (org-level-3 . 1.05)
+		  (org-level-4 . 1.0)
+		  (org-level-5 . 1.1)
+		  (org-level-6 . 1.1)
+		  (org-level-7 . 1.1)
+		  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a513d0" class="outline-3">
+<h3 id="org3a513d0">Basic Config</h3>
+<div class="outline-text-3" id="text-org3a513d0">
+<p>
+강의: <a href="https://youtu.be/VcgjTEa0kU4">Part 5</a> and <a href="https://youtu.be/PNE-mgkZ6HM">Part 6</a> 
+</p>
+
+<p>
+[org mode setup]
+</p>
+
+<ul class="org-ul">
+<li>org-indent-mode로 정렬을 한다.</li>
+<li>org file을 open하면, org-mode라는 function이 수행된다.  아래에서 use-package org도 org-mode를 수행한다고 보면된다.</li>
+<li>org-indent-mode:indent는 말그대로 org mode에서는 indentation을 하겠다는 뜻이다. 새로운 줄이 시작될때 띄어쓰기가 된다.</li>
+<li>varible-pitch-mode:org파일을 가변폰트로 쓰겠다는 뜻이다.</li>
+<li>visual-line-mode: line이 끝날때 word wrapping으로 line이 끝난다.</li>
+</ul>
+
+<p>
+[org agenda]
+</p>
+<ul class="org-ul">
+<li>org-agenda-start-log-mode</li>
+<li>org-log-done 'time</li>
+<li>org-log-into-drawer(org-add-note)</li>
+</ul>
+
+<p>
+agenda는 todo header를 뜻한다. agenda가 끝나면, 끝났다는 것을 기록하고 agenda view에서 볼때 언제 끝난지 표시될 수 있어야 한다. org-log-done은 끝나는 시간을 todo header에 표시해주고, start-log-mode를 true로 하면 agenda view에서 끝난시간이 기록되어 볼 수 있다. org-log-into-drawer는 agenda에 drawer를 만든다. drawer라는것은 서랍인데 agenda와 관련한 내용을 작성하고 서랍에 넣는다고 보면된다. org mode에서 header들은 tab키로 열고 닫을수 있다. header가 아닌면서 열고 닫는 기능을 갖는 게 drawer다. C-c C-z를 누르면 quick note를 작성하는데 작성이 끝난것을 org-log-into-drawer가 t로 되어 있으면 LOGBOOK이 만들어지면서, quick note가 저장된다
+</p>
+
+<ul class="org-ul">
+<li>org-agenda-files</li>
+</ul>
+<p>
+agenda view에서 보기 위해선 agenda들이 기록될 파일들이 특정위치에 있어야 한다.
+</p>
+
+<ul class="org-ul">
+<li>org-habit</li>
+</ul>
+<p>
+org-modules중에 org-habit이 enable되어야 한다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+    (add-hook 'org-mode-hook 'org-indent-mode)
+
+    (defun holy/org-mode-setup ()
+      (org-indent-mode)
+      (variable-pitch-mode 1)
+      (visual-line-mode 1))
+
+    (use-package org
+      :hook (org-mode . holy/org-mode-setup)
+      :config
+      (setq org-ellipsis " ▾"))
+
+;; org todo state
+  (setq org-todo-keywords '((sequence "☛ TODO(t)" "|" "✔ DONE(d)")
+			    (sequence "⚑ WAITING(w)" "|")
+			    (sequence "|" "✘ CANCELED(c)")))
+    ;;   (setq org-agenda-start-with-log-mode t)
+    ;;   (setq org-log-done 'time)
+    ;;   (setq org-log-into-drawer t)
+
+      (setq org-agenda-files
+	    '("~/org/tasks.org"
+	      "~/org/habits.org"
+	      "~/org/mail.org"
+	   "~/org/birthdays.org"))
+
+    ;;   (require 'org-habit)
+    ;;   (add-to-list 'org-modules 'org-habit)
+    ;;   (setq org-habit-graph-column 60)
+
+    ;;   (setq org-todo-keywords
+    ;;     '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+    ;;       (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+
+    ;;   (setq org-refile-targets
+    ;;     '(("Archive.org" :maxlevel . 1)
+    ;;       ("Tasks.org" :maxlevel . 1)))
+
+    ;;   ;; Save Org buffers after refiling!
+    ;;   (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+    ;;   (setq org-tag-alist
+    ;;     '((:startgroup)
+    ;;        ; Put mutually exclusive tags here
+    ;;        (:endgroup)
+    ;;        ("@errand" . ?E)
+    ;;        ("@home" . ?H)
+    ;;        ("@work" . ?W)
+    ;;        ("agenda" . ?a)
+    ;;        ("planning" . ?p)
+    ;;        ("publish" . ?P)
+    ;;        ("batch" . ?b)
+    ;;        ("note" . ?n)
+    ;;        ("idea" . ?i)))
+
+    ;;   ;; Configure custom agenda views
+    ;;   (setq org-agenda-custom-commands
+    ;;    '(("d" "Dashboard"
+    ;;      ((agenda "" ((org-deadline-warning-days 7)))
+    ;;       (todo "NEXT"
+    ;;         ((org-agenda-overriding-header "Next Tasks")))
+    ;;       (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+
+    ;;     ("n" "Next Tasks"
+    ;;      ((todo "NEXT"
+    ;;         ((org-agenda-overriding-header "Next Tasks")))))
+
+    ;;     ("W" "Work Tasks" tags-todo "+work-email")
+
+    ;;     ;; Low-effort next actions
+    ;;     ("e" tags-todo "+TODO=\"NEXT\"+Effort&lt;15&amp;+Effort&gt;0"
+    ;;      ((org-agenda-overriding-header "Low Effort Tasks")
+    ;;       (org-agenda-max-todos 20)
+    ;;       (org-agenda-files org-agenda-files)))
+
+    ;;     ("w" "Workflow Status"
+    ;;      ((todo "WAIT"
+    ;;             ((org-agenda-overriding-header "Waiting on External")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "REVIEW"
+    ;;             ((org-agenda-overriding-header "In Review")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "PLAN"
+    ;;             ((org-agenda-overriding-header "In Planning")
+    ;;              (org-agenda-todo-list-sublevels nil)
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "BACKLOG"
+    ;;             ((org-agenda-overriding-header "Project Backlog")
+    ;;              (org-agenda-todo-list-sublevels nil)
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "READY"
+    ;;             ((org-agenda-overriding-header "Ready for Work")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "ACTIVE"
+    ;;             ((org-agenda-overriding-header "Active Projects")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "COMPLETED"
+    ;;             ((org-agenda-overriding-header "Completed Projects")
+    ;;              (org-agenda-files org-agenda-files)))
+    ;;       (todo "CANC"
+    ;;             ((org-agenda-overriding-header "Cancelled Projects")
+    ;;              (org-agenda-files org-agenda-files)))))))
+
+    ;;   (setq org-capture-templates
+    ;;     `(("t" "Tasks / Projects")
+    ;;       ("tt" "Task" entry (file+olp "~/MyWorld/Projects/OrgFiles/Tasks.org" "Inbox")
+    ;;            "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+
+    ;;       ("j" "Journal Entries")
+    ;;       ("jj" "Journal" entry
+    ;;            (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
+    ;;            "\n* %&lt;%I:%M %p&gt; - Journal :journal:\n\n%?\n\n"
+    ;;            ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+    ;;            :clock-in :clock-resume
+    ;;            :empty-lines 1)
+    ;;       ("jm" "Meeting" entry
+    ;;            (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
+    ;;            "* %&lt;%I:%M %p&gt; - %a :meetings:\n\n%?\n\n"
+    ;;            :clock-in :clock-resume
+    ;;            :empty-lines 1)
+
+    ;;       ("w" "Workflows")
+    ;;       ("we" "Checking Email" entry (file+olp+datetree "~/MyWorld/Projects/OrgFiles/Journal.org")
+    ;;            "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+
+    ;;       ("m" "Metrics Capture")
+    ;;       ("mw" "Weight" table-line (file+headline "~/MyWorld/Projects/OrgFiles/Metrics.org" "Weight")
+    ;;        "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+
+    ;;   (define-key global-map (kbd "C-c j")
+    ;;     (lambda () (interactive) (org-capture nil "jj")))
+
+    ;;   (holy/org-font-setup))
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org73b7ecd" class="outline-4">
+<h4 id="org73b7ecd">Nicer Heading Bullets</h4>
+<div class="outline-text-4" id="text-org73b7ecd">
+<ul class="org-ul">
+<li>참조</li>
+</ul>
+<p>
+<a href="https://github.com/sabof/org-bullets">org-bullets</a> , <a href="https://github.com/integral-dw/org-superstar-mode">org-superstar-mode</a> 
+</p>
+<ul class="org-ul">
+<li>헤더의 level을 나타냄.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "▶" "●" "○" "●")))
+(font-lock-add-keywords 'org-mode
+			'(("^ *\\([-]\\) "
+			   (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdb93354" class="outline-4">
+<h4 id="orgdb93354">wrap region(org-emphasis)</h4>
+<div class="outline-text-4" id="text-orgdb93354">
+<ul class="org-ul">
+<li>org emphasis와 동일하다. region에 text style을 적용한다.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (use-package wrap-region
+     :config
+     (wrap-region-global-mode t)
+     (wrap-region-add-wrapper "~" "~" nil 'org-mode)  ; code
+     (wrap-region-add-wrapper "*" "*" nil 'org-mode)  ; bold
+     (wrap-region-add-wrapper "/" "/" nil 'org-mode)  ; italic
+     (wrap-region-add-wrapper "+" "+" nil 'org-mode)  ; strikethrough
+     (wrap-region-add-wrapper "=" "=" nil 'org-mode)) ; verbatim
+
+(setq org-emphasis-alist
+  '(("*" (bold :foreground "Orange" ))
+    ("/" (italic :foreground "Deep Sky Blue"))
+    ("_" (underline :foreground "#EEE2FF"))
+    ("=" (org-code :background "maroon" :foreground "white"))
+    ("~" (org-verbatim  :foreground "MidnightBlue"))
+    ("+" (:strike-through t))))
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5885903" class="outline-4">
+<h4 id="org5885903">Center Org Buffers</h4>
+<div class="outline-text-4" id="text-org5885903">
+<p>
+참조:  <a href="https://github.com/joostkremers/visual-fill-column">visual-fill-column</a> 
+</p>
+<ul class="org-ul">
+<li>org mode의 양 side에 padding을 붙인다. text는 center로 가게 한다.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(defun holy/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+	visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . holy/org-mode-visual-fill))
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78aab9d" class="outline-3">
+<h3 id="org78aab9d">Configure Babel Languages</h3>
+<div class="outline-text-3" id="text-org78aab9d">
+<p>
+참조:  <a href="https://orgmode.org/worg/org-contrib/babel/languages.html">This page</a> 
+</p>
+<ul class="org-ul">
+<li>literate programming을 할수 있다.  babel을 하기 위해선, 여기에 programming language를 등록도 하고, 해당되는 elisp package도 설치해야 하고, system에 interpreter나 compiler가 설치 되어 있어야 한다.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((emacs-lisp . t)
+    (ruby . t)
+    (python . t)))
+
+;; (push '("conf-unix" . conf-unix) org-src-lang-modes)
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgac79a39" class="outline-3">
+<h3 id="orgac79a39">Structure Templates</h3>
+<div class="outline-text-3" id="text-orgac79a39">
+<ul class="org-ul">
+<li>참고
+<a href="https://orgmode.org/manual/Structure-Templates.html">structure templates</a> , <a href="https://orgmode.org/worg/org-contrib/babel/languages.html">as it is known by Org Babel</a>.</li>
+</ul>
+<p>
+&lt;sh&lt;tab&gt; 을 누르면 template이 써진다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+;; This is needed as of Org 9.2
+(require 'org-tempo)
+
+(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("py" . "src python"))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org514cf28" class="outline-3">
+<h3 id="org514cf28">Auto-tangle Configuration Files</h3>
+<div class="outline-text-3" id="text-org514cf28">
+<ul class="org-ul">
+<li>tangle</li>
+</ul>
+<p>
+tangle이라는 것은 src_block에 기술한것을 특정 파일에 쓰는 것을
+뜻한다. 여기서는 emacs.org라는 파일에서 emacs에 대한 설정을
+src_block에 한다. 그런 다음 org-babel-tangle이라는 명령을 사용해서
+최상단에 지정된 init.el로 쓰는 작업을 하게 된다.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Automatically tangle our Emacs.org config file when we save it
+(defun holy/org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name)
+		      (expand-file-name "~/.emacs.d/emacs.org"))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'holy/org-babel-tangle-config)))
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3021d48" class="outline-3">
+<h3 id="org3021d48">Org-gtd</h3>
+<div class="outline-text-3" id="text-org3021d48">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package org-gtd
+  :after org
+  ;; :pin melpa-stable ;; or :pin melpa as you prefer
+  :demand t ;; without this, the package won't be loaded, so org-agenda won't be configured
+  :custom
+  ;; where org-gtd will put its files. This value is also the default one.
+  (org-gtd-directory "~/gtd/")
+  ;; package: https://github.com/Malabarba/org-agenda-property
+  ;; this is so you can see who an item was delegated to in the agenda
+  (org-agenda-property-list '("DELEGATED_TO"))
+  ;; I think this makes the agenda easier to read
+  (org-agenda-property-position 'next-line)
+  ;; package: https://www.nongnu.org/org-edna-el/
+  ;; org-edna is used to make sure that when a project task gets DONE,
+  ;; the next TODO is automatically changed to NEXT.
+  (org-edna-use-inheritance t)
+  :config
+  (org-edna-load)
+  :bind
+  (("C-c d c" . org-gtd-capture) ;; add item to inbox
+   ("C-c d a" . org-agenda-list) ;; see what's on your plate today
+   ("C-c d p" . org-gtd-process-inbox) ;; process entire inbox
+   ("C-c d n" . org-gtd-show-all-next) ;; see all NEXT items
+   ("C-c d s" . org-gtd-show-stuck-projects)) ;; see projects that don't have a NEXT item
+  :init
+  (bind-key "C-c c" 'org-gtd-clarify-finalize)) ;; the keybinding to hit when you're done editing an item in the processing phase
+
+(use-package org-agenda
+  :ensure nil ;; this is how you tell use-package to manage a sub-package
+  :after org-gtd ;; because we need to add the org-gtd directory to the agenda files
+  :custom
+  ;; use as-is if you don't have an existing org-agenda setup
+  ;; otherwise push the directory to the existing list
+  (org-agenda-files `(,org-gtd-directory))
+  ;; a useful view to see what can be accomplished today
+  (org-agenda-custom-commands '(("g" "Scheduled today and all NEXT items" ((agenda "" ((org-agenda-span 1))) (todo "NEXT"))))))
+
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8acdf0c" class="outline-3">
+<h3 id="org8acdf0c">Org-capture</h3>
+<div class="outline-text-3" id="text-org8acdf0c">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key global-map "\C-cc" 'org-capture)
+;; (setq org-default-notes-file (concat org-directory "/notes.org"))
+(setq org-capture-templates
+      (quote (("t" "today Todo" entry (file "~/org/2021/collection.org")
+	       "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+	      ("m" "Mail Related Todo Work" entry (file "~/org/2021/collection.org")
+	       "* TODO %?\n%T\n")
+	      ("w" "Web Related Work" entry (file+headline "~/org/2021/collection.org" "Web Captured")
+	       "* %? url is  %:link \n title is %:description \nCaptured On: %U\n body is %i")
+	      ("a" "Appointment" entry (file+headline 
+					"~/org/2021/collection.org" "Calendar") 
+	       "* APPT %^{Description} %^g  %?  Added: %U") 
+	      ("n" "Notes" entry (file+datetree 
+				   "~/org/2021/collection.org")
+		"* %^{Description} %^g %? Added: %U")
+	      ("k" "Todo" entry (file+headline "~/org/2021/test.org" "Tasks")
+		"* TODO %?\n  %i\n  %a")
+	       ("b" "Buy" item (file+olp "~/org/2021/test.org" "Stuff to Buy" "House")
+		"")
+	      ("i" "sudden rising Idea" entry (file+datetree "~/org/2021/collection.org")
+	       "* %?\n%T\n" :clock-in t :clock-resume t)
+	      ("h" "Habits(always daily do)" entry (file+datetree "~/org/2021/habits.org")
+	       "* %?\n%T\n" :clock-in t :clock-resume t))))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org212fa31" class="outline-3">
+<h3 id="org212fa31">org-download</h3>
+<div class="outline-text-3" id="text-org212fa31">
+<p>
+org모드에서 제공하는 image 처리 방법은 file system에 있는 image file을 link하는 것이다. 이것말고 이미지를  org buffer로 가져오는 다양한 방식이 있다. 외부의 image를 drag해서 이미지를 가져올수도 있고, file을 drag해서 가져올 수도 있다. osx에서 screenshot(Meta+shift+5)을 찍고 이것을 org mode에 paste할 수도 있다. 이런것들을 가능하게 해주는 package다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    ;; (use-package org-download
+    ;;     :after org
+    ;;     :defer nil
+    ;;     :custom
+    ;;     (org-download-method 'directory)
+    ;;     (org-download-image-dir "img")
+    ;;     (org-download-heading-lvl nil)
+    ;;     (org-download-timestamp "%Y%m%d-%H%M%S_")
+    ;;     (org-image-actual-width 300)
+    ;;     (org-download-screenshot-method "/usr/local/bin/pngpaste %s")
+    ;;     :bind
+    ;;     ("C-M-y" . org-download-screenshot)
+    ;;     :config
+    ;;     (require 'org-download)
+    ;;     (org-download-enable)
+    ;;     )
+  ;; (use-package org-download
+  ;;   :ensure t
+  ;;   :defer t
+  ;;   :init
+  ;;   ;; Add handlers for drag-and-drop when Org is loaded.
+  ;;     (with-eval-after-load 'org
+  ;;       (org-download-enable)))
+;; (load-file "mylisp/mydnd.el")
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3471eab" class="outline-3">
+<h3 id="org3471eab">xetex</h3>
+<div class="outline-text-3" id="text-org3471eab">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; (setq-default TeX-engine 'xetex)
+;; (setq-default TeX-PDF-mode t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbb4c8f7" class="outline-3">
+<h3 id="orgbb4c8f7">oblivoir 설정</h3>
+<div class="outline-text-3" id="text-orgbb4c8f7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-to-list 'org-latex-classes
+	  '("oblivoir"
+				      "\\documentclass{oblivoir}"
+				      ("\\section{%s}" . "\\section*{%s}")
+				      ("\\subsection{%s}" . "\\subsection*{%s}")
+				      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+				      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+				      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org06fc7bb" class="outline-2">
+<h2 id="org06fc7bb">Development</h2>
+<div class="outline-text-2" id="text-org06fc7bb">
+</div>
+<div id="outline-container-orgcdade97" class="outline-3">
+<h3 id="orgcdade97">company mode</h3>
+<div class="outline-text-3" id="text-orgcdade97">
+<ul class="org-ul">
+<li>complete anything의 준말. 모든 것을 완성시켜준다는 뜻이다. ivy도 completion engine을 가지고 있는데, 특정 keybinding 예를 들면, find-file(C-x C-f)의 경우 candidates를 minibuffer에 보여준다거나, mini buffer에서 일부 문자를 입력하면 해당되는 candidates를 보여준다. Company mode도 비슷하다. Company mode의 특징은 CAPF(Complete At Point Function)에 특화 된거 같다. buffer에서 입력한 문자열에 일치하는 function candidates popup으로 띄어준다. candidates는 어디서 가져오는가? backend가 있다. company만 설치하면, backend가 없기 때문에 이전에 친 문자열이 candidates가 된다. 아니면 mode에서 가져오는듯하다.</li>
+</ul>
+<p>
+<b>scratch</b> buffer로 가서 help라고 치면 candidates가 보일것이다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package company
+  :config
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 3)
+  (global-company-mode t))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org49505e2" class="outline-3">
+<h3 id="org49505e2">Languages Servrer Protocol</h3>
+<div class="outline-text-3" id="text-org49505e2">
+</div>
+<div id="outline-container-orga160681" class="outline-4">
+<h4 id="orga160681">Language Servers</h4>
+<div class="outline-text-4" id="text-orga160681">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; (defun holy/lsp-mode-setup ()
+;;   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+;;   (lsp-headerline-breadscrumb-mode t))
+
+;; (use-package lsp-mode
+;;   ;; :commands (lsp lsp-deferred)
+;;   ;; :hook (lsp-mode . holy/lsp-mode-setup)
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :custom
+;;   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+;;   (lsp-headerline-breadscrumb-mode t)
+;;   :config
+;;   (lsp-enable-which-key-integration t))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgee76529" class="outline-4">
+<h4 id="orgee76529">TypeScript</h4>
+<div class="outline-text-4" id="text-orgee76529">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1afac14" class="outline-3">
+<h3 id="org1afac14">Common Lisp [Programming Language]</h3>
+<div class="outline-text-3" id="text-org1afac14">
+<ul class="org-ul">
+<li>현재는 disable.  사용할때 설치하자.</li>
+<li>system에 interpreter를 설치한다.(brew install SBCL).</li>
+<li>slime을 설치한다. emacs에서는 slime을 제공한다. slime을 설치한다. slime mode가 제공하는건, system에 깔려있는 interpreter를 사용해서 code evaluation도 하지만, editor의 기능도 처리한다. definition finding, auto complete라던지 reference를 찾는 것도 지원한다.</li>
+</ul>
+<p>
+3.quicklisp을 설치한다. quick lisp은 common lisp의 package manager다. Library Manager로 부른다.
+library를 가져오고 설치하는것은 다음을 참고 한다.
+<a href="https://www.quicklisp.org/beta/#installation">참조</a>
+quicklisp을 설치할 때, 인증관련 문제가 생길 수 있다. 이때 다음~을 <a href="https://www.cs.dartmouth.edu/~sergey/cs59/lisp/sbcl-quicklisp-install-log.txt">참조</a>한다.
+quicklisp이란 폴더가 만들어지는데, 이 폴더를 emacs에서 참조한다. 나중에 system에 재설치시 참조해야 한다.
+</p>
+<ul class="org-ul">
+<li>slime-helper에 관해
+emacs에서 quicklisp을 사용하려면 helper의 도움이 있어야 한다. 그런데 이 helper는 sbcl에서 만든다.</li>
+</ul>
+<p>
+sbcl=&gt; (ql:quickload "quicklisp-slime-helper") 이렇게 하면
+slime-helper.el이 만들어지고 이를 emacs에서 추가한다.
+</p>
+<ul class="org-ul">
+<li>emacs에서 slime실행(M-x slime)</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; (use-package slime
+;; :init
+;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; (setq inferior-lisp-program "sbcl"))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org932ece2" class="outline-3">
+<h3 id="org932ece2">Prolog [Programming Language]</h3>
+<div class="outline-text-3" id="text-org932ece2">
+<ol class="org-ol">
+<li>swi-prolog를 설치한다.(brew install swi-prolog)</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org08e6172" class="outline-3">
+<h3 id="org08e6172">Python [Programming Language]</h3>
+<div class="outline-text-3" id="text-org08e6172">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0984faa" class="outline-3">
+<h3 id="org0984faa">Projectile</h3>
+<div class="outline-text-3" id="text-org0984faa">
+<ul class="org-ul">
+<li>참조</li>
+</ul>
+<p>
+<a href="https://projectile.mx/">Projectile</a> 
+</p>
+<ul class="org-ul">
+<li>project를 관리하는 app, project가 위치할 곳을 정해두고 거기서 project를 생성해야 처리가 된다.</li>
+<li>projectile-rg</li>
+</ul>
+<p>
+가장 많이 사용하는 grep인데, system에 ripgrep을 설치하고 사용한다.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  ;; NOTE: Set this to the folder where you keep your Git repos!
+  (when (file-directory-p "~/MyWorld/Projects/Code")
+    (setq projectile-project-search-path '("~/MyWorld/Projects/Code")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org07f8cb5" class="outline-3">
+<h3 id="org07f8cb5">Terminal</h3>
+<div class="outline-text-3" id="text-org07f8cb5">
+</div>
+<div id="outline-container-org4feaf7b" class="outline-4">
+<h4 id="org4feaf7b">terminal</h4>
+<div class="outline-text-4" id="text-org4feaf7b">
+<p>
+vterm을 추천한다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package term
+  :config
+  (setq explicit-shell-file-name "zsh")
+  (setq term-prompt-regexp "^[^#$%&gt;\n]*[#$%&gt;] *"))
+
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org587094b" class="outline-4">
+<h4 id="org587094b">Vterm</h4>
+<div class="outline-text-4" id="text-org587094b">
+<ul class="org-ul">
+<li>vterm을 설치하면 mgit이라던지 package manager와 꼬이는 문제가 있어보인다.</li>
+<li>vterm은 emacs native terminal이라서 빠르다.</li>
+<li>vterm을 사용하기 위해선, system에 cmake가 설치되어 있어야 한다. (brew install cmake libtool)</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; (use-package vterm
+;;   :commands vterm
+;;   :config
+;;   (setq vterm-max-scrollback 10000))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org724529f" class="outline-3">
+<h3 id="org724529f">Shell</h3>
+<div class="outline-text-3" id="text-org724529f">
+<p>
+eshell을 추천한다.
+</p>
+<p>
+osx system terminal에서 open -a 'Google Chrome'하면  terminal에서 chrome browser를 open할 수 있다. 보통은 alias를 써서 chrom,firefox로 호출한다. emacs의 eshell에서 chrome이나 firefox같은 외부 프로그램을  위와 같이 실행할 수 있다면 개발에 도움이 된다. 
+</p>
+
+<p>
+[1] eshell에서 외부프로그램 실행
+</p>
+
+<p>
+그런데  emacs의 eshell은 system의 shell과 path와 aliase가 동기화 되지 않기 때문에 직접 만들어주던가 system의 path와 alias를 가져오는 방식으로 한다.
+</p>
+<ul class="org-ul">
+<li>path: exec-path를 사용</li>
+<li>alias: eshell에서 alias chrome open -a "Google Chrome"를 입력하면 .emacs.d/eshell/alias에 파일로 alias가 기록된다. (ex: 현재 폴더 finder를 실행하기 위해선  alias f open .)
+물론 path도 addpath라는 명령어로 eshell에 적용할수 있다. 그러나 위의 path는 exec-path를 사용하기로 한다.
+path와 alias가 설정되면, eshell에서 chrome으로 chrome browser를  띄우거나, f를 눌러서 finder를 띄울 수 있다.</li>
+</ul>
+
+<p>
+[2] M!(shell command)로 외부 프로그램 실행하기
+path는 적용되나 alias는 적용되지 않는다. 그래서 open -a 'Google Chrome'과 같이 입력해야 한다. 이게 약간 불편하다. 
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun holy/configure-eshell ()
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+  (setq eshell-history-size                    10000
+	 eshell-buffer-maximum-lines 10000
+	 eshell-hist-ignoredups t
+	 eshell-scroll-to-bottom-on-input t))
+
+(use-package eshell-git-prompt)
+
+(use-package eshell
+  :hook (eshell-first-time-mode . holy/configure-eshell)
+  :config
+  (with-eval-after-load 'esh-opt
+     (setq eshell-destroy-buffer-when-process-dies t)
+     (setq eshell-visual-commands '("htop" "zsh" "vim" "less" "more")))
+  (eshell-git-prompt-use-theme 'powerline))
+
+ (use-package exec-path-from-shell)
+ (add-hook
+  'eshell-mode-hook
+  (lambda ()
+    (setq pcomplete-cycle-completions nil)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org42c38a1" class="outline-3">
+<h3 id="org42c38a1">Magit</h3>
+<div class="outline-text-3" id="text-org42c38a1">
+<ul class="org-ul">
+<li>참조</li>
+</ul>
+<p>
+<a href="https://magit.vc/">Magit</a> 
+</p>
+<ul class="org-ul">
+<li>forge</li>
+</ul>
+<p>
+forge는 github,gitlab과의 연동을 위해서 사용한다고 한다. issues라던지, pull request를 할수 있다. 자체적으로 db를 설치한후 github이나 gitlab에서 정보를 받아서 저장한다.
+</p>
+<ul class="org-ul">
+<li>magit-branch-read-upstream-first 'fallback</li>
+</ul>
+<p>
+magit에서 branch를 만드는 명령어가 안된다. 되게 해주는 setting
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+  (use-package magit
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+  ;; NOTE: Make sure to configure a GitHub token before using this package!
+  ;; - https://magit.vc/manual/forge/Token-Creation.html#Token-Creation
+  ;; - https://magit.vc/manual/ghub/Getting-Started.html#Getting-Started
+  (use-package forge)
+
+(setq magit-branch-read-upstream-first 'fallback)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9a496b5" class="outline-3">
+<h3 id="org9a496b5">Rainbow Delimiters</h3>
+<div class="outline-text-3" id="text-org9a496b5">
+<ul class="org-ul">
+<li>참조</li>
+</ul>
+<p>
+<a href="https://github.com/Fanael/rainbow-delimiters">rainbow-delimiters</a> 
+parenthesis topology를 color별로 나타낸다.
+show-paren-mode는 parenthesis를 쌍으로 check한다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(show-paren-mode 1)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9edba13" class="outline-3">
+<h3 id="org9edba13">Tramp</h3>
+<div class="outline-text-3" id="text-org9edba13">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;TRAMP
+(require 'tramp)
+(setq tramp-default-method "ssh")
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org398adf0" class="outline-3">
+<h3 id="org398adf0">Ruby</h3>
+<div class="outline-text-3" id="text-org398adf0">
+<p>
+setting은 <a href="https://worace.works/2016/06/07/getting-started-with-emacs-for-ruby/">다음</a>을 참조했다.
+</p>
+</div>
+<div id="outline-container-orge4cc1fe" class="outline-4">
+<h4 id="orge4cc1fe">ruby electric mode</h4>
+<div class="outline-text-4" id="text-orge4cc1fe">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package ruby-electric
+ :ensure t)
+(add-hook 'ruby-mode-hook 'ruby-electric-mode)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org154ba49" class="outline-4">
+<h4 id="org154ba49">rbenv</h4>
+<div class="outline-text-4" id="text-org154ba49">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package rbenv
+ :ensure t
+ :config
+ (setq rbenv-installation-dir "/opt/homebrew/rbenv")
+ (global-rbenv-mode)
+ (rbenv-use-global))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org07ede0e" class="outline-4">
+<h4 id="org07ede0e">seeing is believing</h4>
+<div class="outline-text-4" id="text-org07ede0e">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; (setq seeing-is-believing-prefix "C-.")
+;; (add-hook 'ruby-mode-hook 'seeing-is-believing)
+;; (require 'seeing-is-believing)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org286be67" class="outline-4">
+<h4 id="org286be67">inf-ruby</h4>
+<div class="outline-text-4" id="text-org286be67">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package inf-ruby
+  :ensure t)
+(autoload 'inf-ruby-minor-mode "inf-ruby" "Run an inferior Ruby process" t)
+(add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge410224" class="outline-4">
+<h4 id="orge410224">ruby extension settings</h4>
+<div class="outline-text-4" id="text-orge410224">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-to-list 'auto-mode-alist
+	     '("\\.\\(?:cap\\|gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist
+	     '("\\(?:Brewfile\\|Capfile\\|Gemfile\\(?:\\.[a-zA-Z0-9._-]+\\)?\\|[rR]akefile\\)\\'" . ruby-mode))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org89f3575" class="outline-4">
+<h4 id="org89f3575">ruby bundler settings</h4>
+<div class="outline-text-4" id="text-org89f3575">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-to-list 'load-path "~/.emacs.d/vendor/bundler.el")
+(require 'bundler)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga257b6d" class="outline-4">
+<h4 id="orga257b6d">projectile rails</h4>
+<div class="outline-text-4" id="text-orga257b6d">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package projectile-rails
+  :ensure t
+  :config
+  (projectile-rails-global-mode)
+  (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map)
+  )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orged2a6dd" class="outline-4">
+<h4 id="orged2a6dd">rinari</h4>
+<div class="outline-text-4" id="text-orged2a6dd">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0582fd3" class="outline-4">
+<h4 id="org0582fd3">robe</h4>
+<div class="outline-text-4" id="text-org0582fd3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (use-package robe
+  :ensure t
+  :config
+  (global-robe-mode)
+  (eval-after-load 'company
+  '(push 'company-robe company-backends))
+)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1560ba5" class="outline-3">
+<h3 id="org1560ba5">flyspell</h3>
+<div class="outline-text-3" id="text-org1560ba5">
+<p>
+osx에서는 brew install ispell을 해줘야 한다.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package flyspell
+  :ensure t
+  :config
+  (setq flyspell-issue-message-flg nil)
+  (add-hook 'enh-ruby-mode-hook
+	    (lambda () (flyspell-prog-mode)))
+  (add-hook 'web-mode-hook
+	  (lambda () (flyspell-prog-mode)))
+  ;; (ac-flyspell-workaround)
+)
+;; flyspell mode breaks auto-complete mode without this.
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbd0915a" class="outline-3">
+<h3 id="orgbd0915a">web development</h3>
+<div class="outline-text-3" id="text-orgbd0915a">
+</div>
+<div id="outline-container-org076be8b" class="outline-4">
+<h4 id="org076be8b">webmode</h4>
+<div class="outline-text-4" id="text-org076be8b">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  )
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  )
+(add-hook 'web-mode-hook  'my-web-mode-hook)    
+(setq tab-width 2)
+
+;; highlight of columns settings
+(setq web-mode-enable-current-column-highlight t)
+(setq web-mode-enable-current-element-highlight t)
+
+;; (defun my-web-mode-hook ()
+;;   (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files))
+;;   )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org80e949c" class="outline-4">
+<h4 id="org80e949c">emmet mode</h4>
+<div class="outline-text-4" id="text-org80e949c">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">      (use-package emmet-mode
+	:ensure t)
+(add-hook 'web-mode-hook  'emmet-mode)
+;; (add-hook 'web-mode-before-auto-complete-hooks
+;;             '(lambda ()
+;;                (let ((web-mode-cur-language
+;;                       (web-mode-language-at-pos)))
+;;                  (if (string= web-mode-cur-language "php")
+;;                      (yas-activate-extra-mode 'php-mode)
+;;                    (yas-deactivate-extra-mode 'php-mode))
+;;                  (if (string= web-mode-cur-language "css")
+;;                      (setq emmet-use-css-transform t)
+;;                    (setq emmet-use-css-transform nil)))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb005ead" class="outline-4">
+<h4 id="orgb005ead">js2 mode</h4>
+<div class="outline-text-4" id="text-orgb005ead">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc00c97c" class="outline-2">
+<h2 id="orgc00c97c">File Management</h2>
+<div class="outline-text-2" id="text-orgc00c97c">
+<ul class="org-ul">
+<li>^, dired-jump(C-x j)</li>
+</ul>
+<p>
+상위폴더로 이동, dired-jump는 현재 buffer에서 dired mode로 전환한다.
+</p>
+<ul class="org-ul">
+<li>C-o (dired-display-file)</li>
+</ul>
+<p>
+파일을 other window에서 open
+</p>
+<ul class="org-ul">
+<li>dired-listing-switch</li>
+</ul>
+<p>
+listing을 sorting한다. directory 먼저 나오고 그다음 file
+</p>
+<ul class="org-ul">
+<li>dired-hide-detail( open parenthesis )</li>
+</ul>
+<p>
+파일 이름만 나오게 한다.
+</p>
+<ul class="org-ul">
+<li>dired-toggle-marks</li>
+</ul>
+<p>
+하나의 파일을 m을 눌러 mark한 후 t를 누르면 mark된 파일 빼놓고 모든 파일이 mark된다.
+</p>
+<ul class="org-ul">
+<li>dired-mark-files-regex</li>
+</ul>
+<p>
+%키를 누르면 sub menu가 나온다. m(dired-mark-files-regex)을 선택하고 원하는 파일의 패턴을 입럭한다. 
+예를 들면, .org$; 이것은 org로 끝나는 파일을 의미한다.
+</p>
+<ul class="org-ul">
+<li>*</li>
+</ul>
+<p>
+sub menu가 보이고 조건에  맞는 파일을 mark한다.
+</p>
+<ul class="org-ul">
+<li><p>
+<code>[copy &amp; rename &amp; move]</code>
+</p>
+<ul class="org-ul">
+<li>c 
+copy single file</li>
+<li>C
+copy multiple marked file</li>
+</ul>
+<p>
+.R (rename &amp; move)
+ rename 할 이름을 입력한다.
+ rename할 이름을 minibuffer에 입력할때, 원하는 폴더로 이동해서 enter를 치면 move가 된다. 
+</p></li>
+
+<li><code>[ dred-dwim-target ]</code></li>
+</ul>
+<p>
+이 변수를 true로 setting하면 dwim을 사용할 수 있다. 예를 들어 dired buffer를 2개를 띄운 다음 copy를 하기 위해 C를 누르면 target의 위치가 열려진 direed buffer로 정해진다. target의 위치를 따로 정할 필요가 없다. 이런 것을 dwim이라고 한다. 
+</p>
+
+<ul class="org-ul">
+<li><code>[zip,unzip]</code></li>
+</ul>
+<p>
+가장 유용한 기능중 하나. 파일을 선택하고 Z를 누르면 zip,unzip할 수 있다. 확장자는 tar.gz다.
+만일 zip으로 압축하고 싶다면,
+</p>
+<ul class="org-ul">
+<li>dired-compress-files-alist의 값을 zip으로 하면 된다. 사용법은 describe-variable에서 살펴보면 된다.</li>
+
+<li><code>[other useful,helpful]</code></li>
+<li>shift-M
+file mode변경</li>
+<li>shift-t</li>
+</ul>
+<p>
+=&gt; 파일의 timestamp를 변경할 수 있다.
+</p>
+<ul class="org-ul">
+<li>shift-o
+파일의 owner를 변경</li>
+<li>shift-g</li>
+</ul>
+<p>
+=&gt;파일의 group을 변경
+</p>
+<ul class="org-ul">
+<li>shift-s</li>
+</ul>
+<p>
+=&gt; symbolic link를 만든다.
+</p>
+
+<ul class="org-ul">
+<li><code>[all-the-icons-dired-mode]</code></li>
+</ul>
+<p>
+=&gt; dired모드에 icon
+</p>
+
+<ul class="org-ul">
+<li><code>[dired-open]</code></li>
+</ul>
+<p>
+=&gt; dired mode에서 선택된 파일은 emacs내에서 처리한다. 외부 프로그램에서 처리하게 할 때 이 package를 설치하고 &amp;를 누르면 외부 프로그램을 사용할 수 있다.
+예를 들어, html=&gt;browser, png=&gt; adobe, mp3=&gt;mpv
+</p>
+
+<ul class="org-ul">
+<li>dired-listing-switches</li>
+</ul>
+<p>
+이것은 dired에서 sorting해서 보여주는 설정인데, mac에서는 ls란 utility가 전체 설치가 안되어 있어서 동작하지 않는다. 이것을 사용하기 위해선 brew install coreutils를 설치해야 agho라는 option을 처리할 수 있다. 또한 다른것도 처리해야 하는데, 나는 그냥 안쓰기로 했다.
+</p>
+
+<ul class="org-ul">
+<li><code>[dired-maybe-insert-subdir]</code></li>
+</ul>
+<p>
+매우 유용한 명령어, i key와 binding되어 있는데, subfolder를 볼때 새 버퍼를 띄우지 않는다. 하나의 buffer에서 subdir을 계속 보여줄 수 있다. 매우 유용한 명령어다.
+</p>
+</div>
+<div id="outline-container-orgef54369" class="outline-3">
+<h3 id="orgef54369">Dired</h3>
+<div class="outline-text-3" id="text-orgef54369">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package dired
+:ensure nil
+:commands (dired dired-jump)
+:bind (("C-x C-j" . dired-jump))
+;; :custom ((dired-listing-switches "-agho --group-directories-first"))
+)
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+;; (use-package dired-open
+;;   :config
+;;   (add-to-list 'dired-open-functions #'dired-open-xdg t)
+;;   (setq dired-open-extensions '(("png" . "feh")
+;;                                 ("mkv" . "mpv"))))
+
+(use-package dired-hide-dotfiles
+   :hook (dired-mode . dired-hide-dotfiles-mode)
+   :config 
+   (define-key dired-mode-map "H" 'dired-hide-dotfiles-mode))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org031b57e" class="outline-2">
+<h2 id="org031b57e">Applications</h2>
+<div class="outline-text-2" id="text-org031b57e">
+</div>
+<div id="outline-container-orge445aea" class="outline-3">
+<h3 id="orge445aea">docker</h3>
+<div class="outline-text-3" id="text-orge445aea">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; (use-package docker
+;;   :bind ("C-c d" . docker))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9c4df45" class="outline-3">
+<h3 id="org9c4df45">email(Mu4e)</h3>
+<div class="outline-text-3" id="text-org9c4df45">
+<ul class="org-ul">
+<li class="on"><code>[X]</code> isync 설치
+local에서 gmail과 sync를 할 프로그램을 설치한다. brew install isync</li>
+
+<li class="on"><code>[X]</code> <p>
+~/.mbsyncrc를 설정한다. 여길 <a href="file:///Users/holy/.mbsyncrc">참조</a>
+</p>
+<ul class="org-ul">
+<li>Mail폴더를 만든다. subFolder에 Gmail과 Fastmail을 만든다. 이것은 imap에서 가져올 메일을 저장하는 곳이다. PATH와 INBOX설정에 기술한다.</li>
+</ul>
+<ul class="org-ul">
+<li>여기서 passCmd와 certificateFile은 설명이 필요하다.</li>
+<li>[passCmd]: mail server에 login하기 위해선 id,pw가 필요하다. id는 위 항목중 user를 의미하고, pw는 pass를 사용했다.하지만, 지금은 pass는 보안문제로 사용되지 않는다. pass는 password를 직접 mbsyncrc파일에 기술하는 것이다. 반면  직접기록하는 대신에 특정파일에 적어놓고 이를 cat과 같은 명령어로 읽어들이거나 gpg를 사용한다. 나는 cat을 사용했고 해당 password는 gmail은 직접 파일에 기술했고, fast mail은 아래 설정에서 app password를 받아서 사용했다.
+ex) "cat ~/.oh-no-insecure-password"
+ex) gpg &#x2013;quiet &#x2013;for-your-eyes-only &#x2013;no-tty &#x2013;decrypt ~/.passwords/gmail.gpg</li>
+<li>인증서는 logbook에 적었는데, openssl을 통해서 gmail에 접속하면 gmail의 public key가 담긴 인증서를 얻을 수 있다. 얻은 인증서를 저장한 후 적용하면</li>
+</ul></li>
+</ul>
+<ul class="org-ul">
+<li class="on"><code>[X]</code> imap server를 설정한다. 
+google gmail과 fastmail을 web에서 접속한다. 접속후 설정화면으로 간다.
+<ul class="org-ul">
+<li>[gmail]: <a href="https://support.google.com/mail/answer/7126229?hl=en">설정법</a>, two-pass인증을 사용한다면, app password를 받아야 한다.아니면 less secure app으로 접속가능하게 해야 한다. <a href="https://myaccount.google.com/lesssecureapps?pli=1&amp;rapt=AEjHL4NfiM5-El5bbUyLjtgLtJR3Q8iaaB1U3ZOSHERUwRyureo_rGEIPZbph5C8sgVJIyt4Ag3uL8ujJdkfLEfc9Tc93oKGlw">참조</a></li>
+<li>[fastmail]: settings-&gt;password-&gt;app password</li>
+</ul></li>
+</ul>
+<ul class="org-ul">
+<li class="on"><code>[X]</code> 설정이 끝났으면 동기화 테스트를 한다.(mbsync -a)
+<ul class="org-ul">
+<li>two pass인증 에러는 Application-specific password required란 에러나 나온다.</li>
+<li>~/Mails/폴더에 가서 [Gmail]Sent Mail, [Gmail]Drafts&#x2026;와 같은 폴더가 있는지 확인해 본다.</li>
+<li>Error: SASL(-7): invalid parameter supplied: Parameter Error in /BuildRoot/Library/Caches/com.apple.xbs/Sources/passwordserver_saslplugins/passwordserver_saslplugins-192.30.1/plain_clienttoken.c near line 195 가 나서 AuthMechs PLAIN을 설정에 추가했다.</li>
+<li>Error: channel fastmail: far side box Inbox cannot be opened.</li>
+<li>Maildir warning: ignoring INBOX in <i>Users/holy/Mail/Fastmail</i>
+=&gt; Inbox관련 warning과 error는 mbsyncrc의 Inbox ~/Mail/Fastmail/Inbox/ 에서  ~/Mail/Fastmail/Inbox 로 바꿔줬더니 정상동작한다.</li>
+</ul></li>
+
+<li class="on"><code>[X]</code> mu를 설치한다. (brew install mu)
+<ul class="org-ul">
+<li>mu를 system에 설치하면, mu4e도 설치가 된다. emacs에서 mu4e를 load할때는 아래 path를 사용해서 load한다.
+path: /usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e</li>
+</ul></li>
+
+<li class="on"><code>[X]</code> mu init(예전 mu index) 실행한다. 저장된 mail에 indexing을 한다고 보면 된다. index tree를 만들어 검색을 빠르게 하는 것이다.
+(mu init &#x2013;maildir=~/Mail &#x2013;my-address=holy.frege@gmail.com &#x2013;my-address=holy_frege@fastmail.com)</li>
+
+<li class="on"><code>[X]</code> emacs에서 mu4e를 설정한다. 아래 코드 부분이다. mu를 설치할때 mu4e elisp들이 설치되는데 그경로(load-path)를 기술한다.
+<ul class="org-ul">
+<li>설치할 때 mu4e-meta.el이 newer than oldfile이라고 나오면 해당 load-path로가서 mu4e-meta.elc를 지우고 다시 byte compile한다.</li>
+<li>10분마다 자동 sync하기로 했다.</li>
+<li>mu4e <a href="https://www.djcbsoftware.nl/code/mu/mu4e/index.html">공식문서</a></li>
+</ul></li>
+
+<li class="on"><code>[X]</code> mu4e 실행 (M-x mu4e)
+<ul class="org-ul">
+<li>j o 를 누르고 maildir에서 [Gmail]/Sent Mail, [Gmail]Drafts, [Gmail]Trash,[Grmail]/All mails 이외의 것이 있나 확인한다. 왜냐면 우리는 imap에서 이 4개의 폴더로 email을 관리하고 이 폴더들이 gmail과 동기화해서 web에서 gmail을 볼때 보여야 하기 때문이다.</li>
+
+<li>C-c C-u: mbsync -a를 실행해서 update여부를 확인한다. mu4e main화면에 u를 눌러도 된다.</li>
+</ul></li>
+<li class="on"><code>[X]</code> Mu4e context(account) 설정</li>
+</ul>
+<ul class="org-ul">
+<li>설정에 대한 story
+<ul class="org-ul">
+<li class="on"><code>[X]</code> SMTP server 설정
+<ul class="org-ul">
+<li>mu4e에서 mail계정은 context로 불리기도 한다. 각각의 계정마다 아래 smtp server 설정을 해준다. gmail과 fastmail에서 snmp정보를 찾을 수 있다. googling해서 찾아서 기입하면 된다.</li>
+<li>smtpmail-smtp-server - The host where we connect to send mail</li>
+<li>smtpmail-smtp-service - The port number of the SMTP service (defaults to 25)</li>
+<li>smtpmail-stream-type - Determines whether SSL or TLS should be used when connecting</li>
+</ul></li>
+</ul></li>
+
+<li class="on"><code>[X]</code> Mail 작성법
+<ul class="org-ul">
+<li>C(compose)를 누른다.</li>
+<li>from, to , subject를 입력한다. from, to는 &lt;tab&gt;으로 list중 하나를 선정 가능하다.</li>
+<li>C-c C-c : send the message</li>
+<li>C-c C-k : discard the message</li>
+<li>C-c C-d : save message in Draft folder.</li>
+</ul></li>
+
+<li class="on"><code>[X]</code> mail 보내기 password문제.
+<ul class="org-ul">
+<li>mail을 보내기 위해 C-c C-c를 누르면 id와 pw를 물어본다. 이것을 물어보지 않고 자동화 할 수 있는 방법이 있다.</li>
+<li><p>
+~/.authinfo라는 파일을 만들고 pw를 저장한다음 (setq message-send-mail-function 'stmpmail-send-it)을 설정하면, smtpmail-send-it이 호출될때, auth-source라는 library를 사용한다. 이  library는 .authinfo라는 파일에서 정보를 읽어서 접속한 server에 입력한다. auth-sources는 authinfo외에도  ~/.authinfo.gpg, ~/.netrc라는 파일이 있으면 자동으로 읽는다.
+=&gt; (setq message-send-mail-function 'stmpmail-send-it)을 설정하고 .authinfo에 id와 pw만 작성하면 mail을 작성해서 보낼때 id와 pw를 입력하지 않아도 되지만, 보안에 문제가 있기 때문에 .authinfo.gpg라는 파일에 id와 pw를 작성하면 자동으로 gpg encrypt와 decrypt가 실행된다.
+</p>
+
+<p>
+즉 정리하면 (setq message&#x2026;)와 authinfo.gpg에 id와 pw를 작성하면, mail을 작성하고 C-c  C-c를 눌러서 전송하면, 내부적으로 gpg라이브러리가 .authinfo.gpg를 decrypt한후 id와 pw을 읽어서 해당 smtp에 login하고 메시지를 전송하게 된다. 이 과정을 다시 설명해 보겠다.
+</p>
+
+<p>
+<b>GPG 사용법</b>
+. [1] authinfo에 다음을 기술한다.
+machine smtp.fastmail.com login holy.frege@gmail.com password mypassword port 465
+machine smtp.fastmail.com login holy_frege@fastmail.com password mypassword port 465
+=&gt; fastmail은 app password를 기입하고, gmail은 2pass인증을 하지 않기 때문에 직접 pw를 입력했다.
+</p>
+
+<p>
+. [2] authinfo를 encrypt 하기위해서 key를 만든다. key를 만들때 아래 질문을 참고한다.
+   gpg &#x2013;full-generate-key 
+</p>
+
+<ul class="org-ul">
+<li>What kind of key do you want? (1) RSA and RSA (default)</li>
+<li>What keysize do you want? 4096</li>
+<li>How long should the key be valid? 0 (Key does not expire)</li>
+<li>Enter your name</li>
+<li>Enter your e-mail address</li>
+<li>Enter a comment for the key (not necessary, but can be used to identify it)</li>
+<li>If everything looks good, press O for “Okay”</li>
+<li>You will now be prompted for a passphrase. This is like a password for your encryption key, it should be secure and memorable!</li>
+<li><p>
+After entering the password, it will generate the new key. Move the mouse around or press keyboard keys to help generate entropy.
+</p>
+
+<p>
+gpg &#x2013;list-keys로 key를 확인한다.
+</p></li>
+</ul>
+<ul class="org-ul">
+<li>[3] gpg encrypt에 관해
+.authinfo.gpg라는 파일을 만들고 .authinfo의 내용을 복사한다. 그리고 저장 하려고 하면 자연스럽게 encrypt menu가 뜨면서 gpg로 encrypt되어 저장된다. 이렇게 되는 이유는 gpg확장자를 갖는 파일은 무조건 gpg로 encrypt하기때문이다. 따라서 별도의 작업이 필요치는 않다. 그냥 저장하면 menu가 뜨고 menu에서 원하는 key를 선택하고 ok버튼을 누르면 encrypt되기 때문이다.
+
+<ul class="org-ul">
+<li>[4] 메일 보내기
+여기까지 하고 mu4e로 들어가서 메일을 작성한 후에 C-c C-c로 메일을 보낸다.
+error: no secret key가 없다면서 timeout이 걸릴 수 있다.  <a href="https://emacs.stackexchange.com/questions/27841/unable-to-decrypt-gpg-file-using-emacs-but-command-line-gpg-works">참조</a>에 나와 있듯이 (setf epa-pinentry-mode 'loopback)을 .emacs.org에 추가시킨다. 이러면 timeout이 안걸리고 .authinfo.gpg를 decrypt해서 id,pw를 꺼내올 수 있다.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    (use-package mu4e			
+      :ensure nil
+      ;; :defer 20
+      ;; :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/"
+      ;; brew를 사용한 경우 아래에 있다.
+      ;; :load-path "/usr/local/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e/"
+      :load-path "/opt/homebrew/Cellar/mu/1.4.15/share/emacs/site-lisp/mu/mu4e"
+      ;; :defer 20 ; Wait until 20 seconds after startup
+      :config
+      (require 'mu4e-org)
+
+
+      (setq mail-user-agent 'mu4e-user-agent)
+      ;; This is set to 't' to avoid mail syncing issues when using mbsync
+      (setq mu4e-change-filenames-when-moving t)
+      ;; Refresh mail using isync every 10 minutes
+      (setq mu4e-update-interval (* 10 60))
+      (setq mu4e-get-mail-command "mbsync -a")
+      (setq mu4e-maildir "~/Mail")
+      ;; Make sure plain text mails flow correctly for recipients
+      (setq mu4e-compose-format-flowed t)
+
+      (setq message-send-mail-function 'smtpmail-send-it)
+      (setf epa-pinentry-mode 'loopback)
+      ;; mu4e sending message settings(smtp)
+      (setq mu4e-contexts
+	 (list
+	 ;; Work account(gmail-holy.frege)
+	 (make-mu4e-context
+	  :name "public_mail(gmail)"
+	  :match-func
+	    (lambda (msg)
+	      (when msg
+		(string-prefix-p "/Gmail" (mu4e-message-field msg :maildir))))
+	  :vars '((user-mail-address . "holy.frege@gmail.com")
+		  (user-full-name    . "Holy Frege work_mail")
+		  (smtpmail-smtp-server  . "smtp.gmail.com")
+		  (smtpmail-smtp-service . 465)
+		  (smtpmail-stream-type  . ssl)
+		  (mu4e-compose-signature .
+		  (concat 
+		       "This is my public email\n"
+		       "When there's a will to fail, obstacles can be found.\n"
+		       "- John McCarthy\n"))
+		  (mu4e-drafts-folder  . "/Gmail/[Gmail]/Drafts")
+		  (mu4e-sent-folder  . "/Gmail/[Gmail]/Sent Mail")
+		  (mu4e-refile-folder  . "/Gmail/[Gmail]/All Mail")
+		  (mu4e-trash-folder  . "/Gmail/[Gmail]/Trash")))
+
+	 ;; Personal account(fastmail)
+	 (make-mu4e-context
+	  :name "Private_mail(fastmail)"
+	  :match-func
+	    (lambda (msg)
+	      (when msg
+		(string-prefix-p "/Fastmail" (mu4e-message-field msg :maildir))))
+	  :vars '((user-mail-address . "holy_frege@fastmail.com")
+		  (user-full-name    . "Holy Frege Personal_mail")
+		  (smtpmail-smtp-server  . "smtp.fastmail.com")
+		  (smtpmail-smtp-service . 465)
+		  (smtpmail-stream-type  . ssl)
+		  (mu4e-compose-signature .
+		  (concat 
+		       "This is my private email\n"
+		       "When no idea seems right, the right one must seem wrong\n"
+		       "-Marvin Minsky\n"))
+		  (mu4e-drafts-folder  . "/Fastmail/Drafts")
+		  (mu4e-sent-folder  . "/Fastmail/Sent")
+		  (mu4e-spam-folder  . "/Fastmail/Spam")
+		  (mu4e-refile-folder  . "/Fastmail/Archive")
+		  (mu4e-trash-folder  . "/Fastmail/Trash")))))
+      ;; %a: 메일의 title이다.
+      ;; %i: mail의 특정 text영역을 block한후 paste한다. 
+
+  ;; quick action
+     (defun holy/capture-mail-follow-up (msg)
+	(interactive)
+	(call-interactively 'org-store-link)
+	(org-capture nil "mf"))
+
+     (defun holy/capture-mail-read-later (msg)
+	(interactive)
+	(call-interactively 'org-store-link)
+	(org-capture nil "mr"))
+	;; Add custom actions for our capture templates
+     (add-to-list 'mu4e-headers-actions
+	 '("follow up" . holy/capture-mail-follow-up) t)
+     (add-to-list 'mu4e-view-actions
+	 '("follow up" . holy/capture-mail-follow-up) t)
+     (add-to-list 'mu4e-headers-actions
+	 '("read later" . holy/capture-mail-read-later) t)
+     (add-to-list 'mu4e-view-actions
+	 '("read later" . holy/capture-mail-read-later) t)
+
+     (setq mu4e-maildir-shortcuts
+      '((:maildir "/Gmail/Inbox"    :key ?i)
+	(:maildir "/Gmail/[Gmail]/Sent Mail" :key ?s)
+	(:maildir "/Gmail/[Gmail]/Trash"     :key ?t)
+	(:maildir "/Gmail/[Gmail]/Drafts"    :key ?d)
+	(:maildir "/Gmail/[Gmail]/All Mail"  :key ?a))))
+	;; run mu4e in the background to sync mail periodically
+      ;; (mu4e t)  
+      ;; (setq user-mail-address "holy.frege@gmail.com")
+      ;; (setq smtpmail-default-smtp-server "smtp.gmail.com")
+      ;; (setq smtpmail-smtp-server "smtp.gmail.com")
+      ;; (setq smtpmail-smtp-service 587))
+
+;; Use a specific key for signing by referencing its thumbprint(모든 메일에 gpg encrypt)
+;; (setq mml-secure-openpgp-signers '("96136C86DAF5B7DCD7349E85FDF667618AC4B222"))
+;; (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  (use-package org-mime
+  :ensure t
+    :config
+    (setq org-mime-export-options '(:section-numbers nil
+				    :with-author nil
+				    :with-toc nil))
+    (add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
+    ;; (add-hook 'message-send-hook 'org-mime-htmlize)
+    (add-hook 'org-mime-html-hook
+       (lambda ()
+	  (org-mime-change-element-style
+	   "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+			 "#E6E1DC" "#232323"))))
+  )
+
+(add-hook 'message-mode-hook
+	  (lambda ()
+	    (local-set-key "\C-c\M-e" 'org-mime-edit-mail-in-org-mode)))
+
+(add-hook 'message-mode-hook
+	  (lambda ()
+	    (local-set-key "\C-c\M-h" 'org-mime-htmlize)))
+
+(add-hook 'org-mode-hook
+	  (lambda ()
+	    (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+
+(add-hook 'org-mode-hook
+	  (lambda ()
+	    (local-set-key "\C-c\M-s" 'org-mime-org-subtree-htmlize)))
+</pre>
+</div>
+<ul class="org-ul">
+<li class="on"><code>[X]</code> org mode로 편지 쓰기 org mode로 편지를 쓰거나, image를
+첨부하거나, 이미 있는 org file을 메일로 보낸다거나 할때
+org-mime이라는 package를 사용한다. <a href="https://github.com/org-mime/org-mime">참조 </a>email의 body는 plain
+text이다. 이것을 html포맷으로 바꿀 수 있다. org모드로 작성하고
+html포맷으로 바꾸는 것이다. 이렇게 되면 link를 사용할 수 있고,
+image,code block, formatted text를 사용할 수 있다는 장점이 있다.
+<ul class="org-ul">
+<li>Formatted text (bold, italic, etc)</li>
+</ul></li>
+<li><p>
+Headings and subheadings
+</p>
+<ul class="org-ul">
+<li>Links</li>
+<li>Code blocks</li>
+<li>Images (that get attached correctly)</li>
+</ul>
+<p>
+… anything that org-mode can convert to HTML
+</p></li>
+</ul>
+<ol class="org-ol">
+<li>mu4e에서 org 문서 작성후 htmlize해서 보내기
+<ul class="org-ul">
+<li>mu4e Compose mail에서 org로 글 작성 -&gt; org-mime-htmlize해서 보낸다.</li>
+<li>mu4e Compose mail에서 editer buffer
+(org-mime-edit-mail-in-org-mode) 를 실행하면 org buffer가
+생긴다. 더많은 org 기능을 사용할 수 있다. 다 작성후에 C-c C-c를
+누르고 org-mime-htmlize해서 보낸다. 단축키를 C-c M-e로
+설정했다. 작성한 후 org-mime-htmlize(C-c C-h)를 실행후 보낸다.</li>
+</ul></li>
+
+<li>org문서를 mail로 보내기
+<ul class="org-ul">
+<li>org 문서에서 M-x org-mime org-buffer-htmlize(C-c M-o) 하면
+compose창이 뜨고 바로 email로 전송할 수 있게 된다.</li>
+</ul></li>
+
+<li>org문서의 특정 헤더를 mail로 보내기 
+<ul class="org-ul">
+<li>org mode의 heading은 그 자체가 하나의 subtree다. org buffer에서
+하나의 heading에 cursor를 두고 M-x
+org-mime-org-subtree-htmlize(C-c M-s)를 하면 Mu4e의 Compose가
+뜨고 해당 헤더를 title로 하는 메일을 보낼 수 있다.</li>
+</ul></li>
+
+<li>org문서를 html로 바꿀때 css적용
+<ul class="org-ul">
+<li>org-mime-change-element-style을 통해서 css속성을 적용할 수
+있다. code는 pre 태그로 변환되는데, 이때 pre의 속성을 변경하면
+된다.</li>
+</ul></li>
+
+<li>org문서나, mu4e에서 org로 작성해서 보낼때, 이상한점.
+<ul class="org-ul">
+<li>section이 보인다.</li>
+<li>toc이 보인다.</li>
+<li>author가 보인다.</li>
+</ul></li>
+</ol>
+<p>
+=&gt; 만일 안보이게 하렴녀 org-mime-export-option을 추가한다.
+</p>
+
+<ol class="org-ol">
+<li>매번 mu4e에서 org-mime-htmlize를 해줘야하는 문제점.</li>
+</ol>
+<p>
+mu4e에서 작성하는 text는 plain text다. org로 작성해도 plain
+text다. 다양한 기능을 사용하는 html로 바꾸기 위해서는 매번 mail을
+작성하고 org-mime-htmlize를 해줘야한다. 이것을 자동으로 할수도
+있다. 하지만, 가끔은 plain text를 필요로 하는 경우가 있기 때문에
+경고창만 보내고 수동으로 org-mime-htmlize를 하는 방식을 추천한다.
+(add-hook 'message-send-hook 'org-mime-confirm-when-no-multipart)
+자동으로 무조건 적용하려면 (add-hook 'message-send-hook
+'org-mime-htmlize)를 해주면 된다.
+</p>
+<p>
+<a href="https://github.com/daviwil/emacs-from-scratch/blob/master/show-notes/Emacs-Mail-05.org">참조</a> mu4e를 사용하는 주된 이유 중 하나는 mail을 org일정관리에 사용할
+수 있다는 점이다. web에서 mail을 보는 대신 emacs라는 편집기에서 mail을
+볼수 있고, org파일을 손쉽게 mail로 보낼수 있는것도 mu4e를 사용하는
+주된 이유이긴 하나, 내 생각에 메일중에 중요한것은 org파일로 이동
+시켜서 일정관리에 사용될수 있다는 점 같다. 그것이 org-capture다.
+</p>
+
+<ul class="org-ul">
+<li><p>
+수행 시나리오 Mu4e를 실행한다. 메일 목록이 나와 있는 header view로
+간다. cursor를 원하는 메일에 올려놓는다. M-x org-capture를
+한다. menu에서 m을 선택하면, read later, Follow up을 선택한다.org
+Edit buffer view가 보인다. 글을 작성하고 C-c C-c를 하면 헤당
+header아래에 저장된다. 저장될때, mail의 link도 포함되어 있다. link를
+open하면 mu4e가 다시 실행된다.  immediate-finish를 설정해서 더
+빠르게 작업할 수 있다. 즉 mail의 header view에서 cursor를 특정메일에
+놓고 org-capture를 하면 menu에서 m을 선택하고 어떤 항목에 넣을지를
+선택만 하면 된다. org edit buffer를 띄어서 특정 내용을 적을 필요가
+없다. 왜냐면 어차피 처리해야할 메일을 todo리스트로 정해서 올려만
+두고 실제일은 나중에 할것이기 때문이다.
+</p>
+
+<p>
+그런데 이것보다 더 빠르게 일을 처리할 수 있다. quick action을
+사용하는 것이다.  quick action은 mail의 제목에 커서를 두고 M-x
+org-capture를 입력하고 거기서 또 m을 누르고 r이나 f를 다시 누를
+필요가 없다. mail 제목에 커서만 둔채로 a(action)을 누른다. 거기서
+f,r을 눌러서 follow up, read later항목에 메일을 이동 시킬 수 있다.
+</p></li>
+
+<li>설정</li>
+<li>mail이 저장될 org파일 설정: Org/Mail.org에 저장하기로
+함. Org파일에는 2개의 header를 둔다. Read Later와 Follow
+up이다. org-capture-template설정에 해당 header아래에 capture한
+todo를 둘 것이다. 이제 mail을 보고, 나중에 읽고 해야 할것에는 Read
+Later헤더아래에, Follow up해야 할것은 Follow 헤더 아래에 저장될
+것이다.
+
+<ol class="org-ol">
+<li>나머지 설정 참고</li>
+</ol></li>
+
+<li>org capture %i</li>
+</ul>
+<p>
+org-capture에서 %i를 넣으면 mu4e 헤더뷰에서 메일을 읽고 특정 문장을 block으로 지정한후 org-capture를 하면 해당 block이 todo list에 들어간다.
+</p>
+
+<ul class="org-ul">
+<li>여러가지 option</li>
+</ul>
+<p>
+%:subject
+%:from
+%:fromname
+%:to,%:toname
+%:date 
+</p>
+
+<ul class="org-ul">
+<li>schedule과 deadline</li>
+</ul>
+<p>
+schedule은 to do time, deadline은 to be done time이다. 스케쥴은 시작일이라고 보면 된다. project가 6월3에 스케쥴되었다는건 그때 시작한다는 뜻이다. 생일축하 파티가 6월 9일이면 그 때 시작한다는 것이다. 반드시 deadline이 있는 건 아니다. project나 task에 따라 어떤 것들은 schedule만 있고, 어떤 것은 deadline만 있고, 또 다른 어떤 것은 schedule과 deadline이 같이 있다.
+</p>
+<ol class="org-ol">
+<li>schedule: %t</li>
+<li>deadline: org-read-date란 함수를 사용해서 자동으로 +2일에 끝나게 설정할 수 있다.</li>
+
+<li>agenda file에 추가</li>
+</ol>
+<p>
+org/mail.org를 agenda file에 추가해야만 agenda로 관리 할 수 있다.
+</p>
+
+<ul class="org-ul">
+<li>quick action</li>
+</ul>
+<p>
+mu4e에서 mail을 읽고 이것을 해야할일(todo)라고 판단하면 org-capture를 실행해서 org/mails.org의 todo list로 넘기는 작업을 했었는데, header view(mail list)에서 간단히 제목만 보고 to do list로 넘길수 있다. 메일을 읽지않고도 메일 제목만 보고 해야 할일로 넘길 수 있다는 것이다. 그런데 보통의 처리과정은 다음과 같다. 오늘 메일을 다 읽는다. 그리고 header view에서 처리한다. 이렇게 header view에서 처리하기 위해서는 immedietly finish를 세팅해야 한다.
+</p>
+</div>
+</div>
+<div id="outline-container-org4374dc8" class="outline-3">
+<h3 id="org4374dc8">org-alert</h3>
+<div class="outline-text-3" id="text-org4374dc8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; (use-package alert
+;;   :ensure t)
+;; (use-package org-alert
+;; :custom (alert-default-style 'notifications)
+;; :config
+;; (setq org-alert-interval 300
+;;       org-alert-notification-title "org alert reminder!")
+;; (org-alert-enable))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org24aeb41" class="outline-3">
+<h3 id="org24aeb41">org presentation</h3>
+<div class="outline-text-3" id="text-org24aeb41">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;(use-package org-tree-slide
+;  :custom
+;  (org-image-actual-width nil))
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcd0ed5e" class="outline-3">
+<h3 id="orgcd0ed5e">readtheorg</h3>
+</div>
+<div id="outline-container-org395f20a" class="outline-3">
+<h3 id="org395f20a">reveal.js</h3>
+</div>
+
+<div id="outline-container-orgfea2d5c" class="outline-3">
+<h3 id="orgfea2d5c">lorem ipsum</h3>
+<div class="outline-text-3" id="text-orgfea2d5c">
+<ul class="org-ul">
+<li>lorem ipsum은 의미없는 문자열을 만들어낸다.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package lorem-ipsum
+:config
+(lorem-ipsum-use-default-bindings))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4f270e3" class="outline-3">
+<h3 id="org4f270e3">yasnippet</h3>
+<div class="outline-text-3" id="text-org4f270e3">
+<ul class="org-ul">
+<li>yasnippet은 특정 단어를  template과 replace할 수 있다. 특정 단어를 tab을 누르면 이미 저장된 template으로 대치된다.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package yasnippet
+  :init
+  (yas-global-mode 1)
+  ;; (add-to-list 'yas-snippet-dirs "~/Dropbox/WorkSpace/emacs/snippets")
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+  :bind
+  ("C-c s" . yas-insert-snippet)
+  ("C-c n" . yas-new-snippet)
+  ("C-c v" . yas-visit-snippet-file))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3d0d631" class="outline-3">
+<h3 id="org3d0d631">mobileorg</h3>
+<div class="outline-text-3" id="text-org3d0d631">
+<ul class="org-ul">
+<li>mobileorg는 protocol이다. server로 dropbox를 사용한다.
+capture한 내용은 server의 mobile.org에 저장된다.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Set to the location of your Org files on your local system
+(setq org-directory "~/org")
+;; Set to the name of the file where new notes will be stored
+(setq org-mobile-inbox-for-pull "~/org/flagged.org")
+;; Set to &lt;your Dropbox root directory&gt;/MobileOrg.
+(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb72f876" class="outline-3">
+<h3 id="orgb72f876">epresent</h3>
+<div class="outline-text-3" id="text-orgb72f876">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(use-package epresent
+:ensure t)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

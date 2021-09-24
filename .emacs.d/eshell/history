@@ -1,0 +1,128 @@
+rails new toy_app
+cd ..
+cd rails_project/
+ls
+rm -rf toy_app/
+rails new toy_app
+cd ..
+rm -rf toy_app/
+rails new toy_app
+cd ..
+rm -rf toy_app
+rails new toy_app
+cd ..
+rm -rf toy_app/
+rails new toy_app
+cd toy_app/
+cd ..
+rails new toyapp
+cd toyapp
+ls
+cd ..
+ls
+cd rails_project/
+ls
+rails new sample_web
+ls
+rails new third
+ls
+cd third/
+rails test/
+rails test 
+rails db:migrate
+clear 
+rails db:migrate
+rails test  
+cd ..
+ls
+cap production deploy
+rails g controller StaticPages home help
+ls
+rails s
+rails
+bundle 
+rails
+bundle 
+rails
+bundle 
+bundle update
+rails
+bundle
+bundle 
+rails 
+rails s
+rails test/
+rake test
+rails test 
+rails server
+exit
+cd ..
+rails test 
+guard init
+ls
+guard
+rails s
+bundle install
+rails s
+Rendered layout layouts/application.html.erb (Duration: 332.8ms | Allocations: 83704)
+o
+rails s
+rails test
+cd ..
+rails s
+exit
+ls
+cd Projects/rest-test/
+ls
+2) 1-time_sending_data
+ruby rest_example2.rb 
+인증코드값
+ls
+ruby rest_example2.rb 
+1
+3
+58ee4b41-017b-1000-0000-43dc32311117
+58f4a478-017b-1000-0000-43dc32311117
+ruby rest_example2.rb 
+ls
+ruby rest_example2.rb 
+59053091-017b-1000-0000-43dc32311117
+591ae173-017b-1000-0000-43dc32311117
+RestClientForBiotics.rb:62: warning: One-line pattern matching is experimental, and the behavior may change in future versions of Ruby!
+{"severity":"0","tpId":"PnC_SMARTWATERCARE.PNC0000","msgType":"Q","data":"{\"dong_number\": 0 }","dataFormat":"application/json","authToken":"591f67e9-017b-1000-0000-43dc32311117","msgId":"b3672817-0333-4fe0-822c-43b0305f47f3","resMsg":"","version":"1.0","tId":"PnC_SMARTWATERCARE.PNC0000","sId":"C000000003","encType":"0","resCode":"200","msgCode":"Basic-AttrGroup","funcType":"021","msgDate":1614678440159}
+ruby RestClientForBiotics.rb 
+ruby rest_example3.rb 
+ruby RestClientForBiotics.rb 
+5983fc12-017b-1000-0000-43dc32311117
+ruby RestClientForBiotics.rb 
+599357f1-017b-1000-0000-43dc32311117
+ruby RestClientForBiotics.rb 
+59a61f3a-017b-1000-0000-43dc32311117
+ruby RestClientForBiotics.rb 
+ls
+cd Projects/
+ls
+cd rest-test/
+ls
+pyenv 
+pyenv version
+ls
+python rest_example2.py 
+clear 
+cd ..
+ls
+cd rails_project/
+ls
+cd SmartWaterCare/
+ls
+bundle 
+cap install STAGES=production
+ls
+cd config/
+ls
+vi deploy.rb 
+rails new swcdb
+ls
+ssh deploy@13.125.158.130
+ls
+cls

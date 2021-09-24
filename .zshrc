@@ -99,10 +99,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
+alias chrome="open -na 'Google Chrome'"
 eval "$(starship init zsh)"
-alias chrome="open -a 'Google Chrome'"
-alias firefox="open -a 'Firefox Developer Edition'"
+alias firefox="open -na 'Firefox Developer Edition'"
 neofetch
 export PATH="/usr/local/opt/curl/bin:$PATH"
 alias mukill="pkill -u $UID mu"  #mu4e가 실행 안될때,  xipan db가 문제일때 죽인다.
@@ -110,3 +109,41 @@ alias mukill="pkill -u $UID mu"  #mu4e가 실행 안될때,  xipan db가 문제�
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+export PATH="/opt/homebrew/opt/mariadb@10.5/bin:$PATH"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# Java Paths
+export JAVA_HOME_11=$(/usr/libexec/java_home -v11)
+export JAVA_HOME_14=$(/usr/libexec/java_home -v14)
+
+# Java 11
+#export JAVA_HOME=$JAVA_HOME_11
+
+# Java 14
+# 14버전을 사용하고자 하는 경우 아래 주석(#)을 해제하고 위에 11버전을 주석처리 하면된다.
+export JAVA_HOME=$JAVA_HOME_14
+
+alias python=python3
+
+# initialize autocompletion
+autoload -U compinit
+compinit
+
+# history setup
+setopt SHARE_HISTORY
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt HIST_EXPIRE_DUPS_FIRST
+
+# autocompletion using arrow keys (based on history)
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+
+if [[ -x "$(command -v gls)" ]]; then
+    alias ls='gls --color=auto'
+    if [[ -x "$(command -v gdircolors)" ]]; then
+        eval "$(gdircolors -b)"
+    fi
+fi

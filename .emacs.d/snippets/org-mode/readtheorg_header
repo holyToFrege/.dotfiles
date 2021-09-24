@@ -4,13 +4,13 @@
 # --
 
 #+TITLE: 
-#+AUTHOR: Hoyoul Park
+#+AUTHOR: Holy Frege
 #+DESCRIPTION: Org-HTML export made simple.
 #+KEYWORDS:  org-mode, export, html, theme, style, css, js, bigblow
 #+LANGUAGE:  en
-#+OPTIONS:   H:4 toc:t num:2
+#+OPTIONS:   H:4 toc:t num:2  ^:nil
 #+MACRO: color @@html:<font color=$1>$2</font>@@
 #+PROPERTY:  header-args :padline no
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+LATEX_HEADER: \usepackage{kotex}
 #+latex_header: \hypersetup{colorlinks=true}
